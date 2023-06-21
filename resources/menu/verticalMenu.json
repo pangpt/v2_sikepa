@@ -79,6 +79,11 @@
           "url": "form/layouts-horizontal",
           "name": "Izin Cuti",
           "slug": "form-layouts-horizontal"
+        },
+        {
+          "url": "form/layouts-vertical",
+          "name": "PKP",
+          "slug": "form-layouts-vertical"
         }
       ]
     },
