@@ -72,14 +72,25 @@
     },
     {
       "name": "Layanan",
+      "icon": "menu-icon tf-icons bx bx-detail",
+      "slug": "form-layouts",
+      "submenu": [
+        {
+          "url": "form/layouts-horizontal",
+          "name": "Izin Cuti",
+          "slug": "form-layouts-horizontal"
+        }
+      ]
+    },
+    {
+      "name": "Layanan",
       "icon": "menu-icon tf-icons bx bx-lock-open-alt",
       "slug": "auth",
       "submenu": [
         {
-          "url": "/auth/login-basic",
+          "url": "/form-layout/form-layouts-vertical",
           "name": "Izin Cuti",
-          "slug": "auth-login-basic",
-          "target": "_blank"
+          "slug": "form-form-layouts-vertical"
         },
         {
           "url": "/auth/register-basic",
