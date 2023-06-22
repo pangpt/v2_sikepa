@@ -73,7 +73,7 @@ Route::get('/forms/basic-inputs', $controller_path . '\form_elements\BasicInput@
 Route::get('/forms/input-groups', $controller_path . '\form_elements\InputGroups@index')->name('forms-input-groups');
 
 // form layouts
-Route::get('/form/layouts-vertical', $controller_path . '\form_layouts\VerticalForm@index')->name('form-layouts-vertical');
+Route::get('/izin-cuti', $controller_path . '\izin_cuti\CutiController@index')->name('izin-cuti-index');
 Route::get('/form/layouts-horizontal', $controller_path . '\form_layouts\HorizontalForm@index')->name('form-layouts-horizontal');
 
 // tables

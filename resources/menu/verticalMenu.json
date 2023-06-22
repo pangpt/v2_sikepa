@@ -79,11 +79,18 @@
           "url": "form/layouts-horizontal",
           "name": "Izin Cuti",
           "slug": "form-layouts-horizontal"
-        },
+        }
+      ]
+    },
+    {
+      "name": "Layanan",
+      "icon": "menu-icon tf-icons bx bx-detail",
+      "slug": "izin-cuti",
+      "submenu": [
         {
-          "url": "form/layouts-vertical",
-          "name": "PKP",
-          "slug": "form-layouts-vertical"
+          "url": "izin-cuti",
+          "name": "Izin Cuti",
+          "slug": "izin-cuti-index"
         }
       ]
     },

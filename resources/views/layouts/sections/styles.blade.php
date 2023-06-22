@@ -12,6 +12,11 @@
 <link rel="stylesheet" href="{{ asset(mix('assets/css/demo.css')) }}" />
 
 <link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')) }}" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+
+
 
 <!-- Vendor Styles -->
 @yield('vendor-style')
