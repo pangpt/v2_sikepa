@@ -11,6 +11,11 @@
   <div class="col-12">
     <div class="nav-align-top mb-4">
       <div class="tab-content">
+        <div class="card-header justify-content-between align-items-center">
+        <a href="{{route('izin-cuti-index')}}" type="button" class="btn btn-primary btn-sm">
+          <span class="tf-icons bx bx-left-arrow-alt"></span>
+        </a>
+      </div>
         <div class="tab-pane fade show active" id="navs-pills-justified-home" role="tabpanel">
           <div class="card mb-4">
             <div class="card-header d-flex align-items-center justify-content-between">
