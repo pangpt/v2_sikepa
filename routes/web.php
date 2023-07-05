@@ -26,9 +26,9 @@ Route::get('/layouts/container', $controller_path . '\layouts\Container@index')-
 Route::get('/layouts/blank', $controller_path . '\layouts\Blank@index')->name('layouts-blank');
 
 // pages
-Route::get('/pages/account-settings-account', $controller_path . '\pages\AccountSettingsAccount@index')->name('pages-account-settings-account');
-Route::get('/pages/account-settings-notifications', $controller_path . '\pages\AccountSettingsNotifications@index')->name('pages-account-settings-notifications');
-Route::get('/pages/account-settings-connections', $controller_path . '\pages\AccountSettingsConnections@index')->name('pages-account-settings-connections');
+Route::get('/profil-pegawai/detail', $controller_path . '\pages\AccountSettingsAccount@index')->name('profil-pegawai-detail');
+Route::get('/profil-pegawai/permohonan-cuti', $controller_path . '\pages\AccountSettingsNotifications@index')->name('profil-pegawai-permohonan-cuti');
+Route::get('/profil-pegawai/kepangkatan', $controller_path . '\pages\AccountSettingsConnections@index')->name('profil-pegawai-kepangkatan');
 Route::get('/pages/misc-error', $controller_path . '\pages\MiscError@index')->name('pages-misc-error');
 Route::get('/pages/misc-under-maintenance', $controller_path . '\pages\MiscUnderMaintenance@index')->name('pages-misc-under-maintenance');
 
@@ -38,7 +38,7 @@ Route::get('/auth/register-basic', $controller_path . '\authentications\Register
 Route::get('/auth/forgot-password-basic', $controller_path . '\authentications\ForgotPasswordBasic@index')->name('auth-reset-password-basic');
 
 // cards
-Route::get('/cards/basic', $controller_path . '\cards\CardBasic@index')->name('cards-basic');
+Route::get('/profil-hakim-pegawai/pns', $controller_path . '\cards\CardBasic@index')->name('profil-hakim-pegawai-pns');
 
 // User Interface
 Route::get('/ui/accordion', $controller_path . '\user_interface\Accordion@index')->name('ui-accordion');
@@ -74,6 +74,8 @@ Route::get('/forms/input-groups', $controller_path . '\form_elements\InputGroups
 
 // form layouts
 Route::get('/izin-cuti', $controller_path . '\izin_cuti\CutiController@index')->name('izin-cuti-index');
+Route::get('/izin-cuti/tambah', $controller_path . '\izin_cuti\CutiController@tambah')->name('izin-cuti-tambah');
+
 Route::get('/form/layouts-horizontal', $controller_path . '\form_layouts\HorizontalForm@index')->name('form-layouts-horizontal');
 
 // tables

@@ -9,6 +9,11 @@ class CutiController extends Controller
 {
   public function index()
   {
-    return view('content.izin-cuti.izin-cuti');
+    return view('content.izin-cuti.index');
+  }
+
+  public function tambah()
+  {
+    return view('content.izin-cuti.pengajuan');
   }
 }

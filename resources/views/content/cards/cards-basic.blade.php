@@ -1,9 +1,9 @@
 @extends('layouts/contentNavbarLayout')
 
-@section('title', ' Vertical Layouts - Forms')
+@section('title', ' Profil Hakim dan Pegawai')
 
 @section('content')
-<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Forms/</span> Vertical Layouts</h4>
+<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Profil Hakim dan Pegawai/</span> PNS</h4>
 
 <!-- Basic Layout -->
 <div class="row">
@@ -15,7 +15,7 @@
         </button> <small class="text-muted float-end">Total PNS: 50 aktif</small>
       </div>
       <div class="card-body">
-        <h6 class="mb-4 text-muted">Klik Nama Lengkap untuk melihat data detail</h6>
+        <h6 class="mb-4 text-muted"><span class="tf-icons bx bx-info-circle"></span>Klik Nama Lengkap untuk melihat data detail</h6>
         <table id="pegawaiTable" class="display">
           <thead>
             <tr>
@@ -27,7 +27,7 @@
           </thead>
           <tbody>
             <tr>
-              <td><a href="">Panggih Tridarma, S.Kom.</a><br>NIP: 199609022020121004<br>Tgl. Lahir: 02 September 1996</td>
+              <td><a href="{{route('profil-pegawai-detail')}}">Panggih Tridarma, S.Kom.</a><br>NIP: 199609022020121004<br>Tgl. Lahir: 02 September 1996</td>
               <td>Pranata Komputer Ahli Pertama</td>
               <td>Penata Muda - III/a</td>
               <td>AKTIF</td>

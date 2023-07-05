@@ -1,15 +1,15 @@
 <?php
   // Variables
   return [
-    "creatorName" => "ThemeSelection",
-    "creatorUrl" => "https://themeselection.com",
+    "creatorName" => "PAnggih Tridarma",
+    "creatorUrl" => "https://www.linkedin.com/in/pangpt/",
     "templateName" => "SIKEPA",
     "templateDescription" => "Most Powerful & Comprehensive Bootstrap 5 HTML Admin Dashboard Template built for developers!",
     "templateKeyword" => "dashboard, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5, bootstrap 5 free, free admin template",
     "licenseUrl" => "https://themeselection.com/license/",
     "livePreview" => "https://demos.themeselection.com/sneat-bootstrap-html-laravel-admin-template-free/demo/",
     "productPage" => "https://themeselection.com/item/sneat-bootstrap-html-laravel-admin-template/",
-    "support" => "https://github.com/themeselection/sneat-html-laravel-admin-template-free/issues",
+    "support" => "https://github.com/pangpt",
     "moreThemes" => "https://themeselection.com/",
     "documentation" => "https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/laravel-introduction.html",
     "repository" => "https://github.com/themeselection/sneat-html-laravel-admin-template-free",
@@ -17,5 +17,6 @@
     "twitterUrl" => "https://twitter.com/Theme_Selection",
     "githubUrl" => "https://github.com/themeselection",
     "dribbbleUrl" => "https://dribbble.com/themeselection",
-    "instagramUrl" => "https://www.instagram.com/themeselection/"
+    "instagramUrl" => "https://www.instagram.com/themeselection/",
+    "whatsappUrl" => "https://wa.me/6282138127795?text=Hawoo mas Panggih"
   ];

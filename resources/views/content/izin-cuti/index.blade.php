@@ -10,9 +10,9 @@
   <div class="col-xl-12">
     <div class="card mb-4">
       <div class="card-header justify-content-between align-items-center">
-        <button type="button" class="btn btn-primary">
+        <a href="{{route('izin-cuti-tambah')}}" type="button" class="btn btn-primary">
           <span class="tf-icons bx bx-plus"></span>&nbsp; Pengajuan Cuti
-        </button>
+        </a>
         <button type="button" class="btn btn-primary">
           <span class="tf-icons bx bx-plus"></span>&nbsp; Ajukan Penangguhan
         </button>

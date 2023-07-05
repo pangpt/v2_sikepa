@@ -8,56 +8,23 @@
     },
     {
       "name": "Profil",
-      "icon": "menu-icon tf-icons bx bx-layout",
-      "slug": "layouts",
+      "icon": "menu-icon tf-icons bx bx bx-user",
+      "slug": "profil-pegawai",
       "submenu": [
         {
-          "url": "/layouts/without-menu",
-          "name": "Without menu",
-          "slug": "layouts-without-menu"
-        },
-        {
-          "url": "/layouts/without-navbar",
-          "name": "Without navbar",
-          "slug": "layouts-without-navbar"
-        },
-        {
-          "url": "/layouts/container",
-          "name": "Container",
-          "slug": "layouts-container"
-        },
-        {
-          "url": "/layouts/fluid",
-          "name": "Fluid",
-          "slug": "layouts-fluid"
-        },
-        {
-          "url": "/layouts/blank",
-          "name": "Blank",
-          "slug": "layouts-blank",
-          "target": "_blank"
-        }
-      ]
-    },
-    {
-      "name": "Profil",
-      "icon": "menu-icon tf-icons bx bx bx-dock-top",
-      "slug": "pages-account-settings",
-      "submenu": [
-        {
-          "url": "/pages/account-settings-account",
+          "url": "/profil-pegawai/detail",
           "name": "Data Pribadi",
-          "slug": "pages-account-settings-account"
+          "slug": "profil-pegawai-detail"
         },
         {
-          "url": "/pages/account-settings-notifications",
+          "url": "/profil-pegawai/permohonan-cuti",
           "name": "Data Cuti",
-          "slug": "pages-account-settings-notifications"
+          "slug": "profil-pegawai-permohonan-cuti"
         },
         {
-          "url": "/pages/account-settings-connections",
+          "url": "/profil-pegawai/kepangkatan",
           "name": "Data Kepangkatan",
-          "slug": "pages-account-settings-connections"
+          "slug": "profil-pegawai-kepangkatan"
         }
       ]
     },
@@ -67,8 +34,8 @@
     {
       "name": "Profil Hakim & Pegawai",
       "icon": "menu-icon tf-icons bx bx-collection",
-      "slug": "cards-basic",
-      "url": "/cards/basic"
+      "slug": "profil-hakim-pegawai-pns",
+      "url": "/profil-hakim-pegawai/pns"
     },
     {
       "name": "Layanan",
