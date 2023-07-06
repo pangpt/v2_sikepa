@@ -16,4 +16,9 @@ class CutiController extends Controller
   {
     return view('content.izin-cuti.pengajuan');
   }
+
+  public function penangguhan()
+  {
+    return view('content.izin-cuti.penangguhan');
+  }
 }

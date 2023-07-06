@@ -13,9 +13,9 @@
         <a href="{{route('izin-cuti-tambah')}}" type="button" class="btn btn-primary">
           <span class="tf-icons bx bx-plus"></span>&nbsp; Pengajuan Cuti
         </a>
-        <button type="button" class="btn btn-primary">
+        <a href="{{route('izin-cuti-penangguhan')}}" type="button" class="btn btn-primary">
           <span class="tf-icons bx bx-plus"></span>&nbsp; Ajukan Penangguhan
-        </button>
+        </a>
         <button type="button" class="btn btn-primary">
           <span class="tf-icons bx bx-check-square"></span>&nbsp; Verifikasi Cuti (5)
         </button>

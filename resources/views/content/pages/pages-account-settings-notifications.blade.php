@@ -57,7 +57,7 @@ ul.timeline {
               <h5 class="m-0 me-2">Data Permohonan</h5>
             </div>
             <div class="dropdown">
-              <button type="submit" class="btn btn-primary text-end">Form Pengajuan Cuti</button>
+              <a href="{{route('izin-cuti-tambah')}}" type="button" class="btn btn-primary text-end">Form Pengajuan Cuti</a>
             </div>
           </div>
           {{-- <h5 class="card-header">Data Permohonan</h5>
@@ -129,6 +129,32 @@ ul.timeline {
                 <div class="d-flex mb-3">
                     <div class="flex-grow-1 row">
                       <div class="col-9 mb-sm-0 mb-2">
+                        <h6 class="mb-0">Pengajuan Cuti Diterima</h6>
+                        <small class="text-muted">Panggih Tridarma, S.Kom.</small>
+                      </div>
+                      <div class="col-3 text-end">
+                        <h6 class="mb-0">21 Juli 2023</h6>
+                      </div>
+                    </div>
+                  </div>
+              </li>
+              <li>
+                <div class="d-flex mb-3">
+                    <div class="flex-grow-1 row">
+                      <div class="col-9 mb-sm-0 mb-2">
+                        <h6 class="mb-0">Verifikasi</h6>
+                        <small class="text-muted">Panggih Tridarma, S.Kom.</small>
+                      </div>
+                      <div class="col-3 text-end">
+                        <h6 class="mb-0">25 Juli 2023</h6>
+                      </div>
+                    </div>
+                  </div>
+              </li>
+              <li>
+                <div class="d-flex mb-3">
+                    <div class="flex-grow-1 row">
+                      <div class="col-9 mb-sm-0 mb-2">
                         <h6 class="mb-0">Disetujui Atasan Langsung</h6>
                         <small class="text-muted">Panggih Tridarma, S.Kom.</small>
                       </div>
@@ -143,32 +169,6 @@ ul.timeline {
                     <div class="flex-grow-1 row">
                       <div class="col-9 mb-sm-0 mb-2">
                         <h6 class="mb-0">Disetujui Ketua Pengadilan</h6>
-                        <small class="text-muted">Panggih Tridarma, S.Kom.</small>
-                      </div>
-                      <div class="col-3 text-end">
-                        <h6 class="mb-0">25 Juli 2023</h6>
-                      </div>
-                    </div>
-                  </div>
-              </li>
-              <li>
-                <div class="d-flex mb-3">
-                    <div class="flex-grow-1 row">
-                      <div class="col-9 mb-sm-0 mb-2">
-                        <h6 class="mb-0">Verifikasi</h6>
-                        <small class="text-muted">Panggih Tridarma, S.Kom.</small>
-                      </div>
-                      <div class="col-3 text-end">
-                        <h6 class="mb-0">21 Juli 2023</h6>
-                      </div>
-                    </div>
-                  </div>
-              </li>
-              <li>
-                <div class="d-flex mb-3">
-                    <div class="flex-grow-1 row">
-                      <div class="col-9 mb-sm-0 mb-2">
-                        <h6 class="mb-0">Pengajuan Cuti Diterima</h6>
                         <small class="text-muted">Panggih Tridarma, S.Kom.</small>
                       </div>
                       <div class="col-3 text-end">

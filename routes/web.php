@@ -75,6 +75,7 @@ Route::get('/forms/input-groups', $controller_path . '\form_elements\InputGroups
 // form layouts
 Route::get('/izin-cuti', $controller_path . '\izin_cuti\CutiController@index')->name('izin-cuti-index');
 Route::get('/izin-cuti/tambah', $controller_path . '\izin_cuti\CutiController@tambah')->name('izin-cuti-tambah');
+Route::get('/izin-cuti/penangguhan', $controller_path . '\izin_cuti\CutiController@penangguhan')->name('izin-cuti-penangguhan');
 
 Route::get('/form/layouts-horizontal', $controller_path . '\form_layouts\HorizontalForm@index')->name('form-layouts-horizontal');
 
