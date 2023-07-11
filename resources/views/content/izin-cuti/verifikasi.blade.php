@@ -3,7 +3,7 @@
 @section('title', ' Vertical Layouts - Forms')
 
 @section('content')
-<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Layanan/</span> Izin Cuti</h4>
+<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Forms/</span> Vertical Layouts</h4>
 
 <!-- Basic Layout -->
 <div class="row">
@@ -16,12 +16,12 @@
         <a href="{{route('izin-cuti-penangguhan')}}" type="button" class="btn btn-primary">
           <span class="tf-icons bx bx-plus"></span>&nbsp; Ajukan Penangguhan
         </a>
-        <a href="{{route('izin-cuti-verifikasi')}}" type="button" class="btn btn-primary">
+        <button type="button" class="btn btn-primary">
           <span class="tf-icons bx bx-check-square"></span>&nbsp; Verifikasi Cuti (5)
-        </a>
-        <a href="{{route('izin-cuti-approval')}}" type="button" class="btn btn-primary">
+        </button>
+        <button type="button" class="btn btn-primary">
           <span class="tf-icons bx bx-check-square"></span>&nbsp; Approval Cuti (Atasan)
-        </a>
+        </button>
         <small class="text-muted float-end">Total: 1 Izin Cuti</small>
       </div>
       <div class="card-body">

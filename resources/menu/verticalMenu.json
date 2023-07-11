@@ -40,54 +40,12 @@
     {
       "name": "Layanan",
       "icon": "menu-icon tf-icons bx bx-detail",
-      "slug": "form-layouts",
-      "submenu": [
-        {
-          "url": "form/layouts-horizontal",
-          "name": "Izin Cuti",
-          "slug": "form-layouts-horizontal"
-        }
-      ]
-    },
-    {
-      "name": "Layanan",
-      "icon": "menu-icon tf-icons bx bx-detail",
       "slug": "izin-cuti",
       "submenu": [
         {
           "url": "izin-cuti",
           "name": "Izin Cuti",
           "slug": "izin-cuti-index"
-        }
-      ]
-    },
-    {
-      "name": "Layanan",
-      "icon": "menu-icon tf-icons bx bx-lock-open-alt",
-      "slug": "auth",
-      "submenu": [
-        {
-          "url": "/form-layout/form-layouts-vertical",
-          "name": "Izin Cuti",
-          "slug": "form-form-layouts-vertical"
-        },
-        {
-          "url": "/auth/register-basic",
-          "name": "PKP",
-          "slug": "auth-register-basic",
-          "target": "_blank"
-        },
-        {
-          "url": "/auth/forgot-password-basic",
-          "name": "Penilaian SKP",
-          "slug": "auth-forgot-password-basic",
-          "target": "_blank"
-        },
-        {
-          "url": "/auth/forgot-password-basic",
-          "name": "Eviden PKP",
-          "slug": "auth-forgot-password-basic",
-          "target": "_blank"
         }
       ]
     },

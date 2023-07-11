@@ -21,4 +21,14 @@ class CutiController extends Controller
   {
     return view('content.izin-cuti.penangguhan');
   }
+
+  public function approval()
+  {
+    return view('content.izin-cuti.approval');
+  }
+
+  public function verifikasi()
+  {
+    return view('content.izin-cuti.verifikasi');
+  }
 }

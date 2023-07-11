@@ -38,7 +38,8 @@ Route::get('/auth/register-basic', $controller_path . '\authentications\Register
 Route::get('/auth/forgot-password-basic', $controller_path . '\authentications\ForgotPasswordBasic@index')->name('auth-reset-password-basic');
 
 // cards
-Route::get('/profil-hakim-pegawai/pns', $controller_path . '\cards\CardBasic@index')->name('profil-hakim-pegawai-pns');
+Route::get('/profil-hakim-pegawai/pns', $controller_path . '\hakim_pegawai\HakimPegawaiController@index')->name('profil-hakim-pegawai-pns');
+Route::get('/profil-hakim-pegawai/tambah', $controller_path . '\hakim_pegawai\HakimPegawaiController@tambah')->name('profil-hakim-pegawai-tambah');
 
 // User Interface
 Route::get('/ui/accordion', $controller_path . '\user_interface\Accordion@index')->name('ui-accordion');
@@ -76,6 +77,8 @@ Route::get('/forms/input-groups', $controller_path . '\form_elements\InputGroups
 Route::get('/izin-cuti', $controller_path . '\izin_cuti\CutiController@index')->name('izin-cuti-index');
 Route::get('/izin-cuti/tambah', $controller_path . '\izin_cuti\CutiController@tambah')->name('izin-cuti-tambah');
 Route::get('/izin-cuti/penangguhan', $controller_path . '\izin_cuti\CutiController@penangguhan')->name('izin-cuti-penangguhan');
+Route::get('/izin-cuti/approval', $controller_path . '\izin_cuti\CutiController@approval')->name('izin-cuti-approval');
+Route::get('/izin-cuti/verifikasi', $controller_path . '\izin_cuti\CutiController@verifikasi')->name('izin-cuti-verifikasi');
 
 Route::get('/form/layouts-horizontal', $controller_path . '\form_layouts\HorizontalForm@index')->name('form-layouts-horizontal');
 
