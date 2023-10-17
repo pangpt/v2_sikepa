@@ -6,6 +6,13 @@
 <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Forms/</span> Vertical Layouts</h4>
 
 <!-- Basic Layout -->
+@if (session('success'))
+    <div class="alert alert-primary alert-dismissible" role="alert">
+      {{ session('success') }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+      </button>
+    </div>
+    @endif
 <div class="row">
   <div class="col-xl-12">
     <div class="card mb-4">
@@ -16,12 +23,18 @@
         <a href="{{route('izin-cuti-penangguhan')}}" type="button" class="btn btn-primary">
           <span class="tf-icons bx bx-plus"></span>&nbsp; Ajukan Penangguhan
         </a>
-        <button type="button" class="btn btn-primary">
-          <span class="tf-icons bx bx-check-square"></span>&nbsp; Verifikasi Cuti (5)
-        </button>
-        <button type="button" class="btn btn-primary">
-          <span class="tf-icons bx bx-check-square"></span>&nbsp; Approval Cuti (Atasan)
-        </button>
+        <a href="{{route('izin-cuti-index-verifikasi')}}" type="button" class="btn btn-primary">
+          <span class="tf-icons bx bx-check-square"></span>&nbsp; Verifikasi Cuti ({{$jmlVerif}})
+        </a>
+        <a href="{{route('izin-cuti-index-approval')}}" type="button" class="btn btn-primary">
+          <span class="tf-icons bx bx-check-square"></span>&nbsp; Approval Cuti (Atasan) ({{$jmlApprove}})
+        </a>
+
+        @if(auth()->user()->role === 'admin')
+        <a href="{{route('izin-cuti-yearly')}}" type="button" class="btn btn-secondary">
+          <span class="tf-icons bx bx-cog"></span>&nbsp; Set Cuti
+        </a>
+        @endif
         <small class="text-muted float-end">Total: 1 Izin Cuti</small>
       </div>
       <div class="card-body">
@@ -38,14 +51,33 @@
             </tr>
           </thead>
           <tbody>
+            @foreach($data as $key)
             <tr>
-              <td>2023-04-04 10:32:24</td>
-              <td><a href="">Panggih Tridarma, S.Kom. </a></td>
-              <td>Cuti Tahunan</td>
-              <td>22 Juni 2023 <b>s/d</b> 06 Juli 2023</td>
-              <td>14 hari</td>
-              <td>Disetujui Atasan</td>
+              <td>{{$key->created_at}}</td>
+              <td><a href="{{route('izin-cuti-detail',['id' => $key->id])}}">{{$key->employee->nama}}</a></td>
+              <td>{{$key->jenis_cuti}}</td>
+              <td>{{$key->periode_awal}} <b>s/d</b> {{$key->periode_akhir}}</td>
+              <td>{{$key->jumlah_hari}} hari</td>
+              @if($key->status_permohonan == 0)
+              <td>Menunggu Diverifikasi</td>
+              @endif
+              @if ($key->status_permohonan == 1)
+                <td>Disetujui Pimpinan</td>
+              @endif
+              @if ($key->status_permohonan == 2)
+                <td>Disetujui Atasan</td>
+              @endif
+              @if ($key->status_permohonan == 3)
+                <td>Verifikasi</td>
+              @endif
+              @if ($key->status_permohonan == 4)
+                <td>Diterima</td>
+              @endif
+              @if ($key->status_permohonan == 5)
+                <td>Ditolak</td>
+              @endif
             </tr>
+            @endforeach
             <!-- Tambahkan baris data pegawai dan hakim lainnya di sini -->
           </tbody>
         </table>

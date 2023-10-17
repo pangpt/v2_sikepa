@@ -26,6 +26,11 @@
 <body>
   <!-- Layout Content -->
   @yield('layoutContent')
+  {{-- <div class="preloader">
+    <div class="spinner-border spinner-border-lg text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div> --}}
   <!--/ Layout Content -->
 
   {{-- remove while creating package --}}

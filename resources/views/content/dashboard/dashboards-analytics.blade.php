@@ -21,7 +21,7 @@
       <div class="d-flex align-items-end row">
         <div class="col-sm-7">
           <div class="card-body">
-            <h5 class="card-title text-primary">Selamat datang John! 🎉</h5>
+            <h5 class="card-title text-primary">Selamat datang {{@Auth::user()->employee->nama}}! 🎉</h5>
             <p class="mb-4">Anda berada di halaman <span class="fw-bold">Sistem Informasi Kepegawaian PA Watampone</span></p>
 
             <a href="javascript:;" class="btn btn-sm btn-outline-primary">View Badges</a>
@@ -37,7 +37,7 @@
   </div>
   <div class="col-lg-4 col-md-4 order-1">
     <div class="row">
-      
+
     </div>
   </div>
 
@@ -48,7 +48,7 @@
         <div class="card">
           <div class="card-body">
             <span class="fw-semibold d-block mb-1">Total Hakim</span>
-            <h3 class="card-title mb-2">14</h3>
+            <h3 class="card-title mb-2">{{$hakimCount}}</h3>
           </div>
         </div>
       </div>

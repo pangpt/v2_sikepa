@@ -38,13 +38,62 @@ $navbarDetached = ($navbarDetached ?? '');
         <!-- Search -->
         <div class="navbar-nav align-items-center">
           <div class="nav-item d-flex align-items-center">
-            <b>Waktu sekarang: {{ \Carbon\Carbon::now('Asia/Makassar')->locale('id')->format('D, d M Y, H:i:s') }}</b>
+            {{-- <b>Waktu sekarang: {{ \Carbon\Carbon::now('Asia/Makassar')->locale('id')->format('D, d M Y, H:i:s') }}</b> --}}
+            <b>Waktu Sekarang : <span id="current-day"></span>, <span id="current-date"></span> - <span id="current-time"></span></b>
           </div>
         </div>
         <!-- /Search -->
         <ul class="navbar-nav flex-row align-items-center ms-auto">
 
           <!-- User -->
+          <li class="nav-item p-2">
+            <div id="loadingSpinner" class="spinner-border spinner-border-sm text-primary" role="status" style="display: none">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </li>
+          <li class="nav-item navbar-dropdown dropdown-user dropdown p-2">
+            <button class="dropdown-toggle hide-arrow btn btn-sm btn-outline-primary" data-bs-toggle="dropdown">
+              <span class="fw-semibold d-block">{{auth()->user()->role}}</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                  <span class="dropdown-item fw-bold align-middle">Role User</span>
+              </li>
+              <li>
+                <div class="dropdown-divider"></div>
+              </li>
+              <li>
+                <a class="dropdown-item change-role" href="#" data-role="admin">
+                  <span class="align-middle">Root (Admin)</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item change-role" href="#" data-role="ketua">
+                  <span class="align-middle">Pimpinan (Ketua)</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item change-role" href="#" data-role="panitera">
+                  <span class="align-middle">Atasan (Panitera)</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item change-role" href="#" data-role="sekretaris">
+                  <span class="align-middle">Atasan (Sekretaris)</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item change-role" href="#" data-role="kepegawaian">
+                  <span class="align-middle">Verifikator (Kasubag Kepegawaian)</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item change-role" href="#" data-role="pegawai">
+                  <span class="align-middle">Pegawai (Pegawai)</span>
+                </a>
+              </li>
+            </ul>
+          </li>
           <li class="nav-item navbar-dropdown dropdown-user dropdown">
             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
               <div class="avatar avatar-online">
@@ -95,10 +144,14 @@ $navbarDetached = ($navbarDetached ?? '');
                 <div class="dropdown-divider"></div>
               </li>
               <li>
-                <a class="dropdown-item" href="javascript:void(0);">
-                  <i class='bx bx-power-off me-2'></i>
-                  <span class="align-middle">Log Out</span>
-                </a>
+                <form action="{{route('logout')}}" method="post">
+                  @csrf
+                  <button class="dropdown-item" type="submit">
+                    <i class='bx bx-power-off me-2'></i>
+                    <span class="align-middle">Log Out</span>
+                  </button>
+                </form>
+
               </li>
             </ul>
           </li>
@@ -111,3 +164,50 @@ $navbarDetached = ($navbarDetached ?? '');
     @endif
   </nav>
   <!-- / Navbar -->
+
+  <!-- resources/views/layouts/navbar.blade.php -->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.change-role').click(function (e) {
+            e.preventDefault();
+
+            var newRole = $(this).data('role');
+            var userId = {{ auth()->user()->id }};
+            console.log(newRole)
+
+            // Kirim perubahan peran ke server dengan AJAX
+            $('#loadingSpinner').show();
+            $.ajax({
+                // url: '{{ route('change-user-role') }}',
+                url: '/change-user-role',
+                method: 'POST',
+                data: {
+                    role: newRole,
+                    id: userId,
+                    "_token": '{{ csrf_token() }}',
+                },
+                success: function (response) {
+                    if (response.success) {
+                        // Peran berhasil diubah
+                        location.reload();
+                        $('#spinner').hide();
+
+                        // Update ikon sesuai dengan peran yang dipilih
+                        // Misalnya, jika role 'admin' dipilih, Anda dapat menambahkan ikon 'admin' di sini.
+                        // Anda bisa menggunakan CSS atau JavaScript untuk mengganti ikon sesuai dengan peran yang dipilih.
+                    } else {
+                        // Gagal mengubah peran
+                        alert('Gagal mengubah peran.');
+                    }
+                },
+                error: function () {
+                    // Terjadi kesalahan dalam permintaan AJAX
+                    alert('Terjadi kesalahan. Silakan coba lagi.');
+                }
+            });
+        });
+    });
+</script>
+

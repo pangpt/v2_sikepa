@@ -1,7 +1,7 @@
 {
   "menu": [
     {
-      "url": "/",
+      "url": "/dashboard",
       "name": "Dashboard",
       "icon": "menu-icon tf-icons bx bx-home-circle",
       "slug": "dashboard-analytics"
@@ -9,24 +9,8 @@
     {
       "name": "Profil",
       "icon": "menu-icon tf-icons bx bx bx-user",
-      "slug": "profil-pegawai",
-      "submenu": [
-        {
-          "url": "/profil-pegawai/detail",
-          "name": "Data Pribadi",
-          "slug": "profil-pegawai-detail"
-        },
-        {
-          "url": "/profil-pegawai/permohonan-cuti",
-          "name": "Data Cuti",
-          "slug": "profil-pegawai-permohonan-cuti"
-        },
-        {
-          "url": "/profil-pegawai/kepangkatan",
-          "name": "Data Kepangkatan",
-          "slug": "profil-pegawai-kepangkatan"
-        }
-      ]
+      "slug": "profil-pegawai-pns",
+      "url": "/profil-pegawai/pns/detail"
     },
     {
       "menuHeader": "Pages"
@@ -40,54 +24,17 @@
     {
       "name": "Layanan",
       "icon": "menu-icon tf-icons bx bx-detail",
-      "slug": "form-layouts",
-      "submenu": [
-        {
-          "url": "form/layouts-horizontal",
-          "name": "Izin Cuti",
-          "slug": "form-layouts-horizontal"
-        }
-      ]
-    },
-    {
-      "name": "Layanan",
-      "icon": "menu-icon tf-icons bx bx-detail",
-      "slug": "izin-cuti",
+      "slug": "layanan",
       "submenu": [
         {
           "url": "izin-cuti",
           "name": "Izin Cuti",
-          "slug": "izin-cuti-index"
-        }
-      ]
-    },
-    {
-      "name": "Layanan",
-      "icon": "menu-icon tf-icons bx bx-lock-open-alt",
-      "slug": "auth",
-      "submenu": [
-        {
-          "url": "/form-layout/form-layouts-vertical",
-          "name": "Izin Cuti",
-          "slug": "form-form-layouts-vertical"
+          "slug": "layanan-izin-cuti-index"
         },
         {
-          "url": "/auth/register-basic",
+          "url": "layanan-pkp",
           "name": "PKP",
-          "slug": "auth-register-basic",
-          "target": "_blank"
-        },
-        {
-          "url": "/auth/forgot-password-basic",
-          "name": "Penilaian SKP",
-          "slug": "auth-forgot-password-basic",
-          "target": "_blank"
-        },
-        {
-          "url": "/auth/forgot-password-basic",
-          "name": "Eviden PKP",
-          "slug": "auth-forgot-password-basic",
-          "target": "_blank"
+          "slug": "layanan-pkp"
         }
       ]
     },
@@ -111,7 +58,7 @@
       ]
     },
     {
-      "menuHeader": "Components"
+      "menuHeader": "Pengaturan"
     },
     {
       "name": "Laporan",
@@ -120,104 +67,30 @@
       "url": "/cards/basic"
     },
     {
+      "name": "Kelola Akun",
+      "icon": "menu-icon tf-icons bx bx-collection",
+      "slug": "pengaturan-akun-index",
+      "url": "/pengaturan/akun/"
+    },
+    {
       "name": "Data Master",
       "icon": "menu-icon tf-icons bx bx-box",
-      "slug": "ui",
+      "slug": "datamaster",
       "submenu": [
         {
-          "url": "ui/accordion",
-          "name": "Accordion",
-          "slug": "ui-accordion"
+          "url": "/datamaster/satker",
+          "name": "Informasi Satker",
+          "slug": "datamaster-satker-index"
         },
         {
-          "url": "ui/alerts",
-          "name": "Alerts",
-          "slug": "ui-alerts"
+          "url": "/datamaster/struktural",
+          "name": "Daftar Pejabat Struktural",
+          "slug": "datamaster-struktural-index"
         },
         {
-          "url": "ui/badges",
-          "name": "Badges",
-          "slug": "ui-badges"
-        },
-        {
-          "url": "ui/buttons",
-          "name": "Buttons",
-          "slug": "ui-buttons"
-        },
-        {
-          "url": "ui/carousel",
-          "name": "Carousel",
-          "slug": "ui-carousel"
-        },
-        {
-          "url": "ui/collapse",
-          "name": "Collapse",
-          "slug": "ui-collapse"
-        },
-        {
-          "url": "ui/dropdowns",
-          "name": "Dropdowns",
-          "slug": "ui-dropdowns"
-        },
-        {
-          "url": "ui/footer",
-          "name": "Footer",
-          "slug": "ui-footer"
-        },
-        {
-          "url": "ui/list-groups",
-          "name": "List groups",
-          "slug": "ui-list-groups"
-        },
-        {
-          "url": "ui/modals",
-          "name": "Modals",
-          "slug": "ui-modals"
-        },
-        {
-          "url": "ui/navbar",
-          "name": "Navbar",
-          "slug": "ui-navbar"
-        },
-        {
-          "url": "ui/offcanvas",
-          "name": "Offcanvas",
-          "slug": "ui-offcanvas"
-        },
-        {
-          "url": "ui/pagination-breadcrumbs",
-          "name": "Pagination & Breadcrumbs",
-          "slug": "ui-pagination-breadcrumbs"
-        },
-        {
-          "url": "ui/progress",
-          "name": "Progress",
-          "slug": "ui-progress"
-        },
-        {
-          "url": "ui/spinners",
-          "name": "Spinners",
-          "slug": "ui-spinners"
-        },
-        {
-          "url": "ui/tabs-pills",
-          "name": "Tabs & Pills",
-          "slug": "ui-tabs-pills"
-        },
-        {
-          "url": "ui/toasts",
-          "name": "Toasts",
-          "slug": "ui-toasts"
-        },
-        {
-          "url": "ui/tooltips-popovers",
-          "name": "Tooltips & popovers",
-          "slug": "ui-tooltips-popovers"
-        },
-        {
-          "url": "ui/typography",
-          "name": "Typography",
-          "slug": "ui-typography"
+          "url": "/datamaster/jabatan",
+          "name": "Jabatan",
+          "slug": "datamaster-jabatan-index"
         }
       ]
     }

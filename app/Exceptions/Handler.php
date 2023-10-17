@@ -3,6 +3,8 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Auth\Access\AuthorizationException;
+
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -37,5 +39,23 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function render($request, Throwable $exception)
+    {
+        if ($this->isHttpException($exception)) {
+            return $this->renderHttpException($exception);
+        }
+
+        // Menambahkan penanganan untuk error 500
+        // if ($exception instanceof \ErrorException) {
+        //     return response()->view('content.errors.500', ['errorType' => 'Server Error'], 500);
+        // }
+
+        if ($exception instanceof AuthorizationException) {
+          return response()->view('content.errors.403', ['errorType' => 'Izin Akses Ditolak'], 403);
+      }
+
+        return parent::render($request, $exception);
     }
 }

@@ -15,10 +15,21 @@ use Illuminate\Support\Facades\Route;
 
 $controller_path = 'App\Http\Controllers';
 
-// Main Page Route
-Route::get('/', $controller_path . '\dashboard\Analytics@index')->name('dashboard-analytics');
 
-// layout
+// Main Page Route
+Route::get('/login', $controller_path.'\authentications\LoginBasic@index')->name('loginpage')->middleware('guest');
+Route::post('/login', $controller_path.'\authentications\LoginBasic@login')->name('proseslogin');
+Route::post('/logout', $controller_path.'\authentications\LoginBasic@logout')->name('logout');
+Route::get('/view/izin-cuti/{sign_permohonan}', $controller_path.'\izin_cuti\CutiController@viewCuti')->name('view-izin-cuti');
+
+
+Route::group(['middleware' => 'App\Http\Middleware\CekLogin'], function () {
+  // Route yang memerlukan otentikasi
+  // layout
+  $controller_path = 'App\Http\Controllers';
+
+Route::get('/', $controller_path . '\dashboard\Welcome@index')->name('welcome');
+Route::get('/dashboard', $controller_path . '\dashboard\Analytics@index')->name('dashboard-analytics');
 Route::get('/layouts/without-menu', $controller_path . '\layouts\WithoutMenu@index')->name('layouts-without-menu');
 Route::get('/layouts/without-navbar', $controller_path . '\layouts\WithoutNavbar@index')->name('layouts-without-navbar');
 Route::get('/layouts/fluid', $controller_path . '\layouts\Fluid@index')->name('layouts-fluid');
@@ -26,7 +37,7 @@ Route::get('/layouts/container', $controller_path . '\layouts\Container@index')-
 Route::get('/layouts/blank', $controller_path . '\layouts\Blank@index')->name('layouts-blank');
 
 // pages
-Route::get('/profil-pegawai/detail', $controller_path . '\pages\AccountSettingsAccount@index')->name('profil-pegawai-detail');
+// Route::get('/profil-pegawai/detail/{nip}', $controller_path . '\pages\AccountSettingsAccount@index')->name('profil-pegawai-detail');
 Route::get('/profil-pegawai/permohonan-cuti', $controller_path . '\pages\AccountSettingsNotifications@index')->name('profil-pegawai-permohonan-cuti');
 Route::get('/profil-pegawai/kepangkatan', $controller_path . '\pages\AccountSettingsConnections@index')->name('profil-pegawai-kepangkatan');
 Route::get('/pages/misc-error', $controller_path . '\pages\MiscError@index')->name('pages-misc-error');
@@ -37,8 +48,25 @@ Route::get('/auth/login-basic', $controller_path . '\authentications\LoginBasic@
 Route::get('/auth/register-basic', $controller_path . '\authentications\RegisterBasic@index')->name('auth-register-basic');
 Route::get('/auth/forgot-password-basic', $controller_path . '\authentications\ForgotPasswordBasic@index')->name('auth-reset-password-basic');
 
-// cards
-Route::get('/profil-hakim-pegawai/pns', $controller_path . '\cards\CardBasic@index')->name('profil-hakim-pegawai-pns');
+
+Route::get('/profil-hakim-pegawai/pns', $controller_path . '\employee\EmployeeController@index')->name('profil-hakim-pegawai-pns');
+Route::get('/profil-hakim-pegawai/create', $controller_path .'\employee\EmployeeController@create')->name('profil-hakim-pegawai-create');
+Route::post('/profil-hakim-pegawai/addPegawai', $controller_path .'\employee\EmployeeController@addPegawai')->name('profil-hakim-pegawai-addPegawai');
+Route::get('/profil-pegawai/pns/detail/{nip}', $controller_path . '\employee\EmployeeController@detail')->name('profil-pegawai-detail');
+Route::post('/profil-pegawai/pns/editpegawai/{nip}', $controller_path . '\employee\EmployeeController@editpegawai')->name('profil-pegawai-update');
+
+Route::get('/profil-pegawai/pns/detail', $controller_path . '\employee\EmployeeController@profile')->name('profil-pegawai-profile');
+Route::post('/profil-pegawai/pns/updateCell', $controller_path . '\employee\EmployeeController@updateCell')->name('profil-pegawai-updateCell');
+
+
+Route::get('/pengaturan/akun', $controller_path . '\akun\AkunController@index')->name('pengaturan-akun-index');
+Route::get('/datamaster/satker', $controller_path . '\pengaturan\SatkerController@index')->name('datamaster-satker-index');
+Route::post('/datamaster/satker/create', $controller_path . '\pengaturan\SatkerController@create')->name('datamaster-satker-create');
+Route::get('/datamaster/jabatan/', $controller_path . '\pengaturan\DatamasterController@jabatanIndex')->name('datamaster-jabatan-index');
+Route::get('/datamaster/struktural/', $controller_path . '\pengaturan\DatamasterController@strukturalIndex')->name('datamaster-struktural-index');
+Route::post('/datamaster/jabatan/create', $controller_path . '\pengaturan\DatamasterController@jabatanCreate')->name('datamaster-jabatan-create');
+Route::post('/datamaster/struktural/create', $controller_path . '\pengaturan\DatamasterController@strukturalCreate')->name('datamaster-struktural-create');
+
 
 // User Interface
 Route::get('/ui/accordion', $controller_path . '\user_interface\Accordion@index')->name('ui-accordion');
@@ -73,11 +101,28 @@ Route::get('/forms/basic-inputs', $controller_path . '\form_elements\BasicInput@
 Route::get('/forms/input-groups', $controller_path . '\form_elements\InputGroups@index')->name('forms-input-groups');
 
 // form layouts
-Route::get('/izin-cuti', $controller_path . '\izin_cuti\CutiController@index')->name('izin-cuti-index');
+Route::get('/izin-cuti', $controller_path . '\izin_cuti\CutiController@index')->name('layanan-izin-cuti-index');
+Route::get('/izin-cuti/approval', $controller_path . '\izin_cuti\CutiController@indexApproval')->name('izin-cuti-index-approval');
+Route::get('/izin-cuti/verifikasi', $controller_path . '\izin_cuti\CutiController@indexVerifikasi')->name('izin-cuti-index-verifikasi');
 Route::get('/izin-cuti/tambah', $controller_path . '\izin_cuti\CutiController@tambah')->name('izin-cuti-tambah');
 Route::get('/izin-cuti/penangguhan', $controller_path . '\izin_cuti\CutiController@penangguhan')->name('izin-cuti-penangguhan');
+Route::get('/izin-cuti/detail/{id}', $controller_path . '\izin_cuti\CutiController@detail')->name('izin-cuti-detail');
+Route::post('/izin-cuti/add', $controller_path . '\izin_cuti\CutiController@addCuti')->name('izin-cuti-add');
+Route::get('izin-cuti/updateYearly', $controller_path . '\izin_cuti\CutiController@updateLeaveYearly')->name('izin-cuti-yearly');
+Route::post('/izin-cuti/approve', $controller_path . '\izin_cuti\CutiController@approve')->name('izin-cuti-approve');
+Route::get('\izin-cuti\generate-cuti\{id}', $controller_path . '\izin_cuti\CutiController@generateCuti')->name('izin-cuti-generate');
+
+Route::post('/change-user-role', $controller_path . '\layouts\HomeController@changeUserRole')->name('change-user-role');
+
+Route::get('/layanan-pkp', $controller_path . '\pkp\KinerjaController@index')->name('layanan-pkp');
+Route::get('/layanan-pkp/pengajuan-indikator-pck', $controller_path . '\pkp\KinerjaController@indexIndikator')->name('pengajuan-indikator-pck');
+
 
 Route::get('/form/layouts-horizontal', $controller_path . '\form_layouts\HorizontalForm@index')->name('form-layouts-horizontal');
 
 // tables
 Route::get('/tables/basic', $controller_path . '\tables\Basic@index')->name('tables-basic');
+
+});
+
+
