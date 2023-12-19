@@ -47,21 +47,8 @@
     {
       "name": "Informasi Umum",
       "icon": "menu-icon tf-icons bx bx-cube-alt",
-      "slug": "pages-misc",
-      "submenu": [
-        {
-          "url": "/pages/misc-error",
-          "name": "Error",
-          "slug": "pages-misc-error",
-          "target": "_blank"
-        },
-        {
-          "url": "/pages/misc-under-maintenance",
-          "name": "Under Maintenance",
-          "slug": "pages-misc-under-maintenance",
-          "target": "_blank"
-        }
-      ]
+      "slug": "informasi-umum",
+      "url": "/informasi-umum"
     },
     {
       "menuHeader": "Pengaturan"

@@ -36,8 +36,6 @@ Route::get('/layouts/fluid', $controller_path . '\layouts\Fluid@index')->name('l
 Route::get('/layouts/container', $controller_path . '\layouts\Container@index')->name('layouts-container');
 Route::get('/layouts/blank', $controller_path . '\layouts\Blank@index')->name('layouts-blank');
 
-// pages
-// Route::get('/profil-pegawai/detail/{nip}', $controller_path . '\pages\AccountSettingsAccount@index')->name('profil-pegawai-detail');
 Route::get('/profil-pegawai/permohonan-cuti', $controller_path . '\pages\AccountSettingsNotifications@index')->name('profil-pegawai-permohonan-cuti');
 Route::get('/profil-pegawai/kepangkatan', $controller_path . '\pages\AccountSettingsConnections@index')->name('profil-pegawai-kepangkatan');
 Route::get('/pages/misc-error', $controller_path . '\pages\MiscError@index')->name('pages-misc-error');
@@ -59,6 +57,10 @@ Route::get('/profil-pegawai/pns/detail', $controller_path . '\employee\EmployeeC
 Route::post('/profil-pegawai/pns/updateCell', $controller_path . '\employee\EmployeeController@updateCell')->name('profil-pegawai-updateCell');
 
 Route::get('/kalender-cuti', $controller_path. '\kalender\KalenderCutiController@index')->name('kalender-cuti');
+
+ROute::get('/informasi-umum', $controller_path. '\informasi\InformasiController@index')->name('informasi-umum');
+ROute::get('/informasi-umum/informasi', $controller_path. '\informasi\InformasiController@informasiCreate')->name('informasi-create-page');
+Route::post('/informasi-umum/informasi/create', $controller_path. '\informasi\InformasiController@store')->name('informasi-baru-create');
 
 
 Route::get('/pengaturan/akun', $controller_path . '\akun\AkunController@index')->name('pengaturan-akun-index');

@@ -24,7 +24,7 @@
             <h5 class="card-title text-primary">Selamat datang {{@Auth::user()->employee->nama}}! 🎉</h5>
             <p class="mb-4">Anda berada di halaman <span class="fw-bold">Sistem Informasi Kepegawaian PA Watampone</span></p>
 
-            <a href="javascript:;" class="btn btn-sm btn-outline-primary">View Badges</a>
+            {{-- <a href="javascript:;" class="btn btn-sm btn-outline-primary">View Badges</a> --}}
           </div>
         </div>
         <div class="col-sm-5 text-center text-sm-left">
@@ -42,7 +42,7 @@
   </div>
 
   <!--/ Total Revenue -->
-  <div class="col-12 col-md-8 col-lg-12 order-3 order-md-2">
+  {{-- <div class="col-12 col-md-8 col-lg-12 order-3 order-md-2">
     <div class="row">
       <div class="col-3 mb-4">
         <div class="card">
@@ -79,58 +79,42 @@
       <!-- </div>
     <div class="row"> -->
     </div>
-  </div>
+  </div> --}}
 </div>
 <div class="row">
   <!-- Order Statistics -->
-  <div class="col-md-6 col-lg-6 order-2 mb-4">
+  <div class="col-md-12 col-lg-12 order-2 mb-4">
     <div class="card h-100">
       <div class="card-header d-flex align-items-center justify-content-between pb-0">
         <div class="card-title mb-0">
-          <h5 class="m-0 me-2">Reminder Pensiun Hakim</h5>
+          <h5 class="m-0 me-2">Informasi</h5>
         </div>
         <div class="dropdown">
-          <button class="btn p-0" type="button" id="orederStatistics" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="bx bx-dots-vertical-rounded"></i>
-          </button>
-          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="orederStatistics">
-            <a class="dropdown-item" href="javascript:void(0);">Select All</a>
-            <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
-            <a class="dropdown-item" href="javascript:void(0);">Share</a>
-          </div>
+          <small class="text-muted float-end">Total: 1 Item</small>
         </div>
       </div>
       <div class="card-body">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <div class="d-flex flex-column align-items-center gap-1">
-            <h2 class="mb-2">8,258</h2>
-            <span>Total Orders</span>
-          </div>
-          <div id="orderStatisticsChart"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!--/ Order Statistics -->
+        <div class="col-md mb-4 mb-md-0">
+          <div class="accordion mt-3" id="accordionExample">
+            @foreach($info as $key)
+            <div class="card accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+                <button type="button" class="accordion-button" data-bs-toggle="collapse" data-bs-target="#accordion{{ $loop->iteration }}" aria-expanded="true" aria-controls="accordionOne">
+                  <span class="fw-bold">{{$key->judul}}</span>
+                </button>
+              </h2>
 
-  <!-- Transactions -->
-  <div class="col-md-6 col-lg-6 order-2 mb-4">
-    <div class="card h-100">
-      <div class="card-header d-flex align-items-center justify-content-between">
-        <h5 class="card-title m-0 me-2">Reminder Pensiun Pegawai</h5>
-        <div class="dropdown">
-          <button class="btn p-0" type="button" id="transactionID" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="bx bx-dots-vertical-rounded"></i>
-          </button>
-          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="transactionID">
-            <a class="dropdown-item" href="javascript:void(0);">Last 28 Days</a>
-            <a class="dropdown-item" href="javascript:void(0);">Last Month</a>
-            <a class="dropdown-item" href="javascript:void(0);">Last Year</a>
+              <div id="accordion{{ $loop->iteration }}" class="accordion-collapse collapse {{ $loop->first ? 'show' : '' }}" data-bs-parent="#accordionExample">
+                <div class="accordion-body m-4">
+                  {!!$key->isi_konten!!}
+                </div>
+              </div>
+            </div>
+            @endforeach
           </div>
         </div>
       </div>
     </div>
   </div>
-  <!--/ Transactions -->
 </div>
 @endsection
