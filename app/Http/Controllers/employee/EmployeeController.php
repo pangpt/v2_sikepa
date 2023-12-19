@@ -39,13 +39,13 @@ class EmployeeController extends Controller
     $isAdmin = false;
 
     // Memeriksa apakah pengguna adalah admin
-    if ($user && ($user->role === 'admin' || $user->role === 'kasubag') ) {
+    if ($user && ($user->role === 'admin' || $user->role === 'kepegawaian') ) {
         $isAdmin = true;
     }
 
 
 
-    if($user->role === 'admin' || $user->employee->nip === $nip) {
+    if($user->role === 'admin' || $user->employee->nip === $nip || $user->role === 'kepegawaian')  {
       $pegawaidetail = Employee::where('nip', $nip)->first();
       $leave_employee = Leave_employee::where('employee_id', $pegawaidetail->id)->get();
 
@@ -109,8 +109,8 @@ class EmployeeController extends Controller
       'nama' => 'required',
       'nip' => 'required',
       'tmt' => 'required',
-      'phone' => 'required',
-      'email' => 'required|email',
+      // 'phone' => 'required',
+      // 'email' => 'required|email',
       'jabatan' => 'required',
       'golongan' => 'required',
     ]);
@@ -137,9 +137,9 @@ class EmployeeController extends Controller
     $pegawai->nama = $request->nama;
     $pegawai->nip = $request->nip;
     $pegawai->tmt = $request->tmt;
-    $pegawai->phone = $request->phone;
-    $pegawai->email = $request->email;
-    $pegawai->alamat = $request->alamat;
+    $pegawai->phone = '000000';
+    $pegawai->email = 'isikan@mahkamahagung.go.id';
+    $pegawai->alamat = 'Sesuaikan dengan data SIKEP';
     $pegawai->department_id = $request->jabatan;
     $pegawai->golongan_id = $request->golongan;
     $pegawai->user_id = $user->id;
@@ -156,7 +156,7 @@ class EmployeeController extends Controller
       'nama' => 'required',
       'nip' => 'required',
       'phone' => 'required',
-      'email' => 'required|email',
+      // 'email' => 'required|email',
       'department_id' => 'required',
     ]);
 

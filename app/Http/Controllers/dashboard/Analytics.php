@@ -11,20 +11,28 @@ class Analytics extends Controller
 {
   public function index()
   {
-    // Cari departemen dengan nama 'hakim'
-    $hakim = Department::where('slug', 'hakim')->first();
+    $strukturalSlug = ['sekretaris', 'panitera', 'kasubag'];
+    $fungsionalSlug = ['panmud', 'js', 'pp', 'fungsional'];
 
 
-    // Jika departemen 'hakim' ditemukan, hitung jumlah pegawai dengan department_id yang sesuai
-    if($hakim) {
-      $hakimCount = Employee::where('department_id', $hakim->id)->count();
-    } else {
-      $hakimCount = 0;
-    }
+      $totalHakim = Employee::whereIn('department_id', function ($query) {
+        $query->select('id')->from('departments')->where('slug', 'hakim');
+      })->count();
+
+      $totalStruktural = Employee::whereIn('department_id', function ($query) use ($strukturalSlug) {
+        $query->select('id')->from('departments')->whereIn('slug', $strukturalSlug);
+    })->count();
+
+    $totalFungsional = Employee::whereIn('department_id', function ($query) use ($fungsionalSlug) {
+      $query->select('id')->from('departments')->whereIn('slug', $fungsionalSlug);
+  })->count();
+
 
 
     return view('content.dashboard.dashboards-analytics', [
-      'hakimCount' => $hakimCount,
+      'hakimCount' => $totalHakim,
+      'strukturalCount' => $totalStruktural,
+      'fungsionalCount' => $totalFungsional,
     ]);
   }
 }

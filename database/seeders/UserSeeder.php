@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
 
       DB::table('users')->insert([
           [
-              'username' => 'panggih',
+              'username' => 'admin',
               'password' => bcrypt('password'),
               'role' => 'admin',
               'created_at' => $now,

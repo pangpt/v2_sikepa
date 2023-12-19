@@ -186,10 +186,10 @@
           var catatan = $('#catatanField').val();
           var leaveId =  {{ $izinCuti->id }}
           var userId =  {{ auth()->user()->id }}
-          console.log(userId)
+          // console.log(userId)
           var departmentId =  {{ auth()->user()->employee->department->id }}
           var employeeId = {{$izinCuti->employee_id}}
-          console.log(employeeId)
+          // console.log(departmentId)
           var userRole = '{{ auth()->user()->role }}';
 
           $.ajax({

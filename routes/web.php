@@ -58,6 +58,8 @@ Route::post('/profil-pegawai/pns/editpegawai/{nip}', $controller_path . '\employ
 Route::get('/profil-pegawai/pns/detail', $controller_path . '\employee\EmployeeController@profile')->name('profil-pegawai-profile');
 Route::post('/profil-pegawai/pns/updateCell', $controller_path . '\employee\EmployeeController@updateCell')->name('profil-pegawai-updateCell');
 
+Route::get('/kalender-cuti', $controller_path. '\kalender\KalenderCutiController@index')->name('kalender-cuti');
+
 
 Route::get('/pengaturan/akun', $controller_path . '\akun\AkunController@index')->name('pengaturan-akun-index');
 Route::get('/datamaster/satker', $controller_path . '\pengaturan\SatkerController@index')->name('datamaster-satker-index');

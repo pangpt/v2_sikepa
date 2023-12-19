@@ -17,9 +17,14 @@
   <div class="col-xl-12">
     <div class="card mb-4">
       <div class="card-header justify-content-between align-items-center">
-        <a href="{{route('izin-cuti-tambah')}}" type="button" class="btn btn-primary">
+        {{-- <a href="{{route('izin-cuti-tambah')}}" type="button" class="btn btn-primary" >
           <span class="tf-icons bx bx-plus"></span>&nbsp; Pengajuan Cuti
+        </a> --}}
+        <a href="{{ $leaveTotal == null ? 'javascript:void(0);' : route('izin-cuti-tambah') }}" type="button" class="btn {{ $leaveTotal == null ? 'btn-danger' : 'btn-primary' }}"
+            onclick="{{ $leaveTotal == null ? 'showSwal()' : '' }}">
+            <span class="tf-icons bx bx-plus"></span>&nbsp; Pengajuan Cuti
         </a>
+
         <a href="{{route('izin-cuti-penangguhan')}}" type="button" class="btn btn-primary">
           <span class="tf-icons bx bx-plus"></span>&nbsp; Ajukan Penangguhan
         </a>
@@ -30,7 +35,7 @@
           <span class="tf-icons bx bx-check-square"></span>&nbsp; Approval Cuti (Atasan) ({{$jmlApprove}})
         </a>
 
-        @if(auth()->user()->role === 'admin')
+        @if(auth()->user()->role === 'kepegawaian')
         <a href="{{route('izin-cuti-yearly')}}" type="button" class="btn btn-secondary">
           <span class="tf-icons bx bx-cog"></span>&nbsp; Set Cuti
         </a>
@@ -101,4 +106,10 @@
       });
     });
   </script>
+  <script>
+    function showSwal() {
+        swal("Maaf", "izin cuti belum disetting, silahkan hubungi kasubag kepegawaian", "error");
+    }
+  </script>
+
 @endsection

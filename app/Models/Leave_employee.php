@@ -15,6 +15,7 @@ class Leave_employee extends Model
 
     protected $fillable = [
         'jumlah_cuti',
+        'employee_id'
     ];
 
     /**

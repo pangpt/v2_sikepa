@@ -32,7 +32,7 @@
             </div>
             <div class="mb-3 col-md-6">
               <label for="email" class="form-label">E-mail</label>
-              <input class="form-control" type="text" id="email" name="email" value="" required/>
+              <input class="form-control" type="text" id="email" name="email" value=""/>
             </div>
             <div class="mb-3 col-md-6">
               <label for="golongan" class="form-label">Golongan</label>
@@ -66,7 +66,7 @@
                 <option value="ketua">Ketua</option>
                 <option value="panitera">Panitera</option>
                 <option value="sekretaris">Sekretaris</option>
-                <option value="kepegawaian">Kepegawaian</option>
+                <option value="kasubag">Kepegawaian</option>
                 <option value="pegawai">Pegawai</option>
               </select>
             </div>

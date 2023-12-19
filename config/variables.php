@@ -1,7 +1,7 @@
 <?php
   // Variables
   return [
-    "creatorName" => "PAnggih Tridarma",
+    "creatorName" => "Panggih Tridarma",
     "creatorUrl" => "https://www.linkedin.com/in/pangpt/",
     "templateName" => "SIKEPA",
     "templateDescription" => "Most Powerful & Comprehensive Bootstrap 5 HTML Admin Dashboard Template built for developers!",

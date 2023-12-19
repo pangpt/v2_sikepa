@@ -31,6 +31,9 @@ class CutiController extends Controller
     @$atasan = auth()->user()->employee->department->id;
     $cek = Atasan::where('department_id', $atasan)->first();
 
+    $leave_cek = Leave_employee::where('employee_id', Auth()->user()->id)->first();
+    // dd($leave_cek);
+
     // if($user == 'pegawai') {
     //   $data = Leave::where('employee_id', Auth::user()->employee->id)->orderBy('created_at', 'desc')->get();
     // } elseif ($user == 'kepegawaian' || $user == 'kasubag' || $user == 'admin') {
@@ -55,6 +58,7 @@ class CutiController extends Controller
       'data' => $data,
       'jmlApprove' => $jmlApprove,
       'jmlVerif' => $jmlVerif,
+      'leaveTotal' => $leave_cek,
     ]);
   }
 
@@ -269,7 +273,7 @@ class CutiController extends Controller
 
     $izinCuti = Leave::where('id', $leave_id)->first();
 
-    $atasanLangsung = auth()->user()->employee->department->id;
+    $atasanLangsung = auth()->user()->employee->department->parent_id;
     $cek = Atasan::where('department_id', $atasanLangsung)->first();
 
     $approveLeave = new Leave_approval();

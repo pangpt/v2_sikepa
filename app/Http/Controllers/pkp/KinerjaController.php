@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Leave;
 use App\Models\Employee;
-use App\Models\Satker_information;
 
 class KinerjaController extends Controller
 {

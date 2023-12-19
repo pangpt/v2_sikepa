@@ -28,14 +28,25 @@ class LoginBasic extends Controller
       'password' => ['required'],
     ]);
 
+    // Cek credentials dan is_active status
     if (Auth::attempt($credentials)) {
-        $request->session()->regenerate();
+      $user = Auth::user();
+        if ($user->is_active != 1) {
+            Auth::logout();
+            return redirect()->back()->withInput($request->except('password'))->with('error', 'Maaf, akun belum aktif.');
+        }
 
+        $request->session()->regenerate();
         return redirect()->intended('/');
     }
-    return back()->withErrors([
-      'username' => 'The provided credentials do not match our records.',
-    ])->onlyInput('username');
+
+    // Redirect dengan pesan salah password.
+    return back()->withInput($request->except('password'))
+                 ->with('login_error', 'Maaf, NIP atau password anda salah, silahkan coba lagi.');
+
+    // return back()->withErrors([
+    //   'login_error' => 'Maaf, NIP atau password Anda salah',
+    // ])->onlyInput('login_error');
   }
 
   public function logout()

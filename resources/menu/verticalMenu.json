@@ -22,6 +22,12 @@
       "url": "/profil-hakim-pegawai/pns"
     },
     {
+      "name": "Kalender Cuti",
+      "icon": "menu-icon tf-icons bx bx-collection",
+      "slug": "kalender-cuti",
+      "url": "/kalender-cuti"
+    },
+    {
       "name": "Layanan",
       "icon": "menu-icon tf-icons bx bx-detail",
       "slug": "layanan",

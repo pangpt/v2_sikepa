@@ -21,16 +21,16 @@ $navbarHideToggle = false;
     <div class="col-md-6 col-lg-4">
       <div class="card text-center mb-3">
         <div class="card-body">
-          <h5 class="card-title">Izin Cuti</h5>
+          <h5 class="card-title">Pengajuan Izin Cuti</h5>
           <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-          <a href="javascript:void(0)" class="btn btn-primary">Go somewhere</a>
+          <a href="{{route('izin-cuti-tambah')}}" class="btn btn-primary">Go somewhere</a>
         </div>
       </div>
     </div>
     <div class="col-md-6 col-lg-4">
       <div class="card text-center mb-3">
         <div class="card-body">
-          <h5 class="card-title">PKP - PCK</h5>
+          <h5 class="card-title">Pengajuan PKP - PCK</h5>
           <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
           <a href="javascript:void(0)" class="btn btn-primary">Go somewhere</a>
         </div>

@@ -37,8 +37,8 @@
           <tbody>
             <tr>
               <td>1</td>
-              <td><a href="">Albert Einstein</a></td>
-              <td><a href="">Pablo Escobar, S.H.</a></td>
+              <td><a href="">Panggih Tridarma</a></td>
+              <td><a href="">Ahmad Amiruddin</a></td>
               <td>2023</td>
               <td>8 Agustus 2023</td>
               <td><span class="badge bg-success">PKP_DITERIMA</span></td>

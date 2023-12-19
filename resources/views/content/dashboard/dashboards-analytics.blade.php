@@ -55,16 +55,16 @@
       <div class="col-3 mb-4">
         <div class="card">
           <div class="card-body">
-            <span>Total Pegawai</span>
-            <h3 class="card-title text-nowrap mb-1">40</h3>
+            <span>Total Struktural</span>
+            <h3 class="card-title text-nowrap mb-1">{{$strukturalCount}}</h3>
           </div>
         </div>
       </div>
       <div class="col-3 mb-4">
         <div class="card">
           <div class="card-body">
-            <span class="d-block mb-1">Total Honorer</span>
-            <h3 class="card-title text-nowrap mb-2">21</h3>
+            <span class="d-block mb-1">Total Fungsional</span>
+            <h3 class="card-title text-nowrap mb-2">{{$fungsionalCount}}</h3>
           </div>
         </div>
       </div>
@@ -72,7 +72,7 @@
         <div class="card">
           <div class="card-body">
             <span class="fw-semibold d-block mb-1">Total Keseluruhan</span>
-            <h3 class="card-title mb-2">75</h3>
+            <h3 class="card-title mb-2">{{$hakimCount + $strukturalCount + $fungsionalCount}}</h3>
           </div>
         </div>
       </div>

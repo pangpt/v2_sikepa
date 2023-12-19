@@ -55,7 +55,7 @@
     @endphp
 
     {{-- main menu --}}
-    @if ($menu->slug == 'profil-hakim-pegawai-pns'  && !(auth()->user()->role == 'admin' || (auth()->user()->role == 'kepegawaian')))
+    @if (($menu->slug == 'profil-hakim-pegawai-pns' || $menu->slug == 'datamaster'  || $menu->slug == 'pengaturan-akun-index' ) && !(auth()->user()->role == 'admin' || (auth()->user()->role == 'kepegawaian')))
     {{-- Tambahkan kondisi untuk menyembunyikan menu 'profil-hakim-pegawai-pns' jika bukan admin --}}
     @else
         <li class="menu-item {{ $activeClass }}">
