@@ -40,7 +40,7 @@
           <span class="tf-icons bx bx-cog"></span>&nbsp; Set Cuti
         </a>
         @endif
-        <small class="text-muted float-end">Total: 1 Izin Cuti</small>
+        <small class="text-muted float-end">Total: {{$data->count()}} Izin Cuti</small>
       </div>
       <div class="card-body">
         <h6 class="mb-4 text-muted">Klik Nama Lengkap untuk melihat data detail</h6>

@@ -12,7 +12,7 @@ class Analytics extends Controller
 {
   public function index()
   {
-    $info = Information::get();
+    $info = Information::orderBy('updated_at', 'desc')->get();
 
     $strukturalSlug = ['sekretaris', 'panitera', 'kasubag'];
     $fungsionalSlug = ['panmud', 'js', 'pp', 'fungsional'];

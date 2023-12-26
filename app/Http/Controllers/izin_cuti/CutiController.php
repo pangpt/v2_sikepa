@@ -29,7 +29,7 @@ class CutiController extends Controller
 
     // dd($user->role);
     @$atasan = auth()->user()->employee->department->id;
-    $cek = Atasan::where('department_id', $atasan)->first();
+    @$cek = Atasan::where('department_id', $atasan)->first();
 
     $leave_cek = Leave_employee::where('employee_id', Auth()->user()->id)->first();
     // dd($leave_cek);
@@ -50,7 +50,7 @@ class CutiController extends Controller
     } elseif ($user == 'kepegawaian' || $user == 'admin' || $user == 'ketua') {
       $data = Leave::orderBy('created_at', 'desc')->get();
     } else {
-      $data = Leave::where('atasan_id', $cek->id)->orderBy('created_at', 'desc')->get();
+      @$data = Leave::where('atasan_id', $cek->id)->orderBy('created_at', 'desc')->get();
     }
 
 

@@ -25,6 +25,9 @@
 
 
 <!-- Vendor Styles -->
+@stack('after-styles')
+
+
 @yield('vendor-style')
 
 

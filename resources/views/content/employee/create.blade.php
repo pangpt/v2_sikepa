@@ -11,6 +11,14 @@
   <span class="text-muted fw-light">Sistem Administrasi Kepegawaian / Profil Hakim & Pegawai /</span> Tambah
 </h4>
 
+@if (session('error'))
+    <div class="alert alert-danger alert-dismissible" role="alert">
+      {{ session('error') }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+      </button>
+    </div>
+    @endif
+
 <div class="row">
   <div class="col-md-12">
     <div class="card mb-4">
@@ -20,24 +28,24 @@
           <div class="row">
             <div class="mb-3 col-md-6">
               <label for="firstName" class="form-label">Nama Lengkap</label>
-              <input class="form-control" type="text" id="nama" name="nama" value="" autofocus required/>
+              <input class="form-control" type="text" id="nama" name="nama" value="{{old('nama')}}" autofocus required/>
             </div>
             <div class="mb-3 col-md-6">
               <label for="nip" class="form-label">NIP</label>
-              <input class="form-control" type="text" id="nip" name="nip" value="" autofocus required/>
+              <input class="form-control" type="text" id="nip" name="nip" value="{{old('nip')}}" autofocus required/>
             </div>
             <div class="mb-3 col-md-6">
               <label for="tmt" class="form-label">TMT Awal</label>
-              <input class="form-control" type="date" id="tmt" name="tmt" value="" required/>
+              <input class="form-control" type="date" id="tmt" name="tmt" value="{{old('tmt')}}" required/>
             </div>
             <div class="mb-3 col-md-6">
               <label for="email" class="form-label">E-mail</label>
-              <input class="form-control" type="text" id="email" name="email" value=""/>
+              <input class="form-control" type="text" id="email" name="email" value="{{old('email')}}"/>
             </div>
             <div class="mb-3 col-md-6">
               <label for="golongan" class="form-label">Golongan</label>
               <select id="golongan" class="select2 form-select" name="golongan" required>
-                <option value="">Pilih Golongan-Pangkat</option>
+                <option value="{{old('golongan')}}">Pilih Golongan-Pangkat</option>
                 @foreach($golongan as $key)
                     <option value="{{ $key->id }}">{{ $key->jenis_golongan }} - {{$key->pangkat}}</option>
                 @endforeach
@@ -47,13 +55,13 @@
               <label class="form-label" for="phone">Nomor Telepon/HP</label>
               <div class="input-group input-group-merge">
                 {{-- <span class="input-group-text">ID (+1)</span> --}}
-                <input type="text" id="phone" name="phone" class="form-control" value="" />
+                <input type="text" id="phone" name="phone" class="form-control" value="{{old('phone')}}" />
               </div>
             </div>
             <div class="mb-3 col-md-6">
               <label for="jabatan" class="form-label">Jabatan</label>
               <select id="jabatan" class="select2 form-select" name="jabatan" required>
-                <option value="">Pilih Jabatan</option>
+                <option value="{{old('jabatan')}}">Pilih Jabatan</option>
                 @foreach($jabatan as $key)
                     <option value="{{ $key->id }}">{{ $key->nama_jabatan }}</option>
                 @endforeach
@@ -62,7 +70,7 @@
             <div class="mb-3 col-md-6">
               <label for="role" class="form-label">Role Pengguna</label>
               <select id="role" class="select2 form-select" name="role" required>
-                <option value="">- Pilih Role -</option>
+                <option value="{{old('role')}}">- Pilih Role -</option>
                 <option value="ketua">Ketua</option>
                 <option value="panitera">Panitera</option>
                 <option value="sekretaris">Sekretaris</option>

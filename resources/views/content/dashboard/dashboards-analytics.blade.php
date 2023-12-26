@@ -90,7 +90,7 @@
           <h5 class="m-0 me-2">Informasi</h5>
         </div>
         <div class="dropdown">
-          <small class="text-muted float-end">Total: 1 Item</small>
+          <small class="text-muted float-end">Total: {{$info->count()}} Informasi</small>
         </div>
       </div>
       <div class="card-body">

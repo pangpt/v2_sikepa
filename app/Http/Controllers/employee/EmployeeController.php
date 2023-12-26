@@ -18,6 +18,7 @@ class EmployeeController extends Controller
   public function index()
   {
     $data = Employee::orderBy('department_id','asc')->get();
+    UserLogAccess();
 
     return view('content.employee.index', [
       'data' => $data,
@@ -115,13 +116,16 @@ class EmployeeController extends Controller
       'golongan' => 'required',
     ]);
 
-    // Simpan data ke database B (tabel user)
-    // $username = Str::lower(Str::substr($request->nama, 0, 3)) . Str::substr($request->nip, 0, 2);
-    // $ketua = Department::where('slug', 'ketua')->first();
-    // $panitera = Department::where('slug', 'panitera')->first();
-    // $sekretaris = Department::where('slug', 'sekretaris')->first();
-    // $kasubag = Department::where('slug', 'kasubag')->first();
-    // $panmud = Department::where('slug', 'panmud')->first();
+    // Check for duplicate NIP
+    if (Employee::where('nip', $request->nip)->exists()) {
+      return back()->with('error', 'NIP sudah ada!');
+    }
+
+    // Check if 'jabatan' is 'Ketua' or '1'
+    if ($request->jabatan === '1') {
+        return back()->with('error', 'Jabatan Ketua sudah dipilih!');
+    }
+
     $password = Str::substr($request->nip, 0, 6);
 
     $user = new User;
@@ -147,7 +151,7 @@ class EmployeeController extends Controller
     // dd($pegawai);
 
     // Redirect atau berikan respons sesuai kebutuhan
-    return redirect()->route('profil-hakim-pegawai-pns')->with('success', 'Pegawai berhasil ditambahkan.');
+    return redirect()->route('profil-hakim-pegawai-pns')->with('success', 'Pegawai berhasil ditambahkan.')->withInput();
   }
 
   public function editpegawai(Request $request, $nip)

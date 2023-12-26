@@ -3,13 +3,13 @@
     {
       "url": "/dashboard",
       "name": "Dashboard",
-      "icon": "menu-icon tf-icons bx bx-home-circle",
+      "icon": "menu-icon tf-icons bx bxs-home-circle",
       "slug": "dashboard-analytics"
     },
     {
       "name": "Profil",
-      "icon": "menu-icon tf-icons bx bx bx-user",
-      "slug": "profil-pegawai-pns",
+      "icon": "menu-icon tf-icons bx bx bxs-user",
+      "slug": "profil-pegawai-profile",
       "url": "/profil-pegawai/pns/detail"
     },
     {
@@ -17,19 +17,19 @@
     },
     {
       "name": "Profil Hakim & Pegawai",
-      "icon": "menu-icon tf-icons bx bx-collection",
+      "icon": "menu-icon tf-icons bx bxs-data",
       "slug": "profil-hakim-pegawai-pns",
       "url": "/profil-hakim-pegawai/pns"
     },
     {
       "name": "Kalender Cuti",
-      "icon": "menu-icon tf-icons bx bx-collection",
+      "icon": "menu-icon tf-icons bx bxs-calendar-week",
       "slug": "kalender-cuti",
       "url": "/kalender-cuti"
     },
     {
       "name": "Layanan",
-      "icon": "menu-icon tf-icons bx bx-detail",
+      "icon": "menu-icon tf-icons bx bxs-detail",
       "slug": "layanan",
       "submenu": [
         {
@@ -46,7 +46,7 @@
     },
     {
       "name": "Informasi Umum",
-      "icon": "menu-icon tf-icons bx bx-cube-alt",
+      "icon": "menu-icon tf-icons bx bxs-cube-alt",
       "slug": "informasi-umum",
       "url": "/informasi-umum"
     },
@@ -55,19 +55,25 @@
     },
     {
       "name": "Laporan",
-      "icon": "menu-icon tf-icons bx bx-collection",
+      "icon": "menu-icon tf-icons bx bxs-report",
       "slug": "cards-basic",
       "url": "/cards/basic"
     },
     {
       "name": "Kelola Akun",
-      "icon": "menu-icon tf-icons bx bx-collection",
+      "icon": "menu-icon tf-icons bx bxs-user-account",
       "slug": "pengaturan-akun-index",
       "url": "/pengaturan/akun/"
     },
     {
+      "name": "Aktivitas Pengguna",
+      "icon": "menu-icon tf-icons bx bxs-user-account",
+      "slug": "pengaturan/log-viewer",
+      "url": "/pengaturan/log-viewer/logs"
+    },
+    {
       "name": "Data Master",
-      "icon": "menu-icon tf-icons bx bx-box",
+      "icon": "menu-icon tf-icons bx bxs-cog",
       "slug": "datamaster",
       "submenu": [
         {

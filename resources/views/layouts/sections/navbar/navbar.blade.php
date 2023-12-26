@@ -96,6 +96,52 @@ $navbarDetached = ($navbarDetached ?? '');
           </li>
           <li class="nav-item navbar-dropdown dropdown-user dropdown">
             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+              <i class="flex-grow-tf-icons bx bx-bell bx-sm"></i>
+              {{-- Assuming $notificationCount is passed to the view with the count of notifications --}}
+              <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">1000</span>
+          </a>
+
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                  <span class="dropdown-item fw-bold align-middle">Role User</span>
+              </li>
+              <li>
+                <div class="dropdown-divider"></div>
+              </li>
+              <li>
+                <a class="dropdown-item change-role" href="#" data-role="admin">
+                  <span class="align-middle">Root (Admin)</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item change-role" href="#" data-role="ketua">
+                  <span class="align-middle">Pimpinan (Ketua)</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item change-role" href="#" data-role="panitera">
+                  <span class="align-middle">Atasan (Panitera)</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item change-role" href="#" data-role="sekretaris">
+                  <span class="align-middle">Atasan (Sekretaris)</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item change-role" href="#" data-role="kepegawaian">
+                  <span class="align-middle">Verifikator (Kasubag Kepegawaian)</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item change-role" href="#" data-role="pegawai">
+                  <span class="align-middle">Pegawai (Pegawai)</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item navbar-dropdown dropdown-user dropdown">
+            <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
               <div class="avatar avatar-online">
                 <img src="{{ asset('assets/img/avatars/1.png') }}" alt class="w-px-40 h-auto rounded-circle">
               </div>
@@ -123,21 +169,6 @@ $navbarDetached = ($navbarDetached ?? '');
                 <a class="dropdown-item" href="javascript:void(0);">
                   <i class="bx bx-user me-2"></i>
                   <span class="align-middle">My Profile</span>
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="javascript:void(0);">
-                  <i class='bx bx-cog me-2'></i>
-                  <span class="align-middle">Settings</span>
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="javascript:void(0);">
-                  <span class="d-flex align-items-center align-middle">
-                    <i class="flex-shrink-0 bx bx-credit-card me-2 pe-1"></i>
-                    <span class="flex-grow-1 align-middle">Billing</span>
-                    <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
-                  </span>
                 </a>
               </li>
               <li>

@@ -61,6 +61,8 @@ Route::get('/kalender-cuti', $controller_path. '\kalender\KalenderCutiController
 ROute::get('/informasi-umum', $controller_path. '\informasi\InformasiController@index')->name('informasi-umum');
 ROute::get('/informasi-umum/informasi', $controller_path. '\informasi\InformasiController@informasiCreate')->name('informasi-create-page');
 Route::post('/informasi-umum/informasi/create', $controller_path. '\informasi\InformasiController@store')->name('informasi-baru-create');
+Route::get('/informasi-umum/informasi/edit/{id}', $controller_path. '\informasi\InformasiController@edit')->name('informasi-baru-edit');
+Route::post('/informasi-umum/informasi/update/{id}', $controller_path. '\informasi\InformasiController@update')->name('informasi-baru-update');
 
 
 Route::get('/pengaturan/akun', $controller_path . '\akun\AkunController@index')->name('pengaturan-akun-index');

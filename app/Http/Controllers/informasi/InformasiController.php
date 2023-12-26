@@ -10,7 +10,7 @@ class InformasiController extends Controller
 {
   public function index()
   {
-    $info = Information::get();
+    $info = Information::orderBy('updated_at', 'desc')->get();
 
     return view('content.informasi.index', [
       'info' => $info,
@@ -34,6 +34,35 @@ class InformasiController extends Controller
     return redirect()->route('informasi-umum')->withErrors([
       'success' => 'Berhasil menambahkan informasi'
     ]);
+  }
+
+  public function edit(Request $request)
+  {
+    $id = $request->id;
+    $info = Information::where('id', $id)->first();
+
+    return view('content.informasi.edit', [
+      'info' => $info,
+    ]);
+  }
+
+  public function update(Request $request)
+  {
+    $id = $request->id;
+
+    $datas = [
+      'judul' => $request->judul,
+      'tanggal' => date('Y-m-d', strtotime('now')),
+      'isi_konten' => $request->isi_konten,
+    ];
+
+    $updateinfo = Information::where('id', $id)->update($datas);
+
+    return redirect()->route('informasi-umum')->withErrors([
+      'success' => 'Berhasil mengubah informasi',
+    ]);
+
+
   }
 
 }

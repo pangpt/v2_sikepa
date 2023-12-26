@@ -53,6 +53,9 @@
 </script>
 @yield('js-after')
 
+@stack('after-scripts')
+
+
 <!-- END: Theme JS-->
 <!-- Pricing Modal JS-->
 @stack('pricing-script')

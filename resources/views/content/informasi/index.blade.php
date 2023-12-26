@@ -13,7 +13,7 @@
         <a href="{{route('informasi-create-page')}}" type="button" class="btn btn-primary">
           <span class="tf-icons bx bx-plus"></span>&nbsp; Buat Informasi
         </a>
-        <small class="text-muted float-end">Total: 1 Informasi</small>
+        <small class="text-muted float-end">Total: {{$info->count()}} Informasi</small>
       </div>
       <div class="card-body">
         <h6 class="mb-4 text-muted">Klik Nama Lengkap untuk melihat data detail</h6>
@@ -30,11 +30,18 @@
           <tbody>
             @foreach($info as $key)
             <tr>
-              <td>1</td>
-              <td><a href="">{{$key->judul}}</a></td>
-              <td><a href="">{{date('d-m-Y', strtotime($key->tanggal))}}</a></td>
+              <td>{{$loop->iteration}}</td>
+              <td>{{$key->judul}}</td>
+              <td>{{date('d-m-Y', strtotime($key->tanggal))}}</td>
               <td>{{$key->file_path}}</td>
-              <td><span class="badge bg-success">PKP_DITERIMA</span></td>
+              <td>
+                <a href="{{route('informasi-baru-edit', ['id' => $key->id])}}" style="color:inherit; text-decoration: none">
+                  <i class="tf-icons bx bx-edit"></i>
+                </a>
+                <a href="" style="color:inherit; text-decoration: none">
+                  <i class="tf-icons bx bx-trash"></i>
+                </a>
+              </td>
             </tr>
             @endforeach
             <!-- Tambahkan baris data pegawai dan hakim lainnya di sini -->

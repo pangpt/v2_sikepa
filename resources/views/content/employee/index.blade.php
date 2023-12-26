@@ -19,7 +19,7 @@
       <div class="card-header d-flex justify-content-between align-items-center">
         <a href="{{route('profil-hakim-pegawai-create')}}" class="btn btn-primary">
           <span class="tf-icons bx bx-user-plus"></span>&nbsp; Tambah
-        </a> <small class="text-muted float-end">Total PNS: 50 aktif</small>
+        </a> <small class="text-muted float-end">Total PNS: {{$data->count()}} aktif</small>
       </div>
       <div class="card-body">
         <h6 class="mb-4 text-muted"><span class="tf-icons bx bx-info-circle"></span>Klik Nama Lengkap untuk melihat data detail</h6>
