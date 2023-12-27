@@ -59,13 +59,14 @@
         },
         success: function (response) {
             if (response.success) {
-                alert('Data cuti berhasil diperbarui.');
+                // alert('Data cuti berhasil diperbarui.');
+                swal('Sukses', 'Data cuti berhasil diperbarui', 'success');
             } else {
-                alert('Gagal memperbarui data cuti.');
+                swal('Maaf', 'Gagal memperbarui data cuti', 'error');
             }
         },
         error: function () {
-            alert('Terjadi kesalahan. Silakan coba lagi.');
+            swal('Maaf','Terjadi kesalahan. Silakan coba lagi.','error');
         }
     });
   }

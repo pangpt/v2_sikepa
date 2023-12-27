@@ -68,7 +68,7 @@
     {
       "name": "Aktivitas Pengguna",
       "icon": "menu-icon tf-icons bx bxs-user-account",
-      "slug": "pengaturan/log-viewer",
+      "slug": "log-viewer",
       "url": "/pengaturan/log-viewer/logs"
     },
     {

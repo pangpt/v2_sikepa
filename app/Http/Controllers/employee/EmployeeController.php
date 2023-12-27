@@ -17,8 +17,9 @@ class EmployeeController extends Controller
 {
   public function index()
   {
+    $title = 'Data Profil Hakim dan Pegawai';
     $data = Employee::orderBy('department_id','asc')->get();
-    UserLogAccess();
+    UserLogAccess('lihat halaman'.' '.$title);
 
     return view('content.employee.index', [
       'data' => $data,
@@ -27,17 +28,22 @@ class EmployeeController extends Controller
 
   public function profile()
   {
+    UserLogAccess();
+
     return view('content.profile.profile');
   }
 
   public function detail($nip)
   {
+    $title = 'Profil Hakim dan Pegawai';
+
     $user = Auth::user();
     $golongan = Golongan::get();
     $position = Department::get();
     $emp = Employee::where('nip', $nip)->first();
     // Inisialisasi variabel $isAdmin dengan nilai default false
     $isAdmin = false;
+    UserLogAccess('lihat halaman detail '. $title.' '.'(NIP: '.$nip.')');
 
     // Memeriksa apakah pengguna adalah admin
     if ($user && ($user->role === 'admin' || $user->role === 'kepegawaian') ) {
@@ -69,9 +75,11 @@ class EmployeeController extends Controller
   public function create()
   {
 
+    $title = 'Tambah Hakim dan Pegawai';
     $golongan = Golongan::get();
     $jabatan = Department::get();
     $atasan = Atasan::get();
+    UserLogAccess('lihat halaman '.$title);
 
     return view('content.employee.create', [
       'golongan' => $golongan,
@@ -82,6 +90,7 @@ class EmployeeController extends Controller
 
   public function updateCell(Request $request)
   {
+    $title = 'Update Tabel Cuti';
       //   $request->validate([
       //     'tahun' => 'required|numeric',
       //     'newValue' => 'required|numeric',
@@ -100,12 +109,15 @@ class EmployeeController extends Controller
           $leave->update(['jumlah_cuti' => $newValue]);
       }
 
+      UserLogAccess('melakukan '.$title.' '.'(Nip: '.$leave->employee->nip.')');
+
       return response()->json(['success' => true]);
   }
 
   public function addPegawai(Request $request)
   {
     // Validasi data dari form
+    $title = 'Profil Hakim dan Pegawai';
     $request->validate([
       'nama' => 'required',
       'nip' => 'required',
@@ -148,6 +160,8 @@ class EmployeeController extends Controller
     $pegawai->golongan_id = $request->golongan;
     $pegawai->user_id = $user->id;
     $pegawai->save();
+
+    UserLogAccess('menambahkan '.$title.' '.'(Nip: '.$request->nip.')');
     // dd($pegawai);
 
     // Redirect atau berikan respons sesuai kebutuhan
@@ -156,6 +170,7 @@ class EmployeeController extends Controller
 
   public function editpegawai(Request $request, $nip)
   {
+    $title = 'Update Profil Hakim dan Pegawai';
     $request->validate([
       'nama' => 'required',
       'nip' => 'required',
@@ -177,6 +192,8 @@ class EmployeeController extends Controller
     $pegawai->alamat = $request->alamat;
     $pegawai->tanggal_lahir = $request->tanggal_lahir;
     $pegawai->update();
+
+    UserLogAccess('melakukan '.$title.' '.'(Nip: '.$nip.')');
 
     return redirect()->route('profil-pegawai-detail', [
       'nip' => $nip,
