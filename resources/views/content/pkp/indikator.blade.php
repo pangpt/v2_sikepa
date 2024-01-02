@@ -34,11 +34,11 @@
           <tbody>
             <tr>
               <td>1</td>
-              <td><a href="">Albert Einstein</a></td>
-              <td><a href="">Pablo Escobar, S.H.</a></td>
-              <td>2023</td>
+              <td>Surat usulan kenaikan gaji berkala (KGB) hakim dan/atau pegawai<br><span style="color:red">Alasan ditolak: salah</span></td>
+              <td>Data Elektronik</td>
+              <td>Panggih Tridarma, S.Kom.<br>199609022020121004</td>
+              <td><span class="badge bg-danger">DITOLAK</span></td>
               <td>8 Agustus 2023</td>
-              <td><span class="badge bg-success">PKP_DITERIMA</span></td>
             </tr>
             <!-- Tambahkan baris data pegawai dan hakim lainnya di sini -->
           </tbody>
@@ -66,12 +66,14 @@
         </div>
         <div class="row">
           <div class="col mb-3">
-            {{-- <label for="nameBasic" class="form-label">Pilih Pejabat Langsung</label> --}}
+            <label for="nameBasic" class="form-label">Hasil</label>
             <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example">
-              <option selected>Pilih Pejabat Langsung</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+              <option selected>Pilih</option>
+              <option value="1">Artikel</option>
+              <option value="2">Data Amar</option>
+              <option value="3">Dokumen</option>
+              <option value="3">BAS</option>
+              <option value="3">Data perkara</option>
             </select>
           </div>
         </div>

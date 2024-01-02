@@ -13,12 +13,12 @@
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal">
           <span class="tf-icons bx bx-plus"></span>&nbsp; Buat PKP
         </button>
-        <button type="button" class="btn btn-primary">
-          <span class="tf-icons bx bx-check-square"></span>&nbsp; Pengajuan Indikator PKP
-        </button>
-        <a href="{{route('pengajuan-indikator-pck')}}" type="button" class="btn btn-primary">
-          <span class="tf-icons bx bx-plus"></span>&nbsp; Pengajuan Indikator PCK
+        <a href="{{route('pengajuan-indikator-pkp')}}" type="button" class="btn btn-primary">
+          <span class="tf-icons bx bx-plus"></span>&nbsp; Pengajuan Indikator PKP
         </a>
+        {{-- <a href="{{route('pengajuan-indikator-pck')}}" type="button" class="btn btn-primary">
+          <span class="tf-icons bx bx-plus"></span>&nbsp; Pengajuan Indikator PCK
+        </a> --}}
         <small class="text-muted float-end">Total: 1 PKP</small>
       </div>
       <div class="card-body">

@@ -122,7 +122,8 @@ Route::post('/change-user-role', $controller_path . '\layouts\HomeController@cha
 
 Route::get('/layanan-pkp', $controller_path . '\pkp\KinerjaController@index')->name('layanan-pkp');
 Route::get('/layanan-pkp/pengajuan-indikator-pck', $controller_path . '\pkp\KinerjaController@indexIndikator')->name('pengajuan-indikator-pck');
-
+Route::get('/layanan-pkp/pengajuan-indikator-pkp', $controller_path . '\pkp\KinerjaController@indexIndikatorPKP')->name('pengajuan-indikator-pkp');
+Route::post('/layanan-pkp/tambah-indikator-pkp', $controller_path . '\pkp\KinerjaController@tambahIndikatorPKP')->name('tambah-indikator-pkp');
 
 Route::get('/form/layouts-horizontal', $controller_path . '\form_layouts\HorizontalForm@index')->name('form-layouts-horizontal');
 
