@@ -86,10 +86,25 @@ class KinerjaController extends Controller
         }
     }
 
+  
   public function indexIndikator()
   {
 
     return view('content.pkp.indikator');
+  }
+
+  public function tambahIndikatorPCK(Request $request)
+  {
+    $user = Auth::user()->employee->id;
+
+    $datapck = new Indikator_pck;
+    $datapck->butir_kegiatan = $request->butir_kegiatan;
+    $datapck->employee_id = $user;
+    $datapck->hasil = $request->hasil;
+    $datapck->status = 0;
+    $datapck->save();
+
+    return redirect()->back()->with('success', 'Sasaran kegiatan dan indikator PKP berhasil ditambahkan.');
   }
 
   public function tambah()

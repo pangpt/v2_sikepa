@@ -125,6 +125,7 @@ Route::post('/layanan-pkp/buat-pkp', $controller_path . '\pkp\KinerjaController@
 Route::get('/layanan-pkp/pengajuan-indikator-pck', $controller_path . '\pkp\KinerjaController@indexIndikator')->name('pengajuan-indikator-pck');
 Route::get('/layanan-pkp/pengajuan-indikator-pkp', $controller_path . '\pkp\KinerjaController@indexIndikatorPKP')->name('pengajuan-indikator-pkp');
 Route::post('/layanan-pkp/tambah-indikator-pkp', $controller_path . '\pkp\KinerjaController@tambahIndikatorPKP')->name('tambah-indikator-pkp');
+Route::post('/layanan-pkp/tambah-indikator-pck', $controller_path . '\pkp\KinerjaController@tambahIndikatorPCK')->name('tambah-indikator-pck');
 
 Route::get('/form/layouts-horizontal', $controller_path . '\form_layouts\HorizontalForm@index')->name('form-layouts-horizontal');
 

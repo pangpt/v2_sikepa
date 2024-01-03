@@ -16,9 +16,9 @@
         <a href="{{route('pengajuan-indikator-pkp')}}" type="button" class="btn btn-primary">
           <span class="tf-icons bx bx-plus"></span>&nbsp; Pengajuan Indikator PKP
         </a>
-        {{-- <a href="{{route('pengajuan-indikator-pck')}}" type="button" class="btn btn-primary">
+        <a href="{{route('pengajuan-indikator-pck')}}" type="button" class="btn btn-primary">
           <span class="tf-icons bx bx-plus"></span>&nbsp; Pengajuan Indikator PCK
-        </a> --}}
+        </a>
         <small class="text-muted float-end">Total: 1 PKP</small>
       </div>
       <div class="card-body">
