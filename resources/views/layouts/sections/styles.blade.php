@@ -18,8 +18,16 @@
 
 <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css' />
 
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+<!-- Tambahkan di dalam tag <head> pada file HTML/Blade Anda -->
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/intro.js/minified/introjs.min.css">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/intro.js/minified/intro.min.js"></script>
+{{-- <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script> --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+
+{{-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" /> --}}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+
 
 
 

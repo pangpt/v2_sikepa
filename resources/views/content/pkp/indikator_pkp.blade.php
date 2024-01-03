@@ -35,11 +35,25 @@
             @foreach($data as $key)
             <tr>
               <td>1</td>
-              <td>{{$key->sasaran_kegiatan->sasaran_kegiatan_text}}<br><span style="color:red">Alasan ditolak: salah</span></td>
+              <td>{{$key->sasaran_kegiatan->sasaran_kegiatan_text}}
+                @if($key->status == 2)
+                  <br><span style="color:red">Alasan ditolak: salah</span>
+                @else
+
+                @endif
+              </td>
               <td>{{$key->indikator}}</td>
               <td>{{$key->employee->nama}}<br>{{$key->employee->nip}}</td>
-              <td><span class="badge bg-danger">DITOLAK</span></td>
-              <td>{{$key->created_at}}</td>
+              <td>
+                @if($key->status == 2)
+                <span class="badge bg-danger">DITOLAK</span>
+                @elseif($key->status == 1)
+                <span class="badge bg-success">DISETUJUI</span>
+                @else
+                <span class="badge bg-info">MENUNGGU PERSETUJUAN</span>
+                @endif
+              </td>
+              <td>{{ \Carbon\Carbon::parse($key->created_at)->locale('id')->isoFormat('D MMMM Y') }}</td>
             </tr>
             @endforeach
             <!-- Tambahkan baris data pegawai dan hakim lainnya di sini -->
@@ -81,7 +95,7 @@
                 <input class="form-control" type="text" name="indikator" id="indikatorKegiatan"/>
             </div>
             </div>
-        
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>

@@ -121,6 +121,7 @@ Route::get('\izin-cuti\generate-cuti\{id}', $controller_path . '\izin_cuti\CutiC
 Route::post('/change-user-role', $controller_path . '\layouts\HomeController@changeUserRole')->name('change-user-role');
 
 Route::get('/layanan-pkp', $controller_path . '\pkp\KinerjaController@index')->name('layanan-pkp');
+Route::post('/layanan-pkp/buat-pkp', $controller_path . '\pkp\KinerjaController@buatPKP')->name('buat-pkp');
 Route::get('/layanan-pkp/pengajuan-indikator-pck', $controller_path . '\pkp\KinerjaController@indexIndikator')->name('pengajuan-indikator-pck');
 Route::get('/layanan-pkp/pengajuan-indikator-pkp', $controller_path . '\pkp\KinerjaController@indexIndikatorPKP')->name('pengajuan-indikator-pkp');
 Route::post('/layanan-pkp/tambah-indikator-pkp', $controller_path . '\pkp\KinerjaController@tambahIndikatorPKP')->name('tambah-indikator-pkp');

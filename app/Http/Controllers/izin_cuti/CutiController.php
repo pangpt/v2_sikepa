@@ -33,6 +33,7 @@ class CutiController extends Controller
 
     $leave_cek = Leave_employee::where('employee_id', Auth()->user()->id)->first();
     // dd($leave_cek);
+    // dd($leave_cek);
 
     // if($user == 'pegawai') {
     //   $data = Leave::where('employee_id', Auth::user()->employee->id)->orderBy('created_at', 'desc')->get();

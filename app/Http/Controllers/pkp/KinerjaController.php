@@ -6,16 +6,29 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Leave;
 use App\Models\Employee;
+use App\Models\Department;
 use App\Models\Sasaran_kegiatan;
 use App\Models\Indikator_pkp;
+use App\Models\Atasan;
 use DB;
 use Auth;
 class KinerjaController extends Controller
 {
   public function index()
   {
+    $employeesAtasan = Employee::join('departments', 'employees.department_id', '=', 'departments.id')
+    ->where('departments.is_atasan', 1)
+    ->get(['employees.*', 'departments.nama_jabatan as nama_jabatan']); // Tambahkan kolom apa pun yang Anda perlukan dari department
+    // dd($employeesAtasan);
 
-    return view('content.pkp.index');
+    return view('content.pkp.index', [
+      'atasan' => $employeesAtasan,
+    ]);
+  }
+
+  public function buatPKP(Request $request)
+  {
+
   }
 
   public function indexIndikatorPKP()

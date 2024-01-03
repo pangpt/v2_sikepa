@@ -32,6 +32,7 @@
               <th>Periode Tahun</th>
               <th>Tanggal Usulan</th>
               <th>Status</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -42,6 +43,23 @@
               <td>2023</td>
               <td>8 Agustus 2023</td>
               <td><span class="badge bg-success">PKP_DITERIMA</span></td>
+              <td>
+                <div class="dropdown">
+                  <button
+                    class="btn p-0"
+                    type="button"
+                    id="orederStatistics"
+                    data-bs-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <i class="bx bx-dots-vertical-rounded"></i>
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="orederStatistics">
+                    <a class="dropdown-item" href="javascript:void(0);">Download PKP</a>
+                  </div>
+                </div>
+              </td>
             </tr>
             <!-- Tambahkan baris data pegawai dan hakim lainnya di sini -->
           </tbody>
@@ -75,12 +93,23 @@
         </div>
         <div class="row">
           <div class="col mb-3">
-            {{-- <label for="nameBasic" class="form-label">Pilih Pejabat Langsung</label> --}}
-            <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example">
-              <option selected>Pilih Pejabat Langsung</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+            <label for="nameBasic" class="form-label">Pejabat Penilai Kinerja</label>
+            <select class="form-select" id="searchable-dropdown">
+              <option value=""></option>
+              @foreach($atasan as $key)
+                <option value="{{$key->id}}">{{$key->nip}} - {{$key->nama}}</option>
+              @endforeach
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col mb-3">
+            <label for="nameBasic" class="form-label">Atasan Pejabat Penilai</label>
+            <select class="form-select" id="searchable-dropdown2">
+              <option value=""></option>
+              @foreach($atasan as $key)
+                <option value="{{$key->id}}">{{$key->nip}} - {{$key->nama}}</option>
+              @endforeach
             </select>
           </div>
         </div>
@@ -97,6 +126,8 @@
 @section('page-script')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+  {{-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script> --}}
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
   <script>
     $(document).ready(function() {
       $('#pegawaiTable').DataTable({
@@ -106,5 +137,22 @@
         }
       });
     });
+
+    $(document).ready(function() {
+    // Inisialisasi Select2 ketika modal terbuka
+    $('#basicModal').on('shown.bs.modal', function () {
+        $('#searchable-dropdown').select2({
+            placeholder: "Pilih Pejabat Penilai Kerja",
+            allowClear: true,
+            dropdownParent: $("#basicModal") // Ini memastikan dropdown ditampilkan di atas modal
+        });
+        $('#searchable-dropdown2').select2({
+            placeholder: "Pilih Atasan Pejabat Penilai",
+            allowClear: true,
+            dropdownParent: $("#basicModal") // Ini memastikan dropdown ditampilkan di atas modal
+        });
+    });
+});
   </script>
+
 @endsection

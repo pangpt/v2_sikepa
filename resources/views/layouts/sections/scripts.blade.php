@@ -5,6 +5,7 @@
 <script src="{{ asset(mix('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js')) }}"></script>
 <script src="{{ asset(mix('assets/vendor/js/menu.js')) }}"></script>
 
+
 @yield('vendor-script')
 <!-- END: Page Vendor JS-->
 <!-- BEGIN: Theme JS-->
@@ -50,11 +51,10 @@
 
 
 
+
+
 </script>
 @yield('js-after')
-
-@stack('after-scripts')
-
 
 <!-- END: Theme JS-->
 <!-- Pricing Modal JS-->
