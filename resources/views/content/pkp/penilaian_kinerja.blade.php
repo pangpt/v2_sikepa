@@ -61,7 +61,7 @@
         <h4>PERJANJIAN KERJA INDIVIDU</h4>
       </div>
       <div class="card-body">
-        <table class="table table-bordered">
+        <table class="table table-bordered" id="tabelPKP">
           <thead>
             <tr>
                 <th class="text-nowrap">NO</th>
@@ -101,13 +101,15 @@
             <td>
               <input class="form-control" type="text" name="indikator" id="indikatorKegiatan"/>
             </td>
-            <td></td>
+            <td>
+              <button class="btn btn-danger hapusBaris"><i class="bx bx-trash"></i></button>
+            </td>
             </tr>
             <tr>
               <td colspan="6">
-                <a href="" type="button" class="btn btn-secondary col-xl-12">
+                <button class="btn btn-secondary col-xl-12" id="tambahBaris">
                 <span class="tf-icons bx bx-plus"></span>&nbsp; Tambah
-              </a>
+                </button>
               </td>
             </tr>
         </tbody>
@@ -133,5 +135,62 @@
         }
       });
     });
+
+    $(document).ready(function() {
+    $("#tambahBaris").click(function() {
+        var nomorBaru = $("#tabelPKP tbody tr").length; // Menghitung jumlah baris untuk nomor urut
+        var barisBaru = `<tr>
+                <td>` + nomorBaru + `</td>
+                <td>
+                    <select class="form-select" name="sasaran_kegiatan_id[]">
+                        <option>Pilih</option>
+                        @foreach($sasaran_kegiatan as $key)
+                            <option value="{{ $key->id }}">{{ $key->sasaran_kegiatan_text }}</option>
+                        @endforeach
+                        <option value="lainnya">Lainnya</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="form-select" name="kategori[]">
+                        <option value="">Dokumen</option>
+                        <option value="">Laporan</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="form-select" name="indikator_id[]">
+                        <option>Pilih</option>
+                        @foreach($indikator as $key)
+                            <option value="{{ $key->id }}">{{ $key->indikator }}</option>
+                        @endforeach
+                    </select>
+                </td>
+                <td>
+                    <input class="form-control" type="text" name="indikator[]"/>
+                </td>
+                <td>
+                    <button class="btn btn-danger hapusBaris"><i class="bx bx-trash"></i></button>
+                </td>
+            </tr>`;
+
+        // Tambahkan baris baru ke akhir tabel
+        // Menambahkan baris baru sebelum baris tombol tambah
+        $(barisBaru).insertBefore("#tabelPKP tbody tr:last");
+        updateRowNumbers();
+        // $("#tabelPKP tbody").append(barisBaru);
+    });
+
+    // Fungsi untuk menghapus baris
+    $(document).on('click', '.hapusBaris', function() {
+        $(this).closest('tr').remove();
+        updateRowNumbers();
+    });
+
+    // Fungsi untuk memperbarui nomor baris
+    function updateRowNumbers() {
+        $("#tabelPKP tbody tr:not(:last)").each(function(index) {
+            $(this).find("td:first").text(index + 1);
+        });
+    }
+});
   </script>
 @endsection
