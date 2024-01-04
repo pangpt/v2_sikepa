@@ -9,7 +9,9 @@ use App\Models\Employee;
 use App\Models\Department;
 use App\Models\Sasaran_kegiatan;
 use App\Models\Indikator_pkp;
+use App\Models\Indikator_pck;
 use App\Models\Atasan;
+use App\Models\Penilaian_kinerja;
 use DB;
 use Auth;
 class KinerjaController extends Controller
@@ -86,11 +88,19 @@ class KinerjaController extends Controller
         }
     }
 
-  
-  public function indexIndikator()
-  {
 
-    return view('content.pkp.indikator');
+  public function indexIndikatorPCK()
+  {
+    $hasil = [
+      'Artikel', 'Data Amar', 'Data Elektronik', 'Perkara Putusan', 'BAS', 'Data perkara'
+    ];
+
+    $data = Indikator_pck::get();
+
+    return view('content.pkp.indikator_pck',[
+      'hasil' => $hasil,
+      'data' => $data,
+    ]);
   }
 
   public function tambahIndikatorPCK(Request $request)
@@ -107,9 +117,29 @@ class KinerjaController extends Controller
     return redirect()->back()->with('success', 'Sasaran kegiatan dan indikator PKP berhasil ditambahkan.');
   }
 
-  public function tambah()
+  public function tambahPKP(Request $request)
   {
-    return view('content.izin-cuti.pengajuan');
+    $penilaian_kinerja = new Penilaian_kinerja;
+    $penilaian_kinerja->periode_awal = $request->periode_awal;
+    $penilaian_kinerja->periode_akhir = $request->periode_akhir;
+    $penilaian_kinerja->satuan = 0;
+    $penilaian_kinerja->target_kuantitas = 0;
+    $penilaian_kinerja->indikator_pkp_id = 0;
+    $penilaian_kinerja->employee_id = Auth::user()->employee->id;
+    $penilaian_kinerja->save();
+
+    return redirect()->route('penilaian-kinerja');
+  }
+
+  public function penilaian_kinerja(Request $reques)
+  {
+    $sasaran_kegiatan = Sasaran_kegiatan::get();
+    $indikator = Indikator_pkp::get();
+
+    return view('content.pkp.penilaian_kinerja', [
+      'sasaran_kegiatan' => $sasaran_kegiatan,
+      'indikator' => $indikator
+    ]);
   }
 
   public function penangguhan()

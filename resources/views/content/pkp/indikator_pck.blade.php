@@ -32,14 +32,29 @@
             </tr>
           </thead>
           <tbody>
+            @foreach($data as $key)
             <tr>
               <td>1</td>
-              <td>Surat usulan kenaikan gaji berkala (KGB) hakim dan/atau pegawai<br><span style="color:red">Alasan ditolak: salah</span></td>
-              <td>Data Elektronik</td>
-              <td>Panggih Tridarma, S.Kom.<br>199609022020121004</td>
-              <td><span class="badge bg-danger">DITOLAK</span></td>
-              <td>8 Agustus 2023</td>
+              <td>{{$key->butir_kegiatan}}
+                @if($key->status == 2)
+                <br><span style="color:red">Alasan ditolak: salah</span>
+                @else
+                @endif
+              </td>
+              <td>{{$key->hasil}}</td>
+              <td>{{$key->employee->nama}}<br>{{$key->employee->nip}}</td>
+              <td>
+                @if($key->status == 2)
+                <span class="badge bg-danger">DITOLAK</span>
+                @elseif($key->status == 1)
+                <span class="badge bg-success">DISETUJUI</span>
+                @else
+                <span class="badge bg-info">MENUNGGU PERSETUJUAN</span>
+                @endif
+              </td>
+              <td>{{ \Carbon\Carbon::parse($key->created_at)->locale('id')->isoFormat('D MMMM Y') }}</td>
             </tr>
+            @endforeach
             <!-- Tambahkan baris data pegawai dan hakim lainnya di sini -->
           </tbody>
         </table>
@@ -53,6 +68,8 @@
 <div class="modal fade" id="indikatorModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
+      <form action="{{route('tambah-indikator-pck')}}" method="POST" id="tambah_indikator_pck">
+        @csrf
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel1">Tambah Indikator Baru</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -61,27 +78,26 @@
         <div class="row">
           <div class="col mb-3">
             <label for="nameBasic" class="form-label">Butir Kegiatan</label>
-            <input class="form-control" type="text"/>
+            <input class="form-control" type="text" name="butir_kegiatan" id="butirKegiatan"/>
           </div>
         </div>
         <div class="row">
           <div class="col mb-3">
             <label for="nameBasic" class="form-label">Hasil</label>
-            <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example">
-              <option selected>Pilih</option>
-              <option value="1">Artikel</option>
-              <option value="2">Data Amar</option>
-              <option value="3">Dokumen</option>
-              <option value="3">BAS</option>
-              <option value="3">Data perkara</option>
+            <select class="form-select" id="satuanHasil" aria-label="Default select example" name="hasil">
+              <option value="">Pilih</option>
+              @foreach($hasil as $key)
+              <option value="{{$key}}">{{$key}}</option>
+              @endforeach
             </select>
           </div>
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
-        <button type="button" class="btn btn-primary">Ajukan</button>
+        <button type="button" class="btn btn-primary" onclick="konfirmasiInput()">Ajukan</button>
       </div>
+    </form>
     </div>
   </div>
 </div>
@@ -99,5 +115,28 @@
         }
       });
     });
+
+    function konfirmasiInput() {
+  swal({
+    title: 'Konfirmasi',
+    text: 'Data sudah benar?',
+    type: 'warning', // SweetAlert 1.x menggunakan 'type' bukan 'icon'
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6', // Anda bisa mengatur warna tombol jika diinginkan
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Ya',
+    cancelButtonText: 'Tidak',
+    closeOnConfirm: false, // Penting untuk diatur agar modal tidak langsung tertutup
+    closeOnCancel: false
+  }, function(isConfirm) {
+    if (isConfirm) {
+      // Pengguna mengklik 'Ya', submit form
+      document.getElementById('tambah_indikator_pck').submit();
+    } else {
+      // Pengguna mengklik 'Tidak', hanya tutup modal
+      swal('Dibatalkan', 'Data tidak jadi disimpan :)', 'error');
+    }
+  });
+}
   </script>
 @endsection

@@ -122,10 +122,12 @@ Route::post('/change-user-role', $controller_path . '\layouts\HomeController@cha
 
 Route::get('/layanan-pkp', $controller_path . '\pkp\KinerjaController@index')->name('layanan-pkp');
 Route::post('/layanan-pkp/buat-pkp', $controller_path . '\pkp\KinerjaController@buatPKP')->name('buat-pkp');
-Route::get('/layanan-pkp/pengajuan-indikator-pck', $controller_path . '\pkp\KinerjaController@indexIndikator')->name('pengajuan-indikator-pck');
+Route::get('/layanan-pkp/pengajuan-indikator-pck', $controller_path . '\pkp\KinerjaController@indexIndikatorPCK')->name('pengajuan-indikator-pck');
 Route::get('/layanan-pkp/pengajuan-indikator-pkp', $controller_path . '\pkp\KinerjaController@indexIndikatorPKP')->name('pengajuan-indikator-pkp');
 Route::post('/layanan-pkp/tambah-indikator-pkp', $controller_path . '\pkp\KinerjaController@tambahIndikatorPKP')->name('tambah-indikator-pkp');
 Route::post('/layanan-pkp/tambah-indikator-pck', $controller_path . '\pkp\KinerjaController@tambahIndikatorPCK')->name('tambah-indikator-pck');
+Route::post('/layanan-pkp/tambah-pkp', $controller_path . '\pkp\KinerjaController@tambahPKP')->name('tambah-pkp');
+Route::get('/layanan-pkp/penilaian-kinerja', $controller_path . '\pkp\KinerjaController@penilaian_kinerja')->name('penilaian-kinerja');
 
 Route::get('/form/layouts-horizontal', $controller_path . '\form_layouts\HorizontalForm@index')->name('form-layouts-horizontal');
 
