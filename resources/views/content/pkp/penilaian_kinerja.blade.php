@@ -10,7 +10,7 @@
   <div class="col-xl-12">
     <div class="card mb-4">
       <div class="card-header justify-content-between align-items-center">
-        <h4>FORM PKP PERIODE 01 JANUARI 2024 S/D 31 MARET 2024</h4>
+        <h4>FORM PKP PERIODE {{ \Carbon\Carbon::parse($pkp->periode_mulai)->locale('id')->isoFormat('D MMMM Y') }} S/D {{ \Carbon\Carbon::parse($pkp->periode_selesai)->locale('id')->isoFormat('D MMMM Y') }}</h4>
       </div>
       <div class="card-body">
         <table id="pegawaiTable" class="display">
@@ -20,34 +20,34 @@
           </tr>
           <tr>
             <td>NAMA</td>
-            <td>Mohammad Zaeni Yusuf, A.Md.</td>
+            <td>{{$pkp->employee->nama}}</td>
             <td>NAMA</td>
-            <td>Andhika Rahman, SH., MH.</td>
+            <td>{{$atasan->pejabatPenilai->nama}}</td>
           </tr>
           <tr>
             <td>NIP</td>
-            <td>199409182021012012</td>
+            <td>{{$pkp->employee->nip}}</td>
             <td>NIP</td>
-            <td>198603162006041003</td>
+            <td>{{$atasan->pejabatPenilai->nip}}</td>
           </tr>
           <tr>
             <td>PANGKAT / GOL.</td>
-            <td>Pengatur - III/c</td>
+            <td>{{$pkp->employee->golongan->pangkat}} - {{$pkp->employee->golongan->jenis_golongan}}</td>
             <td>PANGKAT / GOL.</td>
-            <td>Penata Tingkat I - III/d</td>
+            <td>{{$atasan->pejabatPenilai->golongan->pangkat}} - {{$atasan->pejabatPenilai->golongan->jenis_golongan}}</td>
           </tr>
           <tr>
             <td>JABATAN</td>
-            <td>Pengelola Sistem dan Jaringan</td>
+            <td>{{$atasan->employee->department->nama_jabatan}}</td>
             <td>JABATAN</td>
-            <td>Kepala Subbagian Kepegawaian</td>
+            <td>{{$atasan->pejabatPenilai->department->nama_jabatan}}</td>
           </tr>
-          <tr>
+          {{-- <tr>
             <td>PENEMPATAN</td>
             <td>Subbagian Kepegawaian</td>
             <td>PENEMPATAN</td>
             <td>Subbagian Kepegawaian</td>
-          </tr>
+          </tr> --}}
         </table>
       </div>
     </div>

@@ -36,12 +36,13 @@
             </tr>
           </thead>
           <tbody>
+            @foreach($datas as $key)
             <tr>
-              <td>1</td>
-              <td><a href="">Panggih Tridarma</a></td>
-              <td><a href="">Ahmad Amiruddin</a></td>
-              <td>2023</td>
-              <td>8 Agustus 2023</td>
+              <td>{{$loop->iteration}}</td>
+              <td><a href="">{{$key->employee->nama}}</a></td>
+              <td><a href="">{{$key->pejabatPenilai->nama}}</a></td>
+              <td>{{ \Carbon\Carbon::parse($key->periode_mulai)->locale('id')->isoFormat('Y') }}</td>
+              <td>{{ \Carbon\Carbon::parse($key->created_at)->locale('id')->isoFormat('D MMMM Y') }}</td>
               <td><span class="badge bg-success">PKP_DITERIMA</span></td>
               <td>
                 <div class="dropdown">
@@ -61,6 +62,7 @@
                 </div>
               </td>
             </tr>
+            @endforeach
             <!-- Tambahkan baris data pegawai dan hakim lainnya di sini -->
           </tbody>
         </table>
@@ -74,7 +76,9 @@
 <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
+      <form action="{{route('tambah-pkp')}}" method="POST" id="tambah-pkp">
+        @csrf
+        <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel1">Buat PKP</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
@@ -82,22 +86,22 @@
         <div class="row">
           <div class="col mb-3">
             <label for="nameBasic" class="form-label">Periode Mulai</label>
-            <input class="form-control" type="date" id="html5-date-input" />
+            <input class="form-control" type="date" id="html5-date-input" name="periode_mulai"/>
           </div>
         </div>
         <div class="row">
           <div class="col mb-3">
             <label for="nameBasic" class="form-label">Periode Selesai</label>
-            <input class="form-control" type="date" id="html5-date-input" />
+            <input class="form-control" type="date" id="html5-date-input" name="periode_selesai" />
           </div>
         </div>
         <div class="row">
           <div class="col mb-3">
             <label for="nameBasic" class="form-label">Pejabat Penilai Kinerja</label>
-            <select class="form-select" id="searchable-dropdown">
+            <select class="form-select" id="searchable-dropdown" name="pejabat_penilai">
               <option value=""></option>
               @foreach($atasan as $key)
-                <option value="{{$key->id}}">{{$key->nip}} - {{$key->nama}}</option>
+                <option value="{{$key->nip}}">{{$key->nip}} - {{$key->nama}}</option>
               @endforeach
             </select>
           </div>
@@ -105,10 +109,10 @@
         <div class="row">
           <div class="col mb-3">
             <label for="nameBasic" class="form-label">Atasan Pejabat Penilai</label>
-            <select class="form-select" id="searchable-dropdown2">
+            <select class="form-select" id="searchable-dropdown2" name="atasan_pejabat_penilai">
               <option value=""></option>
               @foreach($atasan as $key)
-                <option value="{{$key->id}}">{{$key->nip}} - {{$key->nama}}</option>
+                <option value="{{$key->nip}}">{{$key->nip}} - {{$key->nama}}</option>
               @endforeach
             </select>
           </div>
@@ -116,8 +120,10 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
-        <button type="button" class="btn btn-primary">Proses</button>
+        <button type="button" class="btn btn-primary" onclick="konfirmasiInput()">Proses</button>
       </div>
+      </form>
+      
     </div>
   </div>
 </div>
@@ -153,6 +159,29 @@
         });
     });
 });
+
+function konfirmasiInput() {
+  swal({
+    title: 'Konfirmasi',
+    text: 'Data sudah benar?',
+    type: 'warning', // SweetAlert 1.x menggunakan 'type' bukan 'icon'
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6', // Anda bisa mengatur warna tombol jika diinginkan
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Ya',
+    cancelButtonText: 'Tidak',
+    closeOnConfirm: false, // Penting untuk diatur agar modal tidak langsung tertutup
+    closeOnCancel: false
+  }, function(isConfirm) {
+    if (isConfirm) {
+      // Pengguna mengklik 'Ya', submit form
+      document.getElementById('tambah-pkp').submit();
+    } else {
+      // Pengguna mengklik 'Tidak', hanya tutup modal
+      swal('Dibatalkan', 'Data tidak jadi disimpan :)', 'error');
+    }
+  });
+}
   </script>
 
 @endsection

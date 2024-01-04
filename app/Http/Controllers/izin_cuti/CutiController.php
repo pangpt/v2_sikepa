@@ -116,7 +116,9 @@ class CutiController extends Controller
     $pegawaidetail = Employee::where('user_id', auth()->user()->id)->first();
     // dd($pegawaidetail->atasan->nama);
     $leave_employee = Leave_employee::where('employee_id', $pegawaidetail->id)->get();
-    $pimpinan = Atasan::where('department_id', '1')->first();
+    $pimpinan = Employee::join('departments', 'employees.department_id', '=', 'departments.id')
+    ->where('departments.nama_jabatan', 'Ketua')
+    ->first(['employees.*', 'departments.nama_jabatan as nama_jabatan']);
     $parent = $pegawaidetail->department->parent_id;
     $atasan = Employee::where('department_id', $parent)->first();
 

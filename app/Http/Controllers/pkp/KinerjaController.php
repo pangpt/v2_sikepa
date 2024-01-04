@@ -22,9 +22,11 @@ class KinerjaController extends Controller
     ->where('departments.is_atasan', 1)
     ->get(['employees.*', 'departments.nama_jabatan as nama_jabatan']); // Tambahkan kolom apa pun yang Anda perlukan dari department
     // dd($employeesAtasan);
+    $datas = Penilaian_kinerja::where('employee_id', Auth::user()->employee->id)->get();
 
     return view('content.pkp.index', [
       'atasan' => $employeesAtasan,
+      'datas' => $datas
     ]);
   }
 
@@ -120,25 +122,35 @@ class KinerjaController extends Controller
   public function tambahPKP(Request $request)
   {
     $penilaian_kinerja = new Penilaian_kinerja;
-    $penilaian_kinerja->periode_awal = $request->periode_awal;
-    $penilaian_kinerja->periode_akhir = $request->periode_akhir;
+    $penilaian_kinerja->periode_mulai = $request->periode_mulai;
+    $penilaian_kinerja->periode_selesai  = $request->periode_selesai ;
     $penilaian_kinerja->satuan = 0;
     $penilaian_kinerja->target_kuantitas = 0;
     $penilaian_kinerja->indikator_pkp_id = 0;
+    $penilaian_kinerja->pejabat_penilai = $request->pejabat_penilai;
+    $penilaian_kinerja->atasan_pejabat_penilai = $request->atasan_pejabat_penilai;
     $penilaian_kinerja->employee_id = Auth::user()->employee->id;
     $penilaian_kinerja->save();
 
-    return redirect()->route('penilaian-kinerja');
+    $pkpId = $penilaian_kinerja->id;
+
+    return redirect()->route('penilaian-kinerja', $pkpId);
   }
 
-  public function penilaian_kinerja(Request $reques)
+  public function penilaian_kinerja($id, Request $request)
   {
+    $pkp = Penilaian_kinerja::where('id', $id)->first();
+    // dd($pkp->employee);
     $sasaran_kegiatan = Sasaran_kegiatan::get();
     $indikator = Indikator_pkp::get();
+    
+    $atasan = Penilaian_kinerja::with('pejabatPenilai')->find($pkp->id);
 
     return view('content.pkp.penilaian_kinerja', [
       'sasaran_kegiatan' => $sasaran_kegiatan,
-      'indikator' => $indikator
+      'indikator' => $indikator,
+      'pkp' => $pkp,
+      'atasan' => $atasan,
     ]);
   }
 

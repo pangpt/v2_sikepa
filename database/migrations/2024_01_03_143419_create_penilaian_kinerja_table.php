@@ -21,6 +21,8 @@ return new class extends Migration
             $table->integer('target_kuantitas');
             $table->date('periode_mulai');
             $table->date('periode_selesai');
+            $table->string('pejabat_penilai');
+            $table->string('atasan_pejabat_penilai');
             $table->timestamps();
         });
     }

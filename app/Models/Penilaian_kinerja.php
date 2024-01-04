@@ -40,6 +40,12 @@ class Penilaian_kinerja extends Model
       return $this->belongsTo('App\Models\Employee', 'employee_id', 'id');
      }
 
+     // Relasi ke model Employee untuk pejabat penilai
+    public function pejabatPenilai()
+    {
+        return $this->belongsTo(Employee::class, 'pejabat_penilai', 'nip');
+    }
+
      public function indikator_pkp()
      {
       return $this->belongsTo('App\Models\Indikator_pkp', 'indikator_pkp_id', 'id');
