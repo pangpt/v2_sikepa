@@ -39,8 +39,8 @@
             @foreach($datas as $key)
             <tr>
               <td>{{$loop->iteration}}</td>
-              <td><a href="">{{$key->employee->nama}}</a></td>
-              <td><a href="">{{$key->pejabatPenilai->nama}}</a></td>
+              <td><a href="{{route('penilaian-kinerja', ['id' => $key->id])}}">{{$key->employee->nama}}</a></td>
+              <td>{{$key->pejabatPenilai->nama}}</td>
               <td>{{ \Carbon\Carbon::parse($key->periode_mulai)->locale('id')->isoFormat('Y') }}</td>
               <td>{{ \Carbon\Carbon::parse($key->created_at)->locale('id')->isoFormat('D MMMM Y') }}</td>
               <td><span class="badge bg-success">PKP_DITERIMA</span></td>
@@ -123,7 +123,7 @@
         <button type="button" class="btn btn-primary" onclick="konfirmasiInput()">Proses</button>
       </div>
       </form>
-      
+
     </div>
   </div>
 </div>

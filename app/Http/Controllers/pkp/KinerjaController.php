@@ -12,6 +12,7 @@ use App\Models\Indikator_pkp;
 use App\Models\Indikator_pck;
 use App\Models\Atasan;
 use App\Models\Penilaian_kinerja;
+use App\Models\Perjanjian_kinerja;
 use DB;
 use Auth;
 class KinerjaController extends Controller
@@ -140,10 +141,10 @@ class KinerjaController extends Controller
   public function penilaian_kinerja($id, Request $request)
   {
     $pkp = Penilaian_kinerja::where('id', $id)->first();
-    // dd($pkp->employee);
+    // dd($pkp->id);
     $sasaran_kegiatan = Sasaran_kegiatan::get();
     $indikator = Indikator_pkp::get();
-    
+
     $atasan = Penilaian_kinerja::with('pejabatPenilai')->find($pkp->id);
 
     return view('content.pkp.penilaian_kinerja', [
@@ -152,6 +153,39 @@ class KinerjaController extends Controller
       'pkp' => $pkp,
       'atasan' => $atasan,
     ]);
+  }
+
+  public function tambahPerjanjian(Request $request)
+  {
+    // Validasi request
+    $validatedData = $request->validate([
+      'sasaran_kegiatan' => 'required',
+      'indikator' => 'required',
+      'satuan' => 'required',
+      'target_kuantitas' => 'required',
+      'penilaian_kinerja_id' => 'required',
+    ]);
+
+    // Ubah input menjadi array jika hanya ada satu baris input
+    $data = [];
+    foreach (['sasaran_kegiatan', 'indikator', 'satuan', 'target_kuantitas','penilaian_kinerja_id'] as $field) {
+      $data[$field] = is_array($validatedData[$field]) ? $validatedData[$field] : [$validatedData[$field]];
+    }
+
+    // Gunakan transaksi untuk menyimpan semua data atau tidak sama sekali
+    DB::transaction(function () use ($data, $request) {
+      foreach ($data['sasaran_kegiatan'] as $key => $value) {
+          Perjanjian_kinerja::create([
+              'sasaran_kegiatan' => $value,
+              'indikator' => $data['indikator'][$key],
+              'satuan' => $data['satuan'][$key],
+              'target_kuantitas' => $data['target_kuantitas'][$key],
+              'penilaian_kinerja_id' => $data['penilaian_kinerja_id'][$key],
+          ]);
+      }
+    });
+
+    return redirect()->back()->with('success', 'Data berhasil disimpan.');
   }
 
   public function penangguhan()

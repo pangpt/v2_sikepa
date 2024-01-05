@@ -60,6 +60,8 @@
       <div class="card-header justify-content-between align-items-center">
         <h4>PERJANJIAN KERJA INDIVIDU</h4>
       </div>
+      <form action="{{route('tambah-perjanjian')}}" method="POST">
+        @csrf
       <div class="card-body">
         <table class="table table-bordered" id="tabelPKP">
           <thead>
@@ -74,32 +76,33 @@
         </thead>
         <tbody>
             <tr>
+              <input class="form-control" type="hidden" name="penilaian_kinerja_id[]" value="{{$pkp->id}}" id="indikatorKegiatan"/>
               <td>1</td>
               <td>
-                <select class="form-select" id="sasaranKegiatan" name="sasaran_kegiatan_id" aria-label="Default select example">
-                <option value="{{old('sasaran_kegiatan_id')}}">Pilih</option>
+                <select class="form-select" id="sasaranKegiatan" name="sasaran_kegiatan[]" aria-label="Default select example">
+                <option value="{{old('sasaran_kegiatan')}}">Pilih</option>
                     @foreach($sasaran_kegiatan as $key)
-                        <option value="{{ $key->id }}">{{ $key->sasaran_kegiatan_text }}</option>
+                        <option value="{{ $key->sasaran_kegiatan_text }}">{{ $key->sasaran_kegiatan_text }}</option>
                     @endforeach
                 <option value="lainnya">Lainnya</option>
                 </select>
               </td>
             <td>
-              <select class="form-select" name="" id="">
-                <option value="">Dokumen</option>
-                <option value="">Laporan</option>
+              <select class="form-select" name="satuan[]" id="">
+                <option value="Dokumen">Dokumen</option>
+                <option value="Laporan">Laporan</option>
               </select>
             </td>
             <td>
-              <select class="form-select" id="sasaranKegiatan" name="sasaran_kegiatan_id" aria-label="Default select example">
-                <option value="{{old('sasaran_kegiatan_id')}}">Pilih</option>
+              <select class="form-select" id="sasaranKegiatan" name="indikator[]" aria-label="Default select example">
+                <option value="{{old('indikator')}}">Pilih</option>
                     @foreach($indikator as $key)
-                        <option value="{{ $key->id }}">{{ $key->indikator }}</option>
+                        <option value="{{ $key->indikator }}">{{ $key->indikator }}</option>
                     @endforeach
               </select>
             </td>
             <td>
-              <input class="form-control" type="text" name="indikator" id="indikatorKegiatan"/>
+              <input class="form-control" type="text" name="target_kuantitas[]" id="indikatorKegiatan"/>
             </td>
             <td>
               <button class="btn btn-danger hapusBaris"><i class="bx bx-trash"></i></button>
@@ -107,17 +110,18 @@
             </tr>
             <tr>
               <td colspan="6">
-                <button class="btn btn-secondary col-xl-12" id="tambahBaris">
+                <button class="btn btn-secondary col-xl-12" id="tambahBaris" type="button">
                 <span class="tf-icons bx bx-plus"></span>&nbsp; Tambah
                 </button>
               </td>
             </tr>
         </tbody>
         </table>
-        <a href="" type="button" class="btn btn-primary float-end mt-4">
+        <button type="submit" class="btn btn-primary float-end mt-4">
           <span class="tf-icons bx bx-send"></span>&nbsp; Ajukan
-        </a>
+        </button>
       </div>
+    </form>
     </div>
   </div>
 </div>
@@ -140,32 +144,33 @@
     $("#tambahBaris").click(function() {
         var nomorBaru = $("#tabelPKP tbody tr").length; // Menghitung jumlah baris untuk nomor urut
         var barisBaru = `<tr>
+          <input class="form-control" type="hidden" name="penilaian_kinerja_id[]" value="{{$pkp->id}}" id="indikatorKegiatan"/>
                 <td>` + nomorBaru + `</td>
                 <td>
-                    <select class="form-select" name="sasaran_kegiatan_id[]">
+                    <select class="form-select" name="sasaran_kegiatan[]">
                         <option>Pilih</option>
                         @foreach($sasaran_kegiatan as $key)
-                            <option value="{{ $key->id }}">{{ $key->sasaran_kegiatan_text }}</option>
+                            <option value="{{ $key->sasaran_kegiatan_text }}">{{ $key->sasaran_kegiatan_text }}</option>
                         @endforeach
                         <option value="lainnya">Lainnya</option>
                     </select>
                 </td>
                 <td>
-                    <select class="form-select" name="kategori[]">
-                        <option value="">Dokumen</option>
-                        <option value="">Laporan</option>
+                    <select class="form-select" name="satuan[]">
+                        <option value="Dokumen">Dokumen</option>
+                        <option value="Laporan">Laporan</option>
                     </select>
                 </td>
                 <td>
-                    <select class="form-select" name="indikator_id[]">
+                    <select class="form-select" name="indikator[]">
                         <option>Pilih</option>
                         @foreach($indikator as $key)
-                            <option value="{{ $key->id }}">{{ $key->indikator }}</option>
+                            <option value="{{ $key->indikator }}">{{ $key->indikator }}</option>
                         @endforeach
                     </select>
                 </td>
                 <td>
-                    <input class="form-control" type="text" name="indikator[]"/>
+                    <input class="form-control" type="text" name="target_kuantitas[]"/>
                 </td>
                 <td>
                     <button class="btn btn-danger hapusBaris"><i class="bx bx-trash"></i></button>
