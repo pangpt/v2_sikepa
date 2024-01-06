@@ -11,6 +11,7 @@ use App\Models\Sasaran_kegiatan;
 use App\Models\Indikator_pkp;
 use App\Models\Indikator_pck;
 use App\Models\Atasan;
+use App\Models\Capaian_kinerja;
 use App\Models\Penilaian_kinerja;
 use App\Models\Perjanjian_kinerja;
 use DB;
@@ -186,6 +187,34 @@ class KinerjaController extends Controller
     });
 
     return redirect()->back()->with('success', 'Data berhasil disimpan.');
+  }
+
+  public function sasaran_kegiatan($id)
+  {
+    $perjanjian = Perjanjian_kinerja::where('penilaian_kinerja_id', $id)->get();
+    $data = Penilaian_kinerja::where('id', $id)->first();
+    $atasan = Penilaian_kinerja::with('pejabatPenilai')->find($data->id);
+
+    return view('content.pkp.skp',[
+      'perjanjian' => $perjanjian,
+      'data' => $data,
+      'atasan' => $atasan,
+    ]);
+  }
+
+  public function capaian_kinerja($id)
+  {
+    $perjanjian = Perjanjian_kinerja::with('capaian_kinerja')->where('penilaian_kinerja_id', $id)->get();
+    $data = Penilaian_kinerja::where('id', $id)->first();
+    $atasan = Penilaian_kinerja::with('pejabatPenilai')->find($data->id);
+    // $capaian = Capaian_kinerja::get();
+
+    return view('content.pkp.pck',[
+      'perjanjian' => $perjanjian,
+      'data' => $data,
+      'atasan' => $atasan,
+      // 'capaian' => $capaian,
+    ]);
   }
 
   public function penangguhan()

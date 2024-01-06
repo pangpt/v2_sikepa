@@ -38,4 +38,9 @@ class Perjanjian_kinerja extends Model
      {
       return $this->belongsTo('App\Models\Penilaian_kinerja', 'penilaian_kinerja_id', 'id');
      }
+
+     public function capaian_kinerja()
+    {
+        return $this->hasMany(Capaian_kinerja::class);
+    }
 }
