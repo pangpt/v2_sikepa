@@ -71,8 +71,8 @@
             <tr>
                 <th rowspan="2">No</th>
                 <th rowspan="2" style="width: 40%">Kegiatan Tugas Jabatan</th>
-                <th colspan="3" class="text-center" style="width: 20%">Target</th>
-                <th colspan="3" class="text-center" style="width: 20%">Realisasi</th>
+                <th colspan="3" class="text-center" style="width: 10%">Target</th>
+                <th colspan="3" class="text-center" style="width: 10%">Realisasi</th>
                 <th rowspan="2">Nilai Capaian Kinerja</th>
                 <th rowspan="2"></th>
             </tr>
@@ -93,7 +93,10 @@
                 <td>{{$loop->iteration}}</td>
                 <td>
                     <select class="form-select">
+                      @foreach($indikator_pck as $key)
                         <option value=""></option>
+                        <option value="{{$key->id}}">{{$key->butir_kegiatan}}</option>
+                      @endforeach
                     </select>
                 </td>
                 <!-- Data target -->
@@ -234,19 +237,21 @@
         var barisBaru = `<tr>
                 <td>${nomorBaru}</td>
                 <td>
-                    <select class="form-select" name="kegiatan[${tableId}][]">
-                        <option value="">Pilih Kegiatan</option>
-                        <!-- Isi dengan opsi yang dibutuhkan -->
+                    <select class="form-select butir-kegiatan-select" name="indikator_pck_id[${tableId}][]">
+                      <option value="">Pilih butir kegiatan</option>
+                      @foreach($indikator_pck as $key)
+                        <option value="{{$key->id}}" data-hasil="{{ $key->hasil }}">{{$key->butir_kegiatan}}</option>
+                      @endforeach
                     </select>
                 </td>
                 <!-- Data target -->
-                <td><input type="number" class="form-control" name="target_kuantitas[${tableId}][]"></td>
-                <td><input type="text" class="form-control" name="target_satuan[${tableId}][]"></td>
-                <td><input type="number" class="form-control" name="target_kualitas[${tableId}][]"></td>
+                <td><input type="number" class="form-control kuantitas-input" name="target_kuantitas[${tableId}][]"></td>
+                <td><div class="hasil-input"></div></td>
+                <td><input type="number" class="form-control" name="target_kualitas[${tableId}][]" value="100"></td>
                 <!-- Data realisasi -->
                 <td><input type="number" class="form-control" name="realisasi_kuantitas[${tableId}][]"></td>
-                <td><input type="text" class="form-control" name="realisasi_satuan[${tableId}][]"></td>
-                <td><input type="number" class="form-control" name="realisasi_kualitas[${tableId}][]"></td>
+                <td><div class="hasil-input"></div></td>
+                <td><input type="number" class="form-control kualitas-input" name="realisasi_kualitas[${tableId}][]" ></td>
                 <!-- Nilai capaian kinerja -->
                 <td></td>
                 <td>
@@ -265,6 +270,22 @@
 });
 
 });
+$(document).ready(function() {
+     $(document).on('change', '.butir-kegiatan-select', function() {
+        // Temukan satuan yang terkait dengan opsi yang dipilih
+        var hasil = $(this).find('option:selected').data('hasil');
+
+        // Mengisi input 'hasil' yang sejajar dengan dropdown ini
+        $(this).closest('tr').find('.hasil-input').text(hasil);
+    });
+});
+
+$(document).ready(function() {
+  $(document).on('change', '.kuantitas-input', function() {
+    var kual = $(this).find()
+  })
+})
+
 
 
   </script>

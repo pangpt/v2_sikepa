@@ -207,12 +207,14 @@ class KinerjaController extends Controller
     $perjanjian = Perjanjian_kinerja::with('capaian_kinerja')->where('penilaian_kinerja_id', $id)->get();
     $data = Penilaian_kinerja::where('id', $id)->first();
     $atasan = Penilaian_kinerja::with('pejabatPenilai')->find($data->id);
+    $indikator_pck = Indikator_pck::get();
     // $capaian = Capaian_kinerja::get();
 
     return view('content.pkp.pck',[
       'perjanjian' => $perjanjian,
       'data' => $data,
       'atasan' => $atasan,
+      'indikator_pck' => $indikator_pck,
       // 'capaian' => $capaian,
     ]);
   }
