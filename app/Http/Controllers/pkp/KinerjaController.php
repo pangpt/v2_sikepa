@@ -219,6 +219,68 @@ class KinerjaController extends Controller
     ]);
   }
 
+  public function simpan_capaian(Request $request)
+  {
+    // Decode data JSON yang dikirim melalui AJAX
+    $dataKinerja = json_decode($request->getContent(), true);
+
+    // Iterasi setiap tabel data dan simpan ke database
+    foreach ($dataKinerja as $data) {
+        foreach ($data['data'] as $inputData) {
+            // Buat dan simpan setiap baris data baru
+            $kinerja = new Capaian_kinerja();
+            // Set data untuk kinerja dari $inputData
+            $kinerja->perjanjian_kinerja_id = 1;
+            $kinerja->employee_id = Auth()->user()->employee->id;
+            $kinerja->indikator_pkp_id = 1;
+            $kinerja->indikator_pck_id = 1;
+            $kinerja->periode_bulan = 'Januari';
+            $kinerja->periode_tahun = 2024;
+            $kinerja->kegiatan_tugas = 1;
+            $kinerja->target_output = 1;
+            $kinerja->target_mutu = 1;
+            $kinerja->realisasi_output = 1;
+            $kinerja->realisasi_mutu = 1;
+            $kinerja->nilai_capaian = 1;
+            $kinerja->bukti_dukung = 1;
+            $kinerja->status_pck = 0; // Set status 0 untuk "simpan"
+            $kinerja->save();
+        }
+    }
+
+    // Return response sukses
+    return response()->json(['message' => 'Data berhasil disimpan'], 200);
+  }
+
+  public function simpan_periode_capaian(Request $request)
+  {
+    $periode_bulan = $request->periode_bulan;
+    $periode_tahun = $request->periode_tahun;
+    $userId = Auth()->user()->employee->id;
+
+    $perjanjian = Perjanjian_kinerja::where('penilaian_kinerja_id', $id)->get();
+
+    DB::beginTransaction();
+
+    try{
+      foreach($perjanjian as $key){
+        Capaian_kinerja::create([
+          'periode_bulan' => $periode_bulan,
+          'periode_tahun' => $periode_tahun,
+          'perjanjian_kinerja_id' => $key->id,
+        ]);
+      }
+
+      DB::commit();
+      return response()->json(['success' => 'Data berhasil disimpan.']);
+    } catch (\Exception $e) {
+      // Jika ada error, rollback transaksi
+      DB::rollBack();
+      return response()->json(['error' => 'Terjadi kesalahan saat menyimpan data.']);
+  }
+
+  }
+
   public function penangguhan()
   {
     return view('content.izin-cuti.penangguhan');

@@ -135,9 +135,9 @@
       </div>
       @endforeach
       <div class="card-footer justify-right">
-        <button type="button" class="btn btn-secondary">Batalkan</button>
-        <button type="button" class="btn btn-primary">Simpan</button>
-        <button type="button" class="btn btn-success">Ajukan</button>
+        <button type="button" class="btn btn-sm btn-secondary"><span class="tf-icon bx bx-arrow-back"></span>Batal</button>
+        <button type="button" class="btn btn-sm btn-info" id="tombolSimpan"><span class="tf-icon bx bx-save"></span>Simpan</button>
+        <button type="button" class="btn btn-sm btn-primary"><span class="tf-icon bx bx-send"></span>Ajukan</button>
       </div>
 
     </div>
@@ -195,15 +195,6 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
   <script>
-
-    $(document).ready(function() {
-      $('#pegawaiTable').DataTable({
-        "ordering": false,
-        "language": {
-          "searchPlaceholder": "Ketik di sini untuk mencari PKP berdasarkan Nama, Atasan Langsung, atau Periode." // Menambahkan placeholder pada input search
-        }
-      });
-    });
 
     $(document).ready(function() {
     // Gunakan class bukan id untuk event handler karena kita memiliki banyak tombol tambah
@@ -272,6 +263,55 @@ $(document).on('input', '.realisasi-kuant-input, .target-kuant-input', function(
 
     $row.find('.nilai-capaian').text(kualMutu.toFixed(2));
 });
+
+$(document).ready(function() {
+    $('#tombolSimpan').on('click', function(e) {
+        e.preventDefault(); // Mencegah pengiriman form secara default
+
+        var dataKinerja = [];
+        $('table').each(function() {
+            var $table = $(this);
+            var tableId = $table.attr('id'); // Dapatkan ID table
+
+            $table.find('tbody tr').each(function() {
+                var $row = $(this);
+                var rowData = {
+                    indikator_pck_id: $row.find('.butir-kegiatan-select').val(),
+                    target_kuantitas: $row.find('.target-kuant-input').val(),
+                    target_kualitas: $row.find('.target-kual-input').val(),
+                    realisasi_kuantitas: $row.find('.realisasi-kuant-input').val(),
+                    realisasi_kualitas: $row.find('.realisasi-kual-input').val(),
+                    nilai_capaian: $row.find('.nilai-capaian').text()
+                };
+                dataKinerja.push(rowData);
+            });
+        });
+
+        console.log(dataKinerja)
+
+        $.ajax({
+            url: '{{route("simpan-capaian")}}', // URL untuk endpoint simpan data
+            type: 'POST',
+            data: JSON.stringify(dataKinerja), // Konversi data array ke JSON
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // CSRF token dari Laravel
+            },
+            success: function(response) {
+                // Tindakan ketika sukses, seperti menampilkan notifikasi
+                alert('Data berhasil disimpan.');
+            },
+            error: function(xhr, status, error) {
+                // Tindakan ketika terjadi error, seperti menampilkan error message
+                alert('Terjadi kesalahan: ' + error);
+            }
+        });
+    });
+});
+
+
+
 
 
 
