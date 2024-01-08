@@ -134,7 +134,10 @@
     <div class="modal-content">
       <form action="{{route('simpan-periode-capaian')}}" method="POST" id="tambah-pck">
         @csrf
-        <input class="form-control" type="hidden" name="perjanjian_kinerja_id" value="{{$data->id}}" id="indikatorKegiatan"/>
+        @foreach($perjanjian as $key)
+        <input class="form-control" type="hidden" name="perjanjian_kinerja_id[]" value="{{$key->id}}"/>
+        @endforeach
+        <input type="hidden" id="idTarget" value={{$data->id}} name="idTarget"/>
         <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel1">Tambah PCK</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -143,7 +146,7 @@
         <div class="row">
           <div class="col mb-3">
             <label for="nameBasic" class="form-label">Bulan</label>
-            <select class="form-select" id="searchable-dropdown" name="periode_bulan">
+            <select class="form-select" id="searchable-dropdown" name="periode_bulan[]">
               <option value="">Pilih Bulan</option>
               <option value="1">Januari</option>
               <option value="2">Februai</option>
@@ -163,12 +166,12 @@
         <div class="row">
           <div class="col mb-3">
             <label for="nameBasic" class="form-label">Tahun</label>
-            <input class="form-control" type="text" id="html5-date-input" name="periode_tahun" value="{{ \Carbon\Carbon::now()->year }}" readonly/>
+            <input class="form-control" type="text" id="html5-date-input" name="periode_tahun[]" value="{{ \Carbon\Carbon::now()->year }}" readonly/>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary col-12" onclick="konfirmasiInput()">Proses</button>
+        <button type="button" class="btn btn-primary col-12" onclick="konfirmasiInput()" data-iterasi="{{count($perjanjian)}}">Proses</button>
       </div>
       </form>
 
@@ -181,7 +184,41 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
   <script>
-    function konfirmasiInput() {
+//     function konfirmasiInput() {
+//   swal({
+//     title: 'Konfirmasi',
+//     text: 'Data sudah benar?',
+//     type: 'warning', // SweetAlert 1.x menggunakan 'type' bukan 'icon'
+//     showCancelButton: true,
+//     confirmButtonColor: '#3085d6', // Anda bisa mengatur warna tombol jika diinginkan
+//     cancelButtonColor: '#d33',
+//     confirmButtonText: 'Ya',
+//     cancelButtonText: 'Tidak',
+//     closeOnConfirm: false, // Penting untuk diatur agar modal tidak langsung tertutup
+//     closeOnCancel: false
+//   }, function(isConfirm) {
+//     if (isConfirm) {
+//       // Pengguna mengklik 'Ya', submit form
+//       document.getElementById('tambah-pck').submit();
+//     } else {
+//       // Pengguna mengklik 'Tidak', hanya tutup modal
+//       swal('Dibatalkan', 'Data tidak jadi disimpan :)', 'error');
+//     }
+//   });
+// }
+function konfirmasiInput() {
+  var jumlahIterasi = {{ count($perjanjian) }};
+  var bulanTerpilih = $('#searchable-dropdown').val();
+  var tahunTerpilih = $('#html5-date-input').val();
+  var idTarget = $('#idTarget').val();
+  console.log(idTarget)
+
+  // Mengatur data bulan dan tahun untuk setiap perjanjian
+  for (var i = 0; i < jumlahIterasi; i++) {
+    $('#tambah-pck').append('<input type="hidden" name="periode_bulan[]" value="' + bulanTerpilih + '">');
+    $('#tambah-pck').append('<input type="hidden" name="periode_tahun[]" value="' + tahunTerpilih + '">');
+  }
+
   swal({
     title: 'Konfirmasi',
     text: 'Data sudah benar?',
@@ -195,13 +232,17 @@
     closeOnCancel: false
   }, function(isConfirm) {
     if (isConfirm) {
-      // Pengguna mengklik 'Ya', submit form
-      document.getElementById('tambah-pck').submit();
+      // Submit form
+  $('#tambah-pck').submit();
     } else {
       // Pengguna mengklik 'Tidak', hanya tutup modal
       swal('Dibatalkan', 'Data tidak jadi disimpan :)', 'error');
     }
   });
+
+  
 }
+
+
   </script>
 @endsection

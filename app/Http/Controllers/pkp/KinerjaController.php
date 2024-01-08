@@ -14,6 +14,7 @@ use App\Models\Atasan;
 use App\Models\Capaian_kinerja;
 use App\Models\Penilaian_kinerja;
 use App\Models\Perjanjian_kinerja;
+use App\Models\Periode_pck;
 use DB;
 use Auth;
 class KinerjaController extends Controller
@@ -254,31 +255,26 @@ class KinerjaController extends Controller
 
   public function simpan_periode_capaian(Request $request)
   {
-    $periode_bulan = $request->periode_bulan;
-    $periode_tahun = $request->periode_tahun;
-    $userId = Auth()->user()->employee->id;
 
-    $perjanjian = Perjanjian_kinerja::where('penilaian_kinerja_id', $id)->get();
+        $perjanjianIds = $request->perjanjian_kinerja_id;
+        $bulan = $request->periode_bulan;
+        $tahun = $request->periode_tahun;
+        $idTarget = $request->idTarget;
+        
 
-    DB::beginTransaction();
+        foreach ($perjanjianIds as $index => $id) {
+            Periode_pck::create([
+                'perjanjian_kinerja_id' => $id,
+                'periode_bulan' => $bulan[$index],
+                'periode_tahun' => $tahun[$index],
+            ]);
+        }
 
-    try{
-      foreach($perjanjian as $key){
-        Capaian_kinerja::create([
-          'periode_bulan' => $periode_bulan,
-          'periode_tahun' => $periode_tahun,
-          'perjanjian_kinerja_id' => $key->id,
-        ]);
-      }
+        // Redirect ke halaman sebelumnya atau tampilkan pesan sukses
+        return redirect()->route('capaian-kinerja', ['id' => $idTarget])
+                     ->with('success', 'Data berhasil disimpan.');
 
-      DB::commit();
-      return response()->json(['success' => 'Data berhasil disimpan.']);
-    } catch (\Exception $e) {
-      // Jika ada error, rollback transaksi
-      DB::rollBack();
-      return response()->json(['error' => 'Terjadi kesalahan saat menyimpan data.']);
-  }
-
+    
   }
 
   public function penangguhan()
