@@ -17,7 +17,7 @@
         </div>
       </div>
       <div class="card-body">
-        <table id="pegawaiTable" class="display">
+        <table class="table">
           <tr>
             <th colspan="2">PEGAWAI YANG DINILAI</th>
             <th colspan="2">PEJABAT PENILAI KINERJA</th>

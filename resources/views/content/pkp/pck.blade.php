@@ -13,7 +13,7 @@
         <h5 class="m-0">PCK BULAN: {{ \Carbon\Carbon::parse($data->periode_mulai)->locale('id')->isoFormat('D MMMM Y') }} S/D {{ \Carbon\Carbon::parse($data->periode_selesai)->locale('id')->isoFormat('D MMMM Y') }} (PKP_DITERIMA)</h5>
       </div>
       <div class="card-body">
-        <table id="pegawaiTable" class="display">
+        <table class="table">
           <tr>
             <th colspan="2">PEGAWAI YANG DINILAI</th>
             <th colspan="2">PEJABAT PENILAI KINERJA</th>
@@ -134,34 +134,12 @@
         </table>
       </div>
       @endforeach
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-xl-12">
-    <div class="card mb-4">
-      <div class="card-header justify-content-between align-items-center">
-        <h5>PENILAIAN CAPAIAN KINERJA BULANAN</h5>
+      <div class="card-footer justify-right">
+        <button type="button" class="btn btn-secondary">Batalkan</button>
+        <button type="button" class="btn btn-primary">Simpan</button>
+        <button type="button" class="btn btn-success">Ajukan</button>
       </div>
-      <div class="card-body">
-        <table class="table table-bordered" id="tabelPKP">
-          <thead>
-            <tr>
-                <th class="text-nowrap">NO</th>
-                <th class="text-nowrap text-center">Laporan</th>
-                <th class="text-nowrap text-center">Status</th>
-                <th class="text-nowrap text-center"></th>
-            </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-        </tbody>
-        </table>
-      </div>
+
     </div>
   </div>
 </div>
@@ -218,9 +196,9 @@
   <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
   <script>
 
-        $(document).ready(function() {
+    $(document).ready(function() {
       $('#pegawaiTable').DataTable({
-        "ordering": false, // Menonaktifkan fitur pengurutan (sort)
+        "ordering": false,
         "language": {
           "searchPlaceholder": "Ketik di sini untuk mencari PKP berdasarkan Nama, Atasan Langsung, atau Periode." // Menambahkan placeholder pada input search
         }
@@ -245,15 +223,15 @@
                     </select>
                 </td>
                 <!-- Data target -->
-                <td><input type="number" class="form-control kuantitas-input" name="target_kuantitas[${tableId}][]"></td>
+                <td><input type="text" class="form-control target-kuant-input" name="target_kuantitas[${tableId}][]"></td>
                 <td><div class="hasil-input"></div></td>
-                <td><input type="number" class="form-control" name="target_kualitas[${tableId}][]" value="100"></td>
+                <td><input type="text" class="form-control target-kual-input" name="target_kualitas[${tableId}][]" value="100"></td>
                 <!-- Data realisasi -->
-                <td><input type="number" class="form-control" name="realisasi_kuantitas[${tableId}][]"></td>
+                <td><input type="text" class="form-control realisasi-kuant-input" name="realisasi_kuantitas[${tableId}][]"></td>
                 <td><div class="hasil-input"></div></td>
-                <td><input type="number" class="form-control kualitas-input" name="realisasi_kualitas[${tableId}][]" ></td>
+                <td><input type="text" class="form-control realisasi-kual-input" name="realisasi_kualitas[${tableId}][]" ></td>
                 <!-- Nilai capaian kinerja -->
-                <td></td>
+                <td class="nilai-capaian"></td>
                 <td>
                     <button type="button" class="btn btn-primary btn-sm link-btn"><span class="tf-icon bx bx-link"></span></button>
                     <a href="#" type="button" class="btn btn-danger btn-sm hapusBaris"><span class="tf-icon bx bx-trash"></span></a>
@@ -274,17 +252,27 @@ $(document).ready(function() {
      $(document).on('change', '.butir-kegiatan-select', function() {
         // Temukan satuan yang terkait dengan opsi yang dipilih
         var hasil = $(this).find('option:selected').data('hasil');
+        console.log(hasil)
 
         // Mengisi input 'hasil' yang sejajar dengan dropdown ini
         $(this).closest('tr').find('.hasil-input').text(hasil);
     });
 });
 
-$(document).ready(function() {
-  $(document).on('change', '.kuantitas-input', function() {
-    var kual = $(this).find()
-  })
-})
+$(document).on('input', '.realisasi-kuant-input, .target-kuant-input', function() {
+    var $row = $(this).closest('tr'); // Ambil baris terdekat dari input yang berubah
+    var targetKuantOutput = parseFloat($row.find('.target-kuant-input').val()) || 0; // Ambil nilai target
+    var realisasiKuantOutput = parseFloat($row.find('.realisasi-kuant-input').val()) || 0; // Ambil nilai realisasi
+
+    // Hitung nilai kualitas/mutu
+    var kualMutu = (targetKuantOutput !== 0) ? (realisasiKuantOutput / targetKuantOutput) * 100 : 0;
+
+    // Set nilai kualitas/mutu ke dalam input realisasi-kual-input
+    $row.find('.realisasi-kual-input').val(kualMutu.toFixed(2));
+
+    $row.find('.nilai-capaian').text(kualMutu.toFixed(2));
+});
+
 
 
 
