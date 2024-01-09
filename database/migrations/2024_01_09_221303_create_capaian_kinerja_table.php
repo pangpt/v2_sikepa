@@ -15,18 +15,18 @@ return new class extends Migration
     {
         Schema::create('capaian_kinerja', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('employee_id');
+            $table->unsignedBigInteger('penilaian_kinerja_id');
+            $table->unsignedBigInteger('perjanjian_kinerja_id');
             $table->unsignedBigInteger('indikator_pkp_id');
             $table->unsignedBigInteger('indikator_pck_id');
-            $table->string('periode_bulan');
-            $table->string('periode_tahun');
-            $table->string('kegiatan_tugas');
+            $table->string('periode_pck_id');
             $table->integer('target_output');
             $table->integer('target_mutu');
             $table->integer('realisasi_output');
             $table->integer('realisasi_mutu');
             $table->integer('nilai_capaian');
             $table->string('bukti_dukung');
+            $table->integer('status_pck');
             $table->timestamps();
         });
     }

@@ -14,7 +14,7 @@ class Periode_pck extends Model
     protected $table = 'periode_pck';
 
     protected $fillable = [
-        'perjanjian_kinerja_id',
+        'penilaian_kinerja_id',
         'periode_bulan',
         'periode_tahun',
     ];
@@ -32,8 +32,8 @@ class Periode_pck extends Model
      */
 
 
-     public function perjanjian_kinerja()
+     public function penilaian_kinerja()
      {
-      return $this->belongsTo('App\Models\Perjanjian_kinerja', 'perjanjian_kinerja_id', 'id');
+      return $this->belongsTo('App\Models\Penilaian_kinerja', 'penilaian_kinerja_id', 'id');
      }
 }

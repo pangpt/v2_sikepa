@@ -134,8 +134,8 @@
     <div class="modal-content">
       <form action="{{route('simpan-periode-capaian')}}" method="POST" id="tambah-pck">
         @csrf
-        @foreach($perjanjian as $key)
-        <input class="form-control" type="hidden" name="perjanjian_kinerja_id[]" value="{{$key->id}}"/>
+        @foreach($penilaian as $key)
+        <input class="form-control" type="hidden" name="penilaian_kinerja_id[]" value="{{$key->id}}"/>
         @endforeach
         <input type="hidden" id="idTarget" value={{$data->id}} name="idTarget"/>
         <div class="modal-header">

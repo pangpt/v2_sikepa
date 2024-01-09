@@ -14,13 +14,11 @@ class Capaian_kinerja extends Model
     protected $table = 'capaian_kinerja';
 
     protected $fillable = [
-        'employee_id',
+        'penilaian_kinerja_id',
         'perjanjian_kinerja_id',
         'indikator_pkp_id',
         'indikator_pck_id',
-        'periode_bulan',
-        'periode_tahun',
-        'kegiatan_tugas',
+        'periode_pck_id',
         'target_output',
         'target_mutu',
         'realisasi_output',
@@ -62,5 +60,10 @@ class Capaian_kinerja extends Model
      public function perjanjian_kinerja()
     {
         return $this->belongsTo(Perjanjian_kinerja::class);
+    }
+
+    public function penilaian_kinerja()
+    {
+        return $this->belongsTo(Penilaian_kinerja::class);
     }
 }

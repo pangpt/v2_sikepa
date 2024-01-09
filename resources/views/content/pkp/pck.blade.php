@@ -61,12 +61,13 @@
         <h5>DAFTAR INDIKATOR KINERJA</h5>
       </div>
       @foreach($perjanjian as $indikator)
+      
       <div class="card-header pt-0">
         <small class="fw-bold">Indikator Kinerja: {{$indikator->indikator}}</small> <br>
         <small class="fw-bold"><span class="tf-icon bx bx-info-circle"></span> Keterangan: Jika nilai Kualitas dan Kuantitas sama dengan 0 maka data tidak akan tersimpan pada sistem</small>
       </div>
       <div class="card-body">
-        <table class="table table-bordered" id="tabelPCK-{{ $indikator->id }}">
+        <table class="table table-bordered" id="{{$indikator->id}}">
           <thead>
             <tr>
                 <th rowspan="2">No</th>
@@ -117,7 +118,7 @@
             @endforeach
             <tr class="tambah-row">
               <td colspan="10">
-                <button class="btn btn-primary col-xl-12 tambah-baris"  type="button" data-table="tabelPCK-{{ $indikator->id }}">
+                <button class="btn btn-primary col-xl-12 tambah-baris"  type="button" data-table="{{ $indikator->id }}">
                 <span class="tf-icons bx bx-plus"></span>&nbsp; Tambah
                 </button>
               </td>
@@ -200,6 +201,7 @@
     // Gunakan class bukan id untuk event handler karena kita memiliki banyak tombol tambah
     $(".tambah-baris").click(function() {
         var tableId = $(this).data('table'); // Mengambil ID tabel dari tombol yang diklik
+        console.log(tableId)
         var nomorBaru = $("#" + tableId + " tbody tr").not('.tambah-row, .nilai-capaian-kinerja').length;
 
         // Buat baris baru dengan menggunakan nomor baru dan tambahkan ke tabel yang sesuai
@@ -215,7 +217,7 @@
                 </td>
                 <!-- Data target -->
                 <td><input type="text" class="form-control target-kuant-input" name="target_kuantitas[${tableId}][]"></td>
-                <td><div class="hasil-input"></div></td>
+                <td><div class="hasil-input" name=""></div></td>
                 <td><input type="text" class="form-control target-kual-input" name="target_kualitas[${tableId}][]" value="100"></td>
                 <!-- Data realisasi -->
                 <td><input type="text" class="form-control realisasi-kuant-input" name="realisasi_kuantitas[${tableId}][]"></td>
@@ -265,51 +267,6 @@ $(document).on('input', '.realisasi-kuant-input, .target-kuant-input', function(
     $row.find('.nilai-capaian').text(kualMutu.toFixed(2));
 });
 
-// $(document).ready(function() {
-//     $('#tombolSimpan').on('click', function(e) {
-//         e.preventDefault(); // Mencegah pengiriman form secara default
-
-//         var dataKinerja = [];
-//         $('table').each(function() {
-//             var $table = $(this);
-//             var tableId = $table.attr('id'); // Dapatkan ID table
-
-//             $table.find('tbody tr').each(function() {
-//                 var $row = $(this);
-//                 var rowData = {
-//                     indikator_pck_id: $row.find('.butir-kegiatan-select').val(),
-//                     target_kuantitas: $row.find('.target-kuant-input').val(),
-//                     target_kualitas: $row.find('.target-kual-input').val(),
-//                     realisasi_kuantitas: $row.find('.realisasi-kuant-input').val(),
-//                     realisasi_kualitas: $row.find('.realisasi-kual-input').val(),
-//                     nilai_capaian: $row.find('.nilai-capaian').text()
-//                 };
-//                 dataKinerja.push(rowData);
-//             });
-//         });
-
-//         console.log(dataKinerja)
-
-//         $.ajax({
-//             url: '{{route("simpan-capaian")}}', // URL untuk endpoint simpan data
-//             type: 'POST',
-//             data: JSON.stringify(dataKinerja), // Konversi data array ke JSON
-//             contentType: 'application/json; charset=utf-8',
-//             dataType: 'json',
-//             headers: {
-//                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // CSRF token dari Laravel
-//             },
-//             success: function(response) {
-//                 // Tindakan ketika sukses, seperti menampilkan notifikasi
-//                 alert('Data berhasil disimpan.');
-//             },
-//             error: function(xhr, status, error) {
-//                 // Tindakan ketika terjadi error, seperti menampilkan error message
-//                 alert('Terjadi kesalahan: ' + error);
-//             }
-//         });
-//     });
-// });
 $('#tombolSimpan').click(function() {
   var semuaData = [];
 
@@ -321,7 +278,6 @@ $('#tombolSimpan').click(function() {
     // Loop melalui setiap baris pada tabel ini kecuali baris tambahan
     $('#' + idTabel + ' tbody tr').not('.tambah-row, .nilai-capaian-kinerja').each(function() {
       var dataBaris = {
-
         kegiatan: $(this).find('select').val(),
         target_kuantitas: $(this).find('[name^="target_kuantitas"]').val(),
         target_kualitas: $(this).find('[name^="target_kualitas"]').val(),

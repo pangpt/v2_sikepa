@@ -193,11 +193,13 @@ class KinerjaController extends Controller
   public function sasaran_kegiatan($id)
   {
     $perjanjian = Perjanjian_kinerja::where('penilaian_kinerja_id', $id)->get();
+    $penilaian = Penilaian_kinerja::where('id', $id)->get();
     $data = Penilaian_kinerja::where('id', $id)->first();
     $atasan = Penilaian_kinerja::with('pejabatPenilai')->find($data->id);
 
     return view('content.pkp.skp',[
       'perjanjian' => $perjanjian,
+      'penilaian' => $penilaian,
       'data' => $data,
       'atasan' => $atasan,
     ]);
@@ -211,8 +213,6 @@ class KinerjaController extends Controller
     }
     $atasan = Penilaian_kinerja::with('pejabatPenilai')->find($data->id);
     $indikator_pck = Indikator_pck::get();
-    // $capaian = Capaian_kinerja::where('perjanjian_kinerja_id', )
-    // $capaian = Capaian_kinerja::get();
 
     return view('content.pkp.pck',[
       'perjanjian' => $perjanjian,
@@ -248,11 +248,18 @@ class KinerjaController extends Controller
                 // Misal Anda ingin menyimpan ke database
                 $model = new Capaian_kinerja(); // Ganti dengan nama model yang sebenarnya
                 $model->perjanjian_kinerja_id = 2;
-                $model->employee_id = Auth()->user()->employee->id;
-                $model->target_output = 100;
+                $model->penilaian_kinerja_id = 3;
+                $model->indikator_pkp_id = 4;
+                $model->indikator_pck_id = $capaian['kegiatan'];
+                $model->periode_pck_id = 4;
+                // $model->employee_id = Auth()->user()->employee->id;
                 $model->realisasi_mutu = 100;
-                $model->kegiatan_tugas = '12';
+                $model->realisasi_output = 100;
+                $model->target_output = 100;
                 $model->target_mutu = 100;
+                $model->bukti_dukung = 'asdsadsd';
+                $model->status_pck = 1;
+                $model->nilai_capaian = $capaian['nilai_capaian'];
                 // Set sisa field model sesuai dengan array capaian
                 $model->save();
             }
@@ -267,15 +274,15 @@ class KinerjaController extends Controller
   public function simpan_periode_capaian(Request $request)
   {
 
-        $perjanjianIds = $request->perjanjian_kinerja_id;
+        $penilaianIds = $request->penilaian_kinerja_id;
         $bulan = $request->periode_bulan;
         $tahun = $request->periode_tahun;
         $idTarget = $request->idTarget;
 
 
-        foreach ($perjanjianIds as $index => $id) {
+        foreach ($penilaianIds as $index => $id) {
             Periode_pck::create([
-                'perjanjian_kinerja_id' => $id,
+                'penilaian_kinerja_id' => $id,
                 'periode_bulan' => $bulan[$index],
                 'periode_tahun' => $tahun[$index],
             ]);

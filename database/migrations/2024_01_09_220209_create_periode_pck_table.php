@@ -13,9 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('capaian_kinerja', function (Blueprint $table) {
-            //
-            $table->integer('status_pck')->after('bukti_dukung');
+        Schema::create('periode_pck', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('penilaian_kinerja_id');
+            $table->string('periode_bulan');
+            $table->string('periode_tahun');
+            $table->timestamps();
         });
     }
 
@@ -26,9 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('capaian_kinerja', function (Blueprint $table) {
-            //
-            $table->dropColumn('status_pck');
-        });
+        Schema::dropIfExists('periode_pck');
     }
 };
