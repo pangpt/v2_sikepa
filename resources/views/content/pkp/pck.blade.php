@@ -259,56 +259,103 @@ $(document).on('input', '.realisasi-kuant-input, .target-kuant-input', function(
     var kualMutu = (targetKuantOutput !== 0) ? (realisasiKuantOutput / targetKuantOutput) * 100 : 0;
 
     // Set nilai kualitas/mutu ke dalam input realisasi-kual-input
+    console.log(targetKuantOutput)
     $row.find('.realisasi-kual-input').val(kualMutu.toFixed(2));
 
     $row.find('.nilai-capaian').text(kualMutu.toFixed(2));
 });
 
-$(document).ready(function() {
-    $('#tombolSimpan').on('click', function(e) {
-        e.preventDefault(); // Mencegah pengiriman form secara default
+// $(document).ready(function() {
+//     $('#tombolSimpan').on('click', function(e) {
+//         e.preventDefault(); // Mencegah pengiriman form secara default
 
-        var dataKinerja = [];
-        $('table').each(function() {
-            var $table = $(this);
-            var tableId = $table.attr('id'); // Dapatkan ID table
+//         var dataKinerja = [];
+//         $('table').each(function() {
+//             var $table = $(this);
+//             var tableId = $table.attr('id'); // Dapatkan ID table
 
-            $table.find('tbody tr').each(function() {
-                var $row = $(this);
-                var rowData = {
-                    indikator_pck_id: $row.find('.butir-kegiatan-select').val(),
-                    target_kuantitas: $row.find('.target-kuant-input').val(),
-                    target_kualitas: $row.find('.target-kual-input').val(),
-                    realisasi_kuantitas: $row.find('.realisasi-kuant-input').val(),
-                    realisasi_kualitas: $row.find('.realisasi-kual-input').val(),
-                    nilai_capaian: $row.find('.nilai-capaian').text()
-                };
-                dataKinerja.push(rowData);
-            });
-        });
+//             $table.find('tbody tr').each(function() {
+//                 var $row = $(this);
+//                 var rowData = {
+//                     indikator_pck_id: $row.find('.butir-kegiatan-select').val(),
+//                     target_kuantitas: $row.find('.target-kuant-input').val(),
+//                     target_kualitas: $row.find('.target-kual-input').val(),
+//                     realisasi_kuantitas: $row.find('.realisasi-kuant-input').val(),
+//                     realisasi_kualitas: $row.find('.realisasi-kual-input').val(),
+//                     nilai_capaian: $row.find('.nilai-capaian').text()
+//                 };
+//                 dataKinerja.push(rowData);
+//             });
+//         });
 
-        console.log(dataKinerja)
+//         console.log(dataKinerja)
 
-        $.ajax({
-            url: '{{route("simpan-capaian")}}', // URL untuk endpoint simpan data
-            type: 'POST',
-            data: JSON.stringify(dataKinerja), // Konversi data array ke JSON
-            contentType: 'application/json; charset=utf-8',
-            dataType: 'json',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // CSRF token dari Laravel
-            },
-            success: function(response) {
-                // Tindakan ketika sukses, seperti menampilkan notifikasi
-                alert('Data berhasil disimpan.');
-            },
-            error: function(xhr, status, error) {
-                // Tindakan ketika terjadi error, seperti menampilkan error message
-                alert('Terjadi kesalahan: ' + error);
-            }
-        });
+//         $.ajax({
+//             url: '{{route("simpan-capaian")}}', // URL untuk endpoint simpan data
+//             type: 'POST',
+//             data: JSON.stringify(dataKinerja), // Konversi data array ke JSON
+//             contentType: 'application/json; charset=utf-8',
+//             dataType: 'json',
+//             headers: {
+//                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // CSRF token dari Laravel
+//             },
+//             success: function(response) {
+//                 // Tindakan ketika sukses, seperti menampilkan notifikasi
+//                 alert('Data berhasil disimpan.');
+//             },
+//             error: function(xhr, status, error) {
+//                 // Tindakan ketika terjadi error, seperti menampilkan error message
+//                 alert('Terjadi kesalahan: ' + error);
+//             }
+//         });
+//     });
+// });
+$('#tombolSimpan').click(function() {
+  var semuaData = [];
+
+  // Loop melalui setiap tabel indikator
+  $('.table-bordered').each(function() {
+    var idTabel = this.id;
+    var dataPerTabel = { id: idTabel, capaian: [] };
+
+    // Loop melalui setiap baris pada tabel ini kecuali baris tambahan
+    $('#' + idTabel + ' tbody tr').not('.tambah-row, .nilai-capaian-kinerja').each(function() {
+      var dataBaris = {
+
+        kegiatan: $(this).find('select').val(),
+        target_kuantitas: $(this).find('[name^="target_kuantitas"]').val(),
+        target_kualitas: $(this).find('[name^="target_kualitas"]').val(),
+        realisasi_kuantitas: $(this).find('[name^="realisasi_kuantitas"]').val(),
+        realisasi_kualitas: $(this).find('[name^="realisasi_kualitas"]').val(),
+        nilai_capaian: $(this).find('[name^="realisasi_kualitas"]').val(),
+      };
+      dataPerTabel.capaian.push(dataBaris);
     });
+
+    semuaData.push(dataPerTabel);
+  });
+
+  // AJAX call untuk mengirim data ke server
+  $.ajax({
+    url: '{{route("simpan-capaian")}}',
+    type: 'POST',
+    contentType: 'application/json',
+    // data: JSON.stringify(semuaData),
+    data: JSON.stringify({ data: semuaData }),
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
+    success: function(response) {
+      alert('Data berhasil disimpan');
+      // tambahkan apa yang perlu dilakukan setelah data tersimpan
+    },
+    error: function(error) {
+      alert('Terjadi kesalahan saat menyimpan data');
+      // tambahkan handler untuk error
+    }
+  });
 });
+
 
 
 

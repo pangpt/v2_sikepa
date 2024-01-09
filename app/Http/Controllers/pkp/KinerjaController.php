@@ -206,9 +206,12 @@ class KinerjaController extends Controller
   public function capaian_kinerja($id)
   {
     $perjanjian = Perjanjian_kinerja::with('capaian_kinerja')->where('penilaian_kinerja_id', $id)->get();
-    $data = Penilaian_kinerja::where('id', $id)->first();
+    foreach($perjanjian as $key){
+      $data = Penilaian_kinerja::where('id', $key->penilaian_kinerja_id)->first();
+    }
     $atasan = Penilaian_kinerja::with('pejabatPenilai')->find($data->id);
     $indikator_pck = Indikator_pck::get();
+    // $capaian = Capaian_kinerja::where('perjanjian_kinerja_id', )
     // $capaian = Capaian_kinerja::get();
 
     return view('content.pkp.pck',[
@@ -222,35 +225,43 @@ class KinerjaController extends Controller
 
   public function simpan_capaian(Request $request)
   {
-    // Decode data JSON yang dikirim melalui AJAX
-    $dataKinerja = json_decode($request->getContent(), true);
+        // Validasi request
+       $validatedData = $request->input('data');
+      //  dd($validatedData);
 
-    // Iterasi setiap tabel data dan simpan ke database
-    foreach ($dataKinerja as $data) {
-        foreach ($data['data'] as $inputData) {
-            // Buat dan simpan setiap baris data baru
-            $kinerja = new Capaian_kinerja();
-            // Set data untuk kinerja dari $inputData
-            $kinerja->perjanjian_kinerja_id = 1;
-            $kinerja->employee_id = Auth()->user()->employee->id;
-            $kinerja->indikator_pkp_id = 1;
-            $kinerja->indikator_pck_id = 1;
-            $kinerja->periode_bulan = 'Januari';
-            $kinerja->periode_tahun = 2024;
-            $kinerja->kegiatan_tugas = 1;
-            $kinerja->target_output = 1;
-            $kinerja->target_mutu = 1;
-            $kinerja->realisasi_output = 1;
-            $kinerja->realisasi_mutu = 1;
-            $kinerja->nilai_capaian = 1;
-            $kinerja->bukti_dukung = 1;
-            $kinerja->status_pck = 0; // Set status 0 untuk "simpan"
-            $kinerja->save();
+       foreach ($validatedData as $tableData) {
+        $tableId = $tableData['id']; // Ini adalah ID dari tabel PCK
+        $capaians = $tableData['capaian']; // Ini adalah array dari capaian
+
+        foreach ($capaians as $capaian) {
+            if (!empty($capaian)) { // Cek jika array capaian tidak kosong
+                // Proses data capaian disini
+                $kinerja = Capaian_kinerja::findOrNew($capaian['id']);
+
+                $kegiatan = $capaian['kegiatan'];
+                $targetKuantitas = $capaian['target_kuantitas'];
+                $targetKualitas = $capaian['target_kualitas'];
+                $realisasiKuantitas = $capaian['realisasi_kuantitas'];
+                $realisasiKualitas = $capaian['realisasi_kualitas'];
+                $nilaiCapaian = $capaian['nilai_capaian'];
+
+                // Misal Anda ingin menyimpan ke database
+                $model = new Capaian_kinerja(); // Ganti dengan nama model yang sebenarnya
+                $model->perjanjian_kinerja_id = 2;
+                $model->employee_id = Auth()->user()->employee->id;
+                $model->target_output = 100;
+                $model->realisasi_mutu = 100;
+                $model->kegiatan_tugas = '12';
+                $model->target_mutu = 100;
+                // Set sisa field model sesuai dengan array capaian
+                $model->save();
+            }
         }
     }
 
-    // Return response sukses
-    return response()->json(['message' => 'Data berhasil disimpan'], 200);
+
+      // Berikan response sukses
+      return response()->json(['message' => 'Data berhasil disimpan'], 200);
   }
 
   public function simpan_periode_capaian(Request $request)
@@ -260,7 +271,7 @@ class KinerjaController extends Controller
         $bulan = $request->periode_bulan;
         $tahun = $request->periode_tahun;
         $idTarget = $request->idTarget;
-        
+
 
         foreach ($perjanjianIds as $index => $id) {
             Periode_pck::create([
@@ -274,7 +285,7 @@ class KinerjaController extends Controller
         return redirect()->route('capaian-kinerja', ['id' => $idTarget])
                      ->with('success', 'Data berhasil disimpan.');
 
-    
+
   }
 
   public function penangguhan()

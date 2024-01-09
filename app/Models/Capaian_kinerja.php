@@ -20,7 +20,6 @@ class Capaian_kinerja extends Model
         'indikator_pck_id',
         'periode_bulan',
         'periode_tahun',
-        'target_kuantitas',
         'kegiatan_tugas',
         'target_output',
         'target_mutu',

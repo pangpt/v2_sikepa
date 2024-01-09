@@ -13,7 +13,7 @@
         <h4>FORM PKP PERIODE {{ \Carbon\Carbon::parse($pkp->periode_mulai)->locale('id')->isoFormat('D MMMM Y') }} S/D {{ \Carbon\Carbon::parse($pkp->periode_selesai)->locale('id')->isoFormat('D MMMM Y') }}</h4>
       </div>
       <div class="card-body">
-        <table id="pegawaiTable" class="display">
+        <table class="table">
           <tr>
             <th colspan="2">PEGAWAI YANG DINILAI</th>
             <th colspan="2">PEJABAT PENILAI KINERJA</th>
