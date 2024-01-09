@@ -236,7 +236,7 @@ class KinerjaController extends Controller
         foreach ($capaians as $capaian) {
             if (!empty($capaian)) { // Cek jika array capaian tidak kosong
                 // Proses data capaian disini
-                $kinerja = Capaian_kinerja::findOrNew($capaian['id']);
+                // $kinerja = Capaian_kinerja::findOrNew($capaian['id']);
 
                 $kegiatan = $capaian['kegiatan'];
                 $targetKuantitas = $capaian['target_kuantitas'];
