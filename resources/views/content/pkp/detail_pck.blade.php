@@ -287,14 +287,9 @@ $('#tombolSimpan').click(function() {
       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     },
     success: function(response) {
-      if(response.redirectUrl) {
-          // Redirect ke URL yang diberikan oleh server
-          window.location.href = response.redirectUrl;
-      } else {
-          // Tampilkan pesan sukses atau lakukan aksi lain
-          alert('Data berhasil disimpan');
-      }
-  },
+      alert('Data berhasil disimpan');
+      // tambahkan apa yang perlu dilakukan setelah data tersimpan
+    },
     error: function(error) {
       alert('Terjadi kesalahan saat menyimpan data');
       // tambahkan handler untuk error

@@ -110,18 +110,46 @@
         <table class="table table-bordered" id="tabelPKP">
           <thead>
             <tr>
-                <th class="text-nowrap">NO</th>
-                <th class="text-nowrap text-center">Laporan</th>
-                <th class="text-nowrap text-center">Status</th>
-                <th class="text-nowrap text-center"></th>
+                <th class="text-nowrap" width="10%">NO</th>
+                <th class="text-nowrap text-center" width="60%">Laporan</th>
+                <th class="text-nowrap text-center" width="20%">Status</th>
+                <th class="text-nowrap text-center" width="10%"></th>
             </tr>
         </thead>
         <tbody>
+          @php
+            $namaBulan = [
+              1 => 'Januari',
+              2 => 'Februari',
+              3 => 'Maret',
+              4 => 'April',
+              5 => 'Mei',
+              6 => 'Juni',
+              7 => 'Juli',
+              8 => 'Agustus',
+              9 => 'September',
+              10 => 'Oktober',
+              11 => 'November',
+              12 => 'Desember'
+            ];
+          @endphp
+          @foreach($capaian as $pck)
           <tr>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{$loop->iteration}}</td>
+            <td>PCK Periode {{$namaBulan[$pck->periode_pck->periode_bulan]}} {{$pck->periode_pck->periode_tahun}}</td>
+            <td>
+              @if($pck->status == 0)
+              PCK_DRAFT
+              @endif
+              @if($pck->status == 1)
+              PCK_BARU
+              @endif
+            </td>
+            <td>
+              <a href="" type="button" class="btn btn-sm btn-primary"><span class="tf-icon bx bx-info-circle"></span> Detail</a>
+            </td>
           </tr>
+          @endforeach
         </tbody>
         </table>
       </div>
