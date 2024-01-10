@@ -237,28 +237,29 @@ class KinerjaController extends Controller
             if (!empty($capaian)) { // Cek jika array capaian tidak kosong
                 // Proses data capaian disini
                 // $kinerja = Capaian_kinerja::findOrNew($capaian['id']);
-
                 $kegiatan = $capaian['kegiatan'];
                 $targetKuantitas = $capaian['target_kuantitas'];
                 $targetKualitas = $capaian['target_kualitas'];
                 $realisasiKuantitas = $capaian['realisasi_kuantitas'];
                 $realisasiKualitas = $capaian['realisasi_kualitas'];
                 $nilaiCapaian = $capaian['nilai_capaian'];
+                $periode = $capaian['periode_pck_id'];
+                $penilaianId = $capaian['penilaian_kinerja_id'];
 
                 // Misal Anda ingin menyimpan ke database
                 $model = new Capaian_kinerja(); // Ganti dengan nama model yang sebenarnya
-                $model->perjanjian_kinerja_id = 2;
-                $model->penilaian_kinerja_id = 3;
-                $model->indikator_pkp_id = 4;
-                $model->indikator_pck_id = $capaian['kegiatan'];
-                $model->periode_pck_id = 4;
+                $model->perjanjian_kinerja_id = $tableId;
+                $model->penilaian_kinerja_id = $penilaianId;
+                $model->indikator_pkp_id = 0;
+                $model->indikator_pck_id = $kegiatan;
+                $model->periode_pck_id = $periode;
                 // $model->employee_id = Auth()->user()->employee->id;
-                $model->realisasi_mutu = 100;
-                $model->realisasi_output = 100;
-                $model->target_output = 100;
-                $model->target_mutu = 100;
+                $model->realisasi_mutu = $realisasiKualitas;
+                $model->realisasi_output = $realisasiKuantitas;
+                $model->target_output = $targetKuantitas;
+                $model->target_mutu = $targetKualitas;
                 $model->bukti_dukung = 'asdsadsd';
-                $model->status_pck = 1;
+                $model->status_pck = 0;
                 $model->nilai_capaian = $capaian['nilai_capaian'];
                 // Set sisa field model sesuai dengan array capaian
                 $model->save();
@@ -275,18 +276,26 @@ class KinerjaController extends Controller
   {
 
         $penilaianIds = $request->penilaian_kinerja_id;
+        // dd($penilaianIds);
         $bulan = $request->periode_bulan;
         $tahun = $request->periode_tahun;
         $idTarget = $request->idTarget;
 
+        $periode = new Periode_pck;
+        $periode->penilaian_kinerja_id = $penilaianIds;
+        $periode->periode_bulan = $bulan;
+        $periode->periode_tahun = $tahun;
+        $periode->save();
 
-        foreach ($penilaianIds as $index => $id) {
-            Periode_pck::create([
-                'penilaian_kinerja_id' => $id,
-                'periode_bulan' => $bulan[$index],
-                'periode_tahun' => $tahun[$index],
-            ]);
-        }
+        session(['periodeId' => $periode->id]);
+
+        // foreach ($penilaianIds as $index => $id) {
+        //     Periode_pck::create([
+        //         'penilaian_kinerja_id' => $id,
+        //         'periode_bulan' => $bulan[$index],
+        //         'periode_tahun' => $tahun[$index],
+        //     ]);
+        // }
 
         // Redirect ke halaman sebelumnya atau tampilkan pesan sukses
         return redirect()->route('capaian-kinerja', ['id' => $idTarget])

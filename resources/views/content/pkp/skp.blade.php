@@ -135,7 +135,7 @@
       <form action="{{route('simpan-periode-capaian')}}" method="POST" id="tambah-pck">
         @csrf
         @foreach($penilaian as $key)
-        <input class="form-control" type="hidden" name="penilaian_kinerja_id[]" value="{{$key->id}}"/>
+        <input class="form-control" type="hidden" name="penilaian_kinerja_id" value="{{$key->id}}"/>
         @endforeach
         <input type="hidden" id="idTarget" value={{$data->id}} name="idTarget"/>
         <div class="modal-header">
@@ -146,7 +146,7 @@
         <div class="row">
           <div class="col mb-3">
             <label for="nameBasic" class="form-label">Bulan</label>
-            <select class="form-select" id="searchable-dropdown" name="periode_bulan[]">
+            <select class="form-select" id="searchable-dropdown" name="periode_bulan">
               <option value="">Pilih Bulan</option>
               <option value="1">Januari</option>
               <option value="2">Februai</option>
@@ -166,7 +166,7 @@
         <div class="row">
           <div class="col mb-3">
             <label for="nameBasic" class="form-label">Tahun</label>
-            <input class="form-control" type="text" id="html5-date-input" name="periode_tahun[]" value="{{ \Carbon\Carbon::now()->year }}" readonly/>
+            <input class="form-control" type="text" id="html5-date-input" name="periode_tahun" value="{{ \Carbon\Carbon::now()->year }}" readonly/>
           </div>
         </div>
       </div>
@@ -207,17 +207,17 @@
 //   });
 // }
 function konfirmasiInput() {
-  var jumlahIterasi = {{ count($perjanjian) }};
-  var bulanTerpilih = $('#searchable-dropdown').val();
-  var tahunTerpilih = $('#html5-date-input').val();
-  var idTarget = $('#idTarget').val();
-  console.log(idTarget)
+  // var jumlahIterasi = {{ count($perjanjian) }};
+  // var bulanTerpilih = $('#searchable-dropdown').val();
+  // var tahunTerpilih = $('#html5-date-input').val();
+  // var idTarget = $('#idTarget').val();
+  // console.log(idTarget)
 
   // Mengatur data bulan dan tahun untuk setiap perjanjian
-  for (var i = 0; i < jumlahIterasi; i++) {
-    $('#tambah-pck').append('<input type="hidden" name="periode_bulan[]" value="' + bulanTerpilih + '">');
-    $('#tambah-pck').append('<input type="hidden" name="periode_tahun[]" value="' + tahunTerpilih + '">');
-  }
+  // for (var i = 0; i < jumlahIterasi; i++) {
+  //   $('#tambah-pck').append('<input type="hidden" name="periode_bulan[]" value="' + bulanTerpilih + '">');
+  //   $('#tambah-pck').append('<input type="hidden" name="periode_tahun[]" value="' + tahunTerpilih + '">');
+  // }
 
   swal({
     title: 'Konfirmasi',
@@ -240,7 +240,7 @@ function konfirmasiInput() {
     }
   });
 
-  
+
 }
 
 

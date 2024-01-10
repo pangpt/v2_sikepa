@@ -61,13 +61,13 @@
         <h5>DAFTAR INDIKATOR KINERJA</h5>
       </div>
       @foreach($perjanjian as $indikator)
-      
+
       <div class="card-header pt-0">
         <small class="fw-bold">Indikator Kinerja: {{$indikator->indikator}}</small> <br>
         <small class="fw-bold"><span class="tf-icon bx bx-info-circle"></span> Keterangan: Jika nilai Kualitas dan Kuantitas sama dengan 0 maka data tidak akan tersimpan pada sistem</small>
       </div>
       <div class="card-body">
-        <table class="table table-bordered" id="{{$indikator->id}}">
+        <table class="table table-bordered" id="{{$indikator->id}}" data-indikator-id="{{ $indikator->id }}">
           <thead>
             <tr>
                 <th rowspan="2">No</th>
@@ -111,14 +111,14 @@
                 <!-- Nilai capaian kinerja -->
                 <td></td>
                 <td>
-                    <button class="btn btn-primary btn-sm"><span class="tf-icon bx bx-link"></span></button>
+                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalEviden"><span class="tf-icon bx bx-link"></span></button>
                     <button class="btn btn-danger btn-sm hapusBaris"><span class="tf-icon bx bx-trash"></i></button>
                 </td>
             </tr>
             @endforeach
             <tr class="tambah-row">
               <td colspan="10">
-                <button class="btn btn-primary col-xl-12 tambah-baris"  type="button" data-table="{{ $indikator->id }}">
+                <button class="btn btn-primary col-xl-12 tambah-baris"  type="button" data-table="{{ $indikator->id }}" >
                 <span class="tf-icons bx bx-plus"></span>&nbsp; Tambah
                 </button>
               </td>
@@ -145,40 +145,19 @@
   </div>
 </div>
 
-<div class="modal fade" id="modalPCK" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="modalEviden" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <form action="" method="POST" id="tambah-pck">
         @csrf
         <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel1">Tambah PCK</h5>
+        <h5 class="modal-title" id="exampleModalLabel1">Tambah Bukti Dukung</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div class="row">
-          <div class="col mb-3">
-            <label for="nameBasic" class="form-label">Bulan</label>
-            <select class="form-select" id="searchable-dropdown" name="bulan_pck">
-              <option value="">Pilih Bulan</option>
-              <option value="1">Januari</option>
-              <option value="2">Februai</option>
-              <option value="3">Maret</option>
-              <option value="4">April</option>
-              <option value="5">Mei</option>
-              <option value="6">Juni</option>
-              <option value="7">Juli</option>
-              <option value="8">Agustus</option>
-              <option value="9">September</option>
-              <option value="10">Oktober</option>
-              <option value="11">November</option>
-              <option value="12">Desember</option>
-            </select>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col mb-3">
-            <label for="nameBasic" class="form-label">Tahun</label>
-            <input class="form-control" type="text" id="html5-date-input" name="tahun_pck" value="{{ \Carbon\Carbon::now()->year }}" readonly/>
+          <div class="col">
+            <textarea class="form-control" name="roleExplanation" rows="3"></textarea>
           </div>
         </div>
       </div>
@@ -216,6 +195,8 @@
                     </select>
                 </td>
                 <!-- Data target -->
+                <input type="hidden" class="form-control periode_pck_id" name="periode_pck_id[${tableId}][]" value="{{session('periodeId')}}">
+                <input type="hidden" class="form-control penilaian_kinerja_id" name="penilaian_kinerja_id[${tableId}][]" value="{{$data->id}}">
                 <td><input type="text" class="form-control target-kuant-input" name="target_kuantitas[${tableId}][]"></td>
                 <td><div class="hasil-input" name=""></div></td>
                 <td><input type="text" class="form-control target-kual-input" name="target_kualitas[${tableId}][]" value="100"></td>
@@ -226,7 +207,7 @@
                 <!-- Nilai capaian kinerja -->
                 <td class="nilai-capaian"></td>
                 <td>
-                    <button type="button" class="btn btn-primary btn-sm link-btn"><span class="tf-icon bx bx-link"></span></button>
+                  <button class="btn btn-primary btn-sm link-btn" data-bs-toggle="modal" data-bs-target="#modalEviden"><span class="tf-icon bx bx-link"></span></button>
                     <a href="#" type="button" class="btn btn-danger btn-sm hapusBaris"><span class="tf-icon bx bx-trash"></span></a>
                 </td>
             </tr>`;
@@ -275,6 +256,7 @@ $('#tombolSimpan').click(function() {
     var idTabel = this.id;
     var dataPerTabel = { id: idTabel, capaian: [] };
 
+
     // Loop melalui setiap baris pada tabel ini kecuali baris tambahan
     $('#' + idTabel + ' tbody tr').not('.tambah-row, .nilai-capaian-kinerja').each(function() {
       var dataBaris = {
@@ -284,11 +266,14 @@ $('#tombolSimpan').click(function() {
         realisasi_kuantitas: $(this).find('[name^="realisasi_kuantitas"]').val(),
         realisasi_kualitas: $(this).find('[name^="realisasi_kualitas"]').val(),
         nilai_capaian: $(this).find('[name^="realisasi_kualitas"]').val(),
+        periode_pck_id: $(this).find('[name^="periode_pck_id"]').val(),
+        penilaian_kinerja_id: $(this).find('[name^="penilaian_kinerja_id"]').val(),
       };
       dataPerTabel.capaian.push(dataBaris);
     });
 
     semuaData.push(dataPerTabel);
+    console.log(semuaData);
   });
 
   // AJAX call untuk mengirim data ke server
