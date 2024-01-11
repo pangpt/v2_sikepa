@@ -213,6 +213,8 @@ class KinerjaController extends Controller
     }
     $atasan = Penilaian_kinerja::with('pejabatPenilai')->find($data->id);
     $indikator_pck = Indikator_pck::get();
+    $cp = Capaian_kinerja::get();
+    // dd($cp);
 
     return view('content.pkp.pck',[
       'perjanjian' => $perjanjian,
