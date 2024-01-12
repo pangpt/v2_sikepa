@@ -5,6 +5,54 @@
 @section('content')
 <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Forms/</span> Vertical Layouts</h4>
 
+<!-- Basic Layout -->
+<div class="row">
+  <div class="col-xl-12">
+    <div class="card mb-4">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="m-0">PCK BULAN: {{ \Carbon\Carbon::parse($data->periode_mulai)->locale('id')->isoFormat('D MMMM Y') }} S/D {{ \Carbon\Carbon::parse($data->periode_selesai)->locale('id')->isoFormat('D MMMM Y') }} (PKP_DITERIMA)</h5>
+      </div>
+      <div class="card-body">
+        <table class="table">
+          <tr>
+            <th colspan="2">PEGAWAI YANG DINILAI</th>
+            <th colspan="2">PEJABAT PENILAI KINERJA</th>
+          </tr>
+          <tr>
+            <td>NAMA</td>
+            <td>{{$data->employee->nama}}</td>
+            <td>NAMA</td>
+            <td>{{$atasan->pejabatPenilai->nama}}</td>
+          </tr>
+          <tr>
+            <td>NIP</td>
+            <td>{{$data->employee->nip}}</td>
+            <td>NIP</td>
+            <td>{{$atasan->pejabatPenilai->nip}}</td>
+          </tr>
+          <tr>
+            <td>PANGKAT / GOL.</td>
+            <td>{{$data->employee->golongan->pangkat}} - {{$data->employee->golongan->jenis_golongan}}</td>
+            <td>PANGKAT / GOL.</td>
+            <td>{{$atasan->pejabatPenilai->golongan->pangkat}} - {{$atasan->pejabatPenilai->golongan->jenis_golongan}}</td>
+          </tr>
+          <tr>
+            <td>JABATAN</td>
+            <td>{{$atasan->employee->department->nama_jabatan}}</td>
+            <td>JABATAN</td>
+            <td>{{$atasan->pejabatPenilai->department->nama_jabatan}}</td>
+          </tr>
+          {{-- <tr>
+            <td>PENEMPATAN</td>
+            <td>Subbagian Kepegawaian</td>
+            <td>PENEMPATAN</td>
+            <td>Subbagian Kepegawaian</td>
+          </tr> --}}
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="row">
   <div class="col-xl-12">
