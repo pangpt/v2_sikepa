@@ -89,7 +89,7 @@
             </tr>
         </thead>
         <tbody>
-          {{-- @foreach($indikator->capaian_kinerja as $key)
+          @foreach($indikator->capaian_kinerja as $key)
             <tr>
                 <td>{{$loop->iteration}}</td>
                 <td>
@@ -115,7 +115,7 @@
                     <button class="btn btn-danger btn-sm hapusBaris"><span class="tf-icon bx bx-trash"></i></button>
                 </td>
             </tr>
-            @endforeach --}}
+            @endforeach
             <tr class="tambah-row">
               <td colspan="10">
                 <button class="btn btn-primary col-xl-12 tambah-baris"  type="button" data-table="{{ $indikator->id }}" >
@@ -146,7 +146,7 @@
 </div>
 
 <div class="modal fade" id="modalEviden" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-dialog" role="document">
     <div class="modal-content">
       <form action="" method="POST" id="tambah-pck">
         @csrf
@@ -157,12 +157,12 @@
       <div class="modal-body">
         <div class="row">
           <div class="col">
-            <textarea class="form-control" name="roleExplanation" rows="3" id="inputBuktiDukung" name="bukti_dukung[]"></textarea>
+            <textarea class="form-control" name="roleExplanation" rows="3"></textarea>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary col-12" id="tombolProses">Proses</button>
+        <button type="button" class="btn btn-primary col-12" onclick="konfirmasiInput()">Proses</button>
       </div>
       </form>
 
@@ -221,17 +221,6 @@
     $(this).closest('tr').remove();
 });
 
-// Inisialisasi objek untuk menyimpan data sementara
-let dataSementara = [];
-
-// Event 'click' untuk tombol "Proses" di modal
-$('#tombolProses').click(function() {
-    // Ambil data dari input modal
-    dataSementara.buktiDukung = $('#inputBuktiDukung').val();
-    // Tutup modal jika diperlukan
-    $('#modalEviden').modal('hide');
-});
-
 });
 $(document).ready(function() {
      $(document).on('change', '.butir-kegiatan-select', function() {
@@ -279,7 +268,6 @@ $('#tombolSimpan').click(function() {
         nilai_capaian: $(this).find('[name^="realisasi_kualitas"]').val(),
         periode_pck_id: $(this).find('[name^="periode_pck_id"]').val(),
         penilaian_kinerja_id: $(this).find('[name^="penilaian_kinerja_id"]').val(),
-        bukti_dukung: $(this).find('name^="bukti_dukung"]').val(),
       };
       dataPerTabel.capaian.push(dataBaris);
     });
@@ -315,12 +303,6 @@ $('#tombolSimpan').click(function() {
 });
 
 
-window.onbeforeunload = function(event) {
-    // Set up the alert message
-    var message = 'Perubahan yang belum disimpan mungkin akan hilang!';
-    event.returnValue = message; // Standard for most browsers
-    return message; // For some older browsers
-};
 
 
 
