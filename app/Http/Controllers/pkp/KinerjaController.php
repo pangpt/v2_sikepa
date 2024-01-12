@@ -15,6 +15,7 @@ use App\Models\Capaian_kinerja;
 use App\Models\Penilaian_kinerja;
 use App\Models\Perjanjian_kinerja;
 use App\Models\Periode_pck;
+use App\Models\Penilaian_capaian;
 use DB;
 use Auth;
 class KinerjaController extends Controller
@@ -194,33 +195,37 @@ class KinerjaController extends Controller
   {
     $perjanjian = Perjanjian_kinerja::where('penilaian_kinerja_id', $id)->get();
     $penilaian = Penilaian_kinerja::where('id', $id)->get();
+    // dd($penilaian);
     $data = Penilaian_kinerja::where('id', $id)->first();
     $atasan = Penilaian_kinerja::with('pejabatPenilai')->find($data->id);
+    $capaian = Penilaian_capaian::where('penilaian_kinerja_id', $id)->get();
 
     return view('content.pkp.skp',[
       'perjanjian' => $perjanjian,
       'penilaian' => $penilaian,
       'data' => $data,
       'atasan' => $atasan,
+      'capaian' => $capaian,
     ]);
   }
 
   public function capaian_kinerja($id)
   {
+    $periodeId = session('periodeId');
+    // dd($periodeId);
     $perjanjian = Perjanjian_kinerja::with('capaian_kinerja')->where('penilaian_kinerja_id', $id)->get();
     foreach($perjanjian as $key){
       $data = Penilaian_kinerja::where('id', $key->penilaian_kinerja_id)->first();
     }
     $atasan = Penilaian_kinerja::with('pejabatPenilai')->find($data->id);
     $indikator_pck = Indikator_pck::get();
-    $cp = Capaian_kinerja::get();
-    // dd($cp);
 
     return view('content.pkp.pck',[
       'perjanjian' => $perjanjian,
       'data' => $data,
       'atasan' => $atasan,
       'indikator_pck' => $indikator_pck,
+
       // 'capaian' => $capaian,
     ]);
   }
@@ -261,18 +266,35 @@ class KinerjaController extends Controller
                 $model->target_output = $targetKuantitas;
                 $model->target_mutu = $targetKualitas;
                 $model->bukti_dukung = 'asdsadsd';
-                $model->status_pck = 0;
-                $model->nilai_capaian = $capaian['nilai_capaian'];
+                $model->status_pck = 1;
+                $model->nilai_capaian = $nilaiCapaian;
                 // Set sisa field model sesuai dengan array capaian
                 $model->save();
             }
         }
     }
 
+    $penilaianId = $model->penilaian_kinerja_id;
+    $period = $model->periode_pck_id;
+
+    $laporan_pck = new Penilaian_capaian;
+    $laporan_pck->penilaian_kinerja_id = $penilaianId;
+    $laporan_pck->periode_pck_id = $period;
+    $laporan_pck->total_capaian= 90;
+    $laporan_pck->status = 0;
+    $laporan_pck->save();
+
+    $redirectUrl = route('sasaran-kegiatan', ['id' => $penilaianId]); // atau $penilaianId[0] jika itu array
 
       // Berikan response sukses
-      return response()->json(['message' => 'Data berhasil disimpan'], 200);
+      return response()->json([
+        'success' => 'PCK Bulanan berhasil disimpan',
+        'redirectUrl' => $redirectUrl
+    ]);
   }
+
+  public function detail_capaian_kinerja()
+  {}
 
   public function simpan_periode_capaian(Request $request)
   {
@@ -289,8 +311,7 @@ class KinerjaController extends Controller
         $periode->periode_tahun = $tahun;
         $periode->save();
 
-        session(['periodeId' => $periode->id]);
-
+        session()->flash('periodeId', $periode->id);
         // foreach ($penilaianIds as $index => $id) {
         //     Periode_pck::create([
         //         'penilaian_kinerja_id' => $id,
