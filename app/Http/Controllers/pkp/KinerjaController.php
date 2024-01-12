@@ -321,10 +321,30 @@ class KinerjaController extends Controller
         // }
 
         // Redirect ke halaman sebelumnya atau tampilkan pesan sukses
-        return redirect()->route('capaian-kinerja', ['id' => $idTarget])
+        return redirect('layanan-pkp/capaian-kinerja/'.$idTarget.'?bulan='.$periode->id)
                      ->with('success', 'Data berhasil disimpan.');
 
 
+  }
+
+  public function capaian_kinerja_new()
+  {
+    $perjanjian = Perjanjian_kinerja::with('capaian_kinerja')->where('penilaian_kinerja_id', $id)->get();
+    foreach($perjanjian as $key){
+      $data = Penilaian_kinerja::where('id', $key->penilaian_kinerja_id)->first();
+    }
+    $atasan = Penilaian_kinerja::with('pejabatPenilai')->find($data->id);
+    $indikator_pck = Indikator_pck::get();
+    
+
+    return view('content.pkp.pck',[
+      'perjanjian' => $perjanjian,
+      'data' => $data,
+      'atasan' => $atasan,
+      'indikator_pck' => $indikator_pck,
+      
+      // 'capaian' => $capaian,
+    ]);
   }
 
   public function penangguhan()
