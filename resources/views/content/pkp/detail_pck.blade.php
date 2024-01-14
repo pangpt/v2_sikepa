@@ -6,11 +6,27 @@
 <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Forms/</span> Vertical Layouts</h4>
 
 <!-- Basic Layout -->
+          @php
+            $namaBulan = [
+              1 => 'Januari',
+              2 => 'Februari',
+              3 => 'Maret',
+              4 => 'April',
+              5 => 'Mei',
+              6 => 'Juni',
+              7 => 'Juli',
+              8 => 'Agustus',
+              9 => 'September',
+              10 => 'Oktober',
+              11 => 'November',
+              12 => 'Desember'
+            ];
+          @endphp
 <div class="row">
   <div class="col-xl-12">
     <div class="card mb-4">
       <div class="card-header d-flex justify-content-between align-items-center">
-        <h5 class="m-0">PCK BULAN: {{ \Carbon\Carbon::parse($data->periode_mulai)->locale('id')->isoFormat('D MMMM Y') }} S/D {{ \Carbon\Carbon::parse($data->periode_selesai)->locale('id')->isoFormat('D MMMM Y') }} (PKP_DITERIMA)</h5>
+        <h5 class="m-0">PCK Periode: {{$namaBulan[$pck->periode_pck->periode_bulan]}} {{$pck->periode_pck->periode_tahun}} (PKP_DRAFT)</h5>
       </div>
       <div class="card-body">
         <table class="table">
@@ -93,21 +109,20 @@
             <tr>
                 <td>{{$loop->iteration}}</td>
                 <td>
-                    <select class="form-select">
-                      @foreach($indikator_pck as $key)
-                        <option value=""></option>
-                        <option value="{{$key->id}}">{{$key->butir_kegiatan}}</option>
+                    <select class="form-select butir-kegiatan-select">
+                      @foreach($indikator_pck as $item)
+                        <option value="{{$item->id}}"{{ $key->indikator_pck_id == $item->id ? 'selected' : '' }}>{{$item->butir_kegiatan}}</option>
                       @endforeach
                     </select>
                 </td>
                 <!-- Data target -->
-                <td><input type="number" class="form-control" name="target_kuantitas"></td>
-                <td></td>
-                <td><input type="number" class="form-control" name="target_kualitas"></td>
+                <td><input type="number" class="form-control" name="target_kuantitas" value="{{$key->target_output}}"></td>
+                <td class="hasil-input"></td>
+                <td><input type="number" class="form-control" name="target_kualitas" value="{{$key->target_mutu}}"></td>
                 <!-- Data realisasi -->
-                <td><input type="number" class="form-control" name="realisasi_kuantitas"></td>
-                <td></td>
-                <td><input type="number" class="form-control" name="realisasi_kualitas"></td>
+                <td><input type="number" class="form-control" name="realisasi_kuantitas" value="{{$key->realisasi_output}}"></td>
+                <td class="hasil-input"></td>
+                <td><input type="number" class="form-control" name="realisasi_kualitas" value="{{$key->realisasi_mutu}}"></td>
                 <!-- Nilai capaian kinerja -->
                 <td></td>
                 <td>
@@ -118,7 +133,7 @@
             @endforeach
             <tr class="tambah-row">
               <td colspan="10">
-                <button class="btn btn-primary col-xl-12 tambah-baris"  type="button" data-table="{{ $indikator->id }}" >
+                {{-- <button class="btn btn-primary col-xl-12 tambah-baris"  type="button" data-table="{{ $indikator->id }}" > --}}
                 <span class="tf-icons bx bx-plus"></span>&nbsp; Tambah
                 </button>
               </td>
@@ -138,91 +153,20 @@
       <div class="card-footer justify-right">
         <button type="button" class="btn btn-sm btn-secondary"><span class="tf-icon bx bx-arrow-back"></span>Batal</button>
         <button type="button" class="btn btn-sm btn-info" id="tombolSimpan"><span class="tf-icon bx bx-save"></span>Simpan</button>
-        <button type="button" class="btn btn-sm btn-primary"><span class="tf-icon bx bx-send"></span>Ajukan</button>
+        <button type="button" class="btn btn-sm btn-primary" id="tombolAjukan"><span class="tf-icon bx bx-send"></span>Ajukan</button>
       </div>
 
     </div>
   </div>
 </div>
 
-<div class="modal fade" id="modalEviden" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <form action="" method="POST" id="tambah-pck">
-        @csrf
-        <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel1">Tambah Bukti Dukung</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col">
-            <textarea class="form-control" name="roleExplanation" rows="3"></textarea>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary col-12" onclick="konfirmasiInput()">Proses</button>
-      </div>
-      </form>
-
-    </div>
-  </div>
-</div>
 
 @endsection
 @section('page-script')
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-  <script>
 
-    $(document).ready(function() {
-    // Gunakan class bukan id untuk event handler karena kita memiliki banyak tombol tambah
-    $(".tambah-baris").click(function() {
-        var tableId = $(this).data('table'); // Mengambil ID tabel dari tombol yang diklik
-        console.log(tableId)
-        var nomorBaru = $("#" + tableId + " tbody tr").not('.tambah-row, .nilai-capaian-kinerja').length;
 
-        // Buat baris baru dengan menggunakan nomor baru dan tambahkan ke tabel yang sesuai
-        var barisBaru = `<tr>
-                <td>${nomorBaru}</td>
-                <td>
-                    <select class="form-select butir-kegiatan-select" name="indikator_pck_id[${tableId}][]">
-                      <option value="">Pilih butir kegiatan</option>
-                      @foreach($indikator_pck as $key)
-                        <option value="{{$key->id}}" data-hasil="{{ $key->hasil }}">{{$key->butir_kegiatan}}</option>
-                      @endforeach
-                    </select>
-                </td>
-                <!-- Data target -->
-                <input type="hidden" class="form-control periode_pck_id" name="periode_pck_id[${tableId}][]" value="{{session('periodeId')}}">
-                <input type="hidden" class="form-control penilaian_kinerja_id" name="penilaian_kinerja_id[${tableId}][]" value="{{$data->id}}">
-                <td><input type="text" class="form-control target-kuant-input" name="target_kuantitas[${tableId}][]"></td>
-                <td><div class="hasil-input" name=""></div></td>
-                <td><input type="text" class="form-control target-kual-input" name="target_kualitas[${tableId}][]" value="100"></td>
-                <!-- Data realisasi -->
-                <td><input type="text" class="form-control realisasi-kuant-input" name="realisasi_kuantitas[${tableId}][]"></td>
-                <td><div class="hasil-input"></div></td>
-                <td><input type="text" class="form-control realisasi-kual-input" name="realisasi_kualitas[${tableId}][]" ></td>
-                <!-- Nilai capaian kinerja -->
-                <td class="nilai-capaian"></td>
-                <td>
-                  <button class="btn btn-primary btn-sm link-btn" data-bs-toggle="modal" data-bs-target="#modalEviden"><span class="tf-icon bx bx-link"></span></button>
-                    <a href="#" type="button" class="btn btn-danger btn-sm hapusBaris"><span class="tf-icon bx bx-trash"></span></a>
-                </td>
-            </tr>`;
-
-        $("#" + tableId + " tbody tr.tambah-row").before(barisBaru);
-    });
-
-    // Fungsi untuk menghapus baris
-    $(document).on('click', '.hapusBaris', function(event) {
-    event.preventDefault(); // Mencegah browser scroll ke atas
-    $(this).closest('tr').remove();
-});
-
-});
-$(document).ready(function() {
+<script>
+  $(document).ready(function() {
      $(document).on('change', '.butir-kegiatan-select', function() {
         // Temukan satuan yang terkait dengan opsi yang dipilih
         var hasil = $(this).find('option:selected').data('hasil');
@@ -232,77 +176,5 @@ $(document).ready(function() {
         $(this).closest('tr').find('.hasil-input').text(hasil);
     });
 });
-
-$(document).on('input', '.realisasi-kuant-input, .target-kuant-input', function() {
-    var $row = $(this).closest('tr'); // Ambil baris terdekat dari input yang berubah
-    var targetKuantOutput = parseFloat($row.find('.target-kuant-input').val()) || 0; // Ambil nilai target
-    var realisasiKuantOutput = parseFloat($row.find('.realisasi-kuant-input').val()) || 0; // Ambil nilai realisasi
-
-    // Hitung nilai kualitas/mutu
-    var kualMutu = (targetKuantOutput !== 0) ? (realisasiKuantOutput / targetKuantOutput) * 100 : 0;
-
-    // Set nilai kualitas/mutu ke dalam input realisasi-kual-input
-    console.log(targetKuantOutput)
-    $row.find('.realisasi-kual-input').val(kualMutu.toFixed(2));
-
-    $row.find('.nilai-capaian').text(kualMutu.toFixed(2));
-});
-
-$('#tombolSimpan').click(function() {
-  var semuaData = [];
-
-  // Loop melalui setiap tabel indikator
-  $('.table-bordered').each(function() {
-    var idTabel = this.id;
-    var dataPerTabel = { id: idTabel, capaian: [] };
-
-
-    // Loop melalui setiap baris pada tabel ini kecuali baris tambahan
-    $('#' + idTabel + ' tbody tr').not('.tambah-row, .nilai-capaian-kinerja').each(function() {
-      var dataBaris = {
-        kegiatan: $(this).find('select').val(),
-        target_kuantitas: $(this).find('[name^="target_kuantitas"]').val(),
-        target_kualitas: $(this).find('[name^="target_kualitas"]').val(),
-        realisasi_kuantitas: $(this).find('[name^="realisasi_kuantitas"]').val(),
-        realisasi_kualitas: $(this).find('[name^="realisasi_kualitas"]').val(),
-        nilai_capaian: $(this).find('[name^="realisasi_kualitas"]').val(),
-        periode_pck_id: $(this).find('[name^="periode_pck_id"]').val(),
-        penilaian_kinerja_id: $(this).find('[name^="penilaian_kinerja_id"]').val(),
-      };
-      dataPerTabel.capaian.push(dataBaris);
-    });
-
-    semuaData.push(dataPerTabel);
-    console.log(semuaData);
-  });
-
-  // AJAX call untuk mengirim data ke server
-  $.ajax({
-    url: '{{route("simpan-capaian")}}',
-    type: 'POST',
-    contentType: 'application/json',
-    // data: JSON.stringify(semuaData),
-    data: JSON.stringify({ data: semuaData }),
-    headers: {
-      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    },
-    success: function(response) {
-      alert('Data berhasil disimpan');
-      // tambahkan apa yang perlu dilakukan setelah data tersimpan
-    },
-    error: function(error) {
-      alert('Terjadi kesalahan saat menyimpan data');
-      // tambahkan handler untuk error
-    }
-  });
-});
-
-
-
-
-
-
-
-
-  </script>
+</script>
 @endsection

@@ -138,7 +138,7 @@
       <div class="card-footer justify-right">
         <button type="button" class="btn btn-sm btn-secondary"><span class="tf-icon bx bx-arrow-back"></span>Batal</button>
         <button type="button" class="btn btn-sm btn-info" id="tombolSimpan"><span class="tf-icon bx bx-save"></span>Simpan</button>
-        <button type="button" class="btn btn-sm btn-primary"><span class="tf-icon bx bx-send"></span>Ajukan</button>
+        <button type="button" class="btn btn-sm btn-primary" id="tombolAjukan"><span class="tf-icon bx bx-send"></span>Ajukan</button>
       </div>
 
     </div>
@@ -151,24 +151,24 @@
       <form action="" method="POST" id="tambah-pck">
         @csrf
         <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel1">Tambah Bukti Dukung</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col">
-            <textarea class="form-control" name="roleExplanation" rows="3" id="inputBuktiDukung" name="bukti_dukung[]"></textarea>
+          <h5 class="modal-title" id="exampleModalLabel1">Tambah Bukti Dukung</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col">
+              <textarea class="form-control" rows="3" id="inputBuktiDukung" name="bukti_dukung"></textarea>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary col-12" id="tombolProses">Proses</button>
-      </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary col-12" id="tombolProses">Proses</button>
+        </div>
       </form>
-
     </div>
   </div>
 </div>
+
 
 @endsection
 @section('page-script')
@@ -207,7 +207,6 @@
                 <!-- Nilai capaian kinerja -->
                 <td class="nilai-capaian"></td>
                 <td>
-                  <button class="btn btn-primary btn-sm link-btn" data-bs-toggle="modal" data-bs-target="#modalEviden"><span class="tf-icon bx bx-link"></span></button>
                     <a href="#" type="button" class="btn btn-danger btn-sm hapusBaris"><span class="tf-icon bx bx-trash"></span></a>
                 </td>
             </tr>`;
@@ -217,22 +216,11 @@
 
     // Fungsi untuk menghapus baris
     $(document).on('click', '.hapusBaris', function(event) {
-    event.preventDefault(); // Mencegah browser scroll ke atas
-    $(this).closest('tr').remove();
-});
+        event.preventDefault(); // Mencegah browser scroll ke atas
+        $(this).closest('tr').remove();
+    });
 
-// Inisialisasi objek untuk menyimpan data sementara
-let dataSementara = [];
-
-// Event 'click' untuk tombol "Proses" di modal
-$('#tombolProses').click(function() {
-    // Ambil data dari input modal
-    dataSementara.buktiDukung = $('#inputBuktiDukung').val();
-    // Tutup modal jika diperlukan
-    $('#modalEviden').modal('hide');
-});
-
-});
+  });
 $(document).ready(function() {
      $(document).on('change', '.butir-kegiatan-select', function() {
         // Temukan satuan yang terkait dengan opsi yang dipilih
@@ -259,17 +247,21 @@ $(document).on('input', '.realisasi-kuant-input, .target-kuant-input', function(
     $row.find('.nilai-capaian').text(kualMutu.toFixed(2));
 });
 
-$('#tombolSimpan').click(function() {
+
+
+
+function kumpulkanDanKirimData(status) {
   var semuaData = [];
 
   // Loop melalui setiap tabel indikator
   $('.table-bordered').each(function() {
     var idTabel = this.id;
-    var dataPerTabel = { id: idTabel, capaian: [] };
+    var dataPerTabel = { id: idTabel, capaian: [], status: status };
 
 
     // Loop melalui setiap baris pada tabel ini kecuali baris tambahan
     $('#' + idTabel + ' tbody tr').not('.tambah-row, .nilai-capaian-kinerja').each(function() {
+      var barisId = $('#modalEviden').attr('baris-id');
       var dataBaris = {
         kegiatan: $(this).find('select').val(),
         target_kuantitas: $(this).find('[name^="target_kuantitas"]').val(),
@@ -279,7 +271,6 @@ $('#tombolSimpan').click(function() {
         nilai_capaian: $(this).find('[name^="realisasi_kualitas"]').val(),
         periode_pck_id: $(this).find('[name^="periode_pck_id"]').val(),
         penilaian_kinerja_id: $(this).find('[name^="penilaian_kinerja_id"]').val(),
-        bukti_dukung: $(this).find('name^="bukti_dukung"]').val(),
       };
       dataPerTabel.capaian.push(dataBaris);
     });
@@ -312,20 +303,15 @@ $('#tombolSimpan').click(function() {
       // tambahkan handler untuk error
     }
   });
+}
+
+$('#tombolSimpan').click(function() {
+    kumpulkanDanKirimData(0); // Untuk "Simpan" statusnya 0
 });
 
-
-window.onbeforeunload = function(event) {
-    // Set up the alert message
-    var message = 'Perubahan yang belum disimpan mungkin akan hilang!';
-    event.returnValue = message; // Standard for most browsers
-    return message; // For some older browsers
-};
-
-
-
-
-
+$('#tombolAjukan').click(function() {
+    kumpulkanDanKirimData(1); // Untuk "Ajukan" statusnya 1
+});
 
   </script>
 @endsection

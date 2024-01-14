@@ -146,7 +146,7 @@
               @endif
             </td>
             <td>
-              <a href="" type="button" class="btn btn-sm btn-primary"><span class="tf-icon bx bx-info-circle"></span> Detail</a>
+              <a href="{{route('detail-capaian-kinerja',['id' => $pck->id])}}" type="button" class="btn btn-sm btn-primary"><span class="tf-icon bx bx-info-circle"></span> Detail</a>
             </td>
           </tr>
           @endforeach

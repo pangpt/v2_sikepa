@@ -248,6 +248,45 @@ $(document).on('input', '.realisasi-kuant-input, .target-kuant-input', function(
     $row.find('.nilai-capaian').text(kualMutu.toFixed(2));
 });
 
+// $('#tombolProses').on('click', function() {
+//     // Mengambil data dari input modal
+//     var buktiDukung = $('#inputBuktiDukung').val();
+
+//     // Menyimpan data ke localStorage
+//     localStorage.setItem('buktiDukung', buktiDukung);
+
+//     // Menutup modal
+//     $('#modalEviden').modal('hide');
+// });
+
+// $(document).on('click', '.input-bukti-dukung', function() {
+//     var barisId = $(this).data('baris-id');
+//     console.log(barisId)
+//     $('#modalEviden').data('baris-id', barisId);
+//     var key = `buktiDukung-${barisId}`;
+//     console.log("Key untuk localStorage:", key);
+
+//     var dataTersimpan = localStorage.getItem(key);
+//     console.log("Data tersimpan:", dataTersimpan);
+
+//     if (dataTersimpan) {
+//         $('#inputBuktiDukung').val(dataTersimpan);
+//     } else {
+//         $('#inputBuktiDukung').val('');
+//     }
+
+//     $('#modalEviden').modal('show');
+// });
+
+// $('#tombolProses').on('click', function() {
+//     var barisId = $('#modalEviden').data('baris-id');
+//     console.log(barisId)
+//     var buktiDukung = $('#inputBuktiDukung').val();
+//     localStorage.setItem(`buktiDukung-${barisId}`, buktiDukung);
+//     $('#modalEviden').modal('hide');
+// });
+
+
 $('#tombolSimpan').click(function() {
   var semuaData = [];
 

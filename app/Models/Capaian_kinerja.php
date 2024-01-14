@@ -66,4 +66,9 @@ class Capaian_kinerja extends Model
     {
         return $this->belongsTo(Penilaian_kinerja::class);
     }
+
+    public function periode_pck()
+    {
+        return $this->belongsTo(Periode_pck::class);
+    }
 }
