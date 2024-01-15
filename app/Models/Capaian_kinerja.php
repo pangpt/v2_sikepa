@@ -57,6 +57,11 @@ class Capaian_kinerja extends Model
       return $this->belongsTo('App\Models\Indikator_pkp', 'indikator_pkp_id', 'id');
      }
 
+     public function indikator_pck()
+     {
+      return $this->belongsTo('App\Models\Indikator_pck', 'indikator_pck_id', 'id');
+     }
+
      public function perjanjian_kinerja()
     {
         return $this->belongsTo(Perjanjian_kinerja::class);

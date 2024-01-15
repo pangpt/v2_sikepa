@@ -117,23 +117,22 @@
                 </td>
                 <!-- Data target -->
                 <td><input type="number" class="form-control" name="target_kuantitas" value="{{$key->target_output}}"></td>
-                <td class="hasil-input"></td>
+                <td class="hasil-input" value="">{{$key->indikator_pck->hasil}}</td>
                 <td><input type="number" class="form-control" name="target_kualitas" value="{{$key->target_mutu}}"></td>
                 <!-- Data realisasi -->
                 <td><input type="number" class="form-control" name="realisasi_kuantitas" value="{{$key->realisasi_output}}"></td>
-                <td class="hasil-input"></td>
+                <td class="hasil-input" value="">{{$key->indikator_pck->hasil}}</td>
                 <td><input type="number" class="form-control" name="realisasi_kualitas" value="{{$key->realisasi_mutu}}"></td>
+                <td class="nilai-capaian">{{$key->nilai_capaian}}</td>
                 <!-- Nilai capaian kinerja -->
-                <td></td>
                 <td>
-                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalEviden"><span class="tf-icon bx bx-link"></span></button>
                     <button class="btn btn-danger btn-sm hapusBaris"><span class="tf-icon bx bx-trash"></i></button>
                 </td>
             </tr>
             @endforeach
             <tr class="tambah-row">
               <td colspan="10">
-                {{-- <button class="btn btn-primary col-xl-12 tambah-baris"  type="button" data-table="{{ $indikator->id }}" > --}}
+                <button class="btn btn-primary col-xl-12 tambah-baris"  type="button" data-table="{{ $indikator->id }}" >
                 <span class="tf-icons bx bx-plus"></span>&nbsp; Tambah
                 </button>
               </td>
@@ -163,11 +162,58 @@
 
 @endsection
 @section('page-script')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+  <script>
 
+    $(document).ready(function() {
+    // Gunakan class bukan id untuk event handler karena kita memiliki banyak tombol tambah
+    $(".tambah-baris").click(function() {
+        var tableId = $(this).data('table'); // Mengambil ID tabel dari tombol yang diklik
+        console.log(tableId)
+        var nomorBaru = $("#" + tableId + " tbody tr").not('.tambah-row, .nilai-capaian-kinerja').length;
 
-<script>
+        // Buat baris baru dengan menggunakan nomor baru dan tambahkan ke tabel yang sesuai
+        var barisBaru = `<tr>
+                <td>${nomorBaru}</td>
+                <td>
+                    <select class="form-select butir-kegiatan-select" name="indikator_pck_id[${tableId}][]">
+                      <option value="">Pilih butir kegiatan</option>
+                      @foreach($indikator_pck as $key)
+                        <option value="{{$key->id}}" data-hasil="{{ $key->hasil }}">{{$key->butir_kegiatan}}</option>
+                      @endforeach
+                    </select>
+                </td>
+                <!-- Data target -->
+                <input type="hidden" class="form-control periode_pck_id" name="periode_pck_id[${tableId}][]" value="{{session('periodeId')}}">
+                <input type="hidden" class="form-control penilaian_kinerja_id" name="penilaian_kinerja_id[${tableId}][]" value="{{$data->id}}">
+                <td><input type="text" class="form-control target-kuant-input" name="target_kuantitas[${tableId}][]"></td>
+                <td><div class="hasil-input" name=""></div></td>
+                <td><input type="text" class="form-control target-kual-input" name="target_kualitas[${tableId}][]" value="100"></td>
+                <!-- Data realisasi -->
+                <td><input type="text" class="form-control realisasi-kuant-input" name="realisasi_kuantitas[${tableId}][]"></td>
+                <td><div class="hasil-input"></div></td>
+                <td><input type="text" class="form-control realisasi-kual-input" name="realisasi_kualitas[${tableId}][]" ></td>
+                <!-- Nilai capaian kinerja -->
+                <td class="nilai-capaian"></td>
+                <td>
+                    <a href="#" type="button" class="btn btn-danger btn-sm hapusBaris"><span class="tf-icon bx bx-trash"></span></a>
+                </td>
+            </tr>`;
+
+        $("#" + tableId + " tbody tr.tambah-row").before(barisBaru);
+    });
+
+    // Fungsi untuk menghapus baris
+    $(document).on('click', '.hapusBaris', function(event) {
+        event.preventDefault(); // Mencegah browser scroll ke atas
+        $(this).closest('tr').remove();
+    });
+
+    });
   $(document).ready(function() {
      $(document).on('change', '.butir-kegiatan-select', function() {
+      console.log('cekdulu')
         // Temukan satuan yang terkait dengan opsi yang dipilih
         var hasil = $(this).find('option:selected').data('hasil');
         console.log(hasil)
