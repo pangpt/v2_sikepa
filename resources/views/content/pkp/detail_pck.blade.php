@@ -109,20 +109,24 @@
             <tr>
                 <td>{{$loop->iteration}}</td>
                 <td>
-                    <select class="form-select butir-kegiatan-select">
+                    <select class="form-select butir-kegiatan-select" name="indikator_pck_id">
                       @foreach($indikator_pck as $item)
-                        <option value="{{$item->id}}"{{ $key->indikator_pck_id == $item->id ? 'selected' : '' }}>{{$item->butir_kegiatan}}</option>
+                        <option value="{{$item->id}}" data-hasil="{{$item->hasil}}" {{ $key->indikator_pck_id == $item->id ? 'selected' : '' }} >{{$item->butir_kegiatan}}</option>
                       @endforeach
                     </select>
                 </td>
                 <!-- Data target -->
-                <td><input type="number" class="form-control" name="target_kuantitas" value="{{$key->target_output}}"></td>
+                <input type="hidden" class="form-control id" name="id" value="{{$key->id}}">
+                <input type="hidden" class="form-control penilaian_kinerja_id" name="penilaian_kinerja_id" id="penilaian_kinerja_id" value="{{$pck->penilaian_kinerja_id}}">
+                <input type="hidden" class="form-control perjanjian_kinerja_id" name="perjanjian_kinerja_id" value="{{$key->perjanjian_kinerja_id}}">
+                <input type="hidden" class="form-control periode_pck_id" name="periode_pck_id" value="{{$key->periode_pck_id}}">
+                <td><input type="text" class="form-control target-kuant-input" name="target_output" value="{{$key->target_output}}"></td>
                 <td class="hasil-input" value="">{{$key->indikator_pck->hasil}}</td>
-                <td><input type="number" class="form-control" name="target_kualitas" value="{{$key->target_mutu}}"></td>
+                <td><input type="text" class="form-control target-kual-input" name="target_mutu" value="{{$key->target_mutu}}"></td>
                 <!-- Data realisasi -->
-                <td><input type="number" class="form-control" name="realisasi_kuantitas" value="{{$key->realisasi_output}}"></td>
+                <td><input type="text" class="form-control realisasi-kuant-input" name="realisasi_output" value="{{$key->realisasi_output}}"></td>
                 <td class="hasil-input" value="">{{$key->indikator_pck->hasil}}</td>
-                <td><input type="number" class="form-control" name="realisasi_kualitas" value="{{$key->realisasi_mutu}}"></td>
+                <td><input type="text" class="form-control realisasi-kual-input" name="realisasi_mutu" value="{{$key->realisasi_mutu}}"></td>
                 <td class="nilai-capaian">{{$key->nilai_capaian}}</td>
                 <!-- Nilai capaian kinerja -->
                 <td>
@@ -179,21 +183,21 @@
                 <td>
                     <select class="form-select butir-kegiatan-select" name="indikator_pck_id[${tableId}][]">
                       <option value="">Pilih butir kegiatan</option>
-                      @foreach($indikator_pck as $key)
-                        <option value="{{$key->id}}" data-hasil="{{ $key->hasil }}">{{$key->butir_kegiatan}}</option>
+                      @foreach($indikator_pck as $item)
+                        <option value="{{$item->id}}"  data-hasil="{{ $item->hasil }}">{{$item->butir_kegiatan}}</option>
                       @endforeach
                     </select>
                 </td>
                 <!-- Data target -->
-                <input type="hidden" class="form-control periode_pck_id" name="periode_pck_id[${tableId}][]" value="{{session('periodeId')}}">
-                <input type="hidden" class="form-control penilaian_kinerja_id" name="penilaian_kinerja_id[${tableId}][]" value="{{$data->id}}">
-                <td><input type="text" class="form-control target-kuant-input" name="target_kuantitas[${tableId}][]"></td>
+                <input type="hidden" class="form-control periode_pck_id" name="periode_pck_id[${tableId}][]" value="{{$pck->periode_pck_id}}">
+                <input type="hidden" class="form-control penilaian_kinerja_id" name="penilaian_kinerja_id[${tableId}][]" value="{{$pck->penilaian_kinerja_id}}">
+                <td><input type="text" class="form-control target-kuant-input" name="target_output[${tableId}][]"></td>
                 <td><div class="hasil-input" name=""></div></td>
-                <td><input type="text" class="form-control target-kual-input" name="target_kualitas[${tableId}][]" value="100"></td>
+                <td><input type="text" class="form-control target-kual-input" name="target_mutu[${tableId}][]" value="100"></td>
                 <!-- Data realisasi -->
-                <td><input type="text" class="form-control realisasi-kuant-input" name="realisasi_kuantitas[${tableId}][]"></td>
+                <td><input type="text" class="form-control realisasi-kuant-input" name="realisasi_output[${tableId}][]"></td>
                 <td><div class="hasil-input"></div></td>
-                <td><input type="text" class="form-control realisasi-kual-input" name="realisasi_kualitas[${tableId}][]" ></td>
+                <td><input type="text" class="form-control realisasi-kual-input" name="realisasi_mutu[${tableId}][]" ></td>
                 <!-- Nilai capaian kinerja -->
                 <td class="nilai-capaian"></td>
                 <td>
@@ -222,5 +226,87 @@
         $(this).closest('tr').find('.hasil-input').text(hasil);
     });
 });
+$(document).on('input', '.realisasi-kuant-input, .target-kuant-input', function() {
+    var $row = $(this).closest('tr'); // Ambil baris terdekat dari input yang berubah
+    var targetKuantOutput = parseFloat($row.find('.target-kuant-input').val()) || 0; // Ambil nilai target
+    var realisasiKuantOutput = parseFloat($row.find('.realisasi-kuant-input').val()) || 0; // Ambil nilai realisasi
+
+    // Hitung nilai kualitas/mutu
+    var kualMutu = (targetKuantOutput !== 0) ? (realisasiKuantOutput / targetKuantOutput) * 100 : 0;
+
+    // Set nilai kualitas/mutu ke dalam input realisasi-kual-input
+    console.log(targetKuantOutput)
+    $row.find('.realisasi-kual-input').val(kualMutu.toFixed(2));
+
+    $row.find('.nilai-capaian').text(kualMutu.toFixed(2));
+});
+
+function kumpulkanDanKirimData(status) {
+  var semuaData = [];
+  var penilaianId = $('#penilaian_kinerja_id').val();
+
+  // Loop melalui setiap tabel indikator
+  $('.table-bordered').each(function() {
+    var idTabel = this.id;
+    var dataPerTabel = { id: idTabel, capaian: [], status: status };
+
+
+    // Loop melalui setiap baris pada tabel ini kecuali baris tambahan
+    $('#' + idTabel + ' tbody tr').not('.tambah-row, .nilai-capaian-kinerja').each(function() {
+      var dataBaris = {
+        kegiatan: $(this).find('select').val(),
+        target_output: $(this).find('[name^="target_output"]').val(),
+        target_mutu: $(this).find('[name^="target_mutu"]').val(),
+        realisasi_output: $(this).find('[name^="realisasi_output"]').val(),
+        realisasi_mutu: $(this).find('[name^="realisasi_mutu"]').val(),
+        nilai_capaian: $(this).find('[name^="realisasi_mutu"]').val(),
+        periode_pck_id: $(this).find('[name^="periode_pck_id"]').val(),
+        penilaian_kinerja_id: $(this).find('[name^="penilaian_kinerja_id"]').val(),
+        perjanjian_kinerja_id: $(this).find('[name^="perjanjian_kinerja_id"]').val(),
+        indikator_pck_id: $(this).find('[name^="indikator_pck_id"]').val(),
+        id: $(this).find('[name^="id"]').val(),
+        status_pck: status,
+      };
+      dataPerTabel.capaian.push(dataBaris);
+    });
+
+    semuaData.push(dataPerTabel);
+    console.log(semuaData);
+  });
+
+  // AJAX call untuk mengirim data ke server
+  $.ajax({
+    url: '{{route("simpan-detail")}}',
+    type: 'POST',
+    contentType: 'application/json',
+    // data: JSON.stringify(semuaData),
+    data: JSON.stringify({ data: semuaData, penilaianId: penilaianId }),
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
+    success: function(response) {
+      if(response.redirectUrl) {
+          // Redirect ke URL yang diberikan oleh server
+          window.location.href = response.redirectUrl;
+      } else {
+          // Tampilkan pesan sukses atau lakukan aksi lain
+          alert('Data berhasil disimpan');
+      }
+  },
+    error: function(error) {
+      alert('Terjadi kesalahan saat menyimpan data');
+      // tambahkan handler untuk error
+    }
+  });
+}
+
+$('#tombolSimpan').click(function() {
+    kumpulkanDanKirimData(0); // Untuk "Simpan" statusnya 0
+});
+
+$('#tombolAjukan').click(function() {
+    kumpulkanDanKirimData(1); // Untuk "Ajukan" statusnya 1
+});
+
 </script>
 @endsection

@@ -135,6 +135,7 @@ Route::post('/layanan-pkp/tambah-perjanjian-kinerja', $controller_path . '\pkp\K
 Route::post('layanan-pkp/simpan-capaian-kinerja', $controller_path . '\pkp\KinerjaController@simpan_capaian')->name('simpan-capaian');
 Route::post('layanan-pkp/simpan-periode-capaian-kinerja', $controller_path . '\pkp\KinerjaController@simpan_periode_capaian')->name('simpan-periode-capaian');
 Route::get('layanan-pkp/capaian-kinerja/detail/{id}', $controller_path . '\pkp\KinerjaController@detail_capaian_kinerja')->name('detail-capaian-kinerja');
+Route::post('layanan-pkp/simpan-detail', $controller_path . '\pkp\KinerjaController@simpan_detail')->name('simpan-detail');
 
 Route::get('/form/layouts-horizontal', $controller_path . '\form_layouts\HorizontalForm@index')->name('form-layouts-horizontal');
 

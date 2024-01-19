@@ -327,6 +327,39 @@ class KinerjaController extends Controller
 
   }
 
+  public function simpan_detail(Request $request)
+  {
+    $semuaData = $request->input('data');
+    $penilaian = $request->input('penilaianId');
+    // dd($penilaian);
+    foreach ($semuaData as $dataPerTabel){
+      $tableId = $dataPerTabel['id'];
+      foreach ($dataPerTabel['capaian'] as $dataBaris) {
+        $statusPck = $dataBaris['status_pck'];
+            unset($dataBaris['status_pck']); // Hapus 'status_pck' dari array sebelum menyimpan
+            
+        if (isset($dataBaris['id']) && !empty($dataBaris['id'])) {
+          $capaian = Capaian_kinerja::find($dataBaris['id']);
+          if ($capaian) {
+            $capaian->update(array_merge($dataBaris, ['status_pck' => $statusPck]));
+          }
+        } else {
+          // Capaian_kinerja::create(array_merge($dataBaris, ['status_pck' => $statusPck]));
+        }
+      }
+
+      // dd($penilaianId);
+      $redirectUrl = route('sasaran-kegiatan', ['id' => $penilaian]); // atau $penilaianId[0] jika itu array
+
+      // Berikan response sukses
+      return response()->json([
+        'success' => 'PCK Bulanan berhasil disimpan',
+        'redirectUrl' => $redirectUrl
+    ]);
+
+    }
+  }
+
   public function capaian_kinerja_new()
   {
     $perjanjian = Perjanjian_kinerja::with('capaian_kinerja')->where('penilaian_kinerja_id', $id)->get();
@@ -350,7 +383,9 @@ class KinerjaController extends Controller
   public function detail_capaian_kinerja($id)
   {
     $pck = Penilaian_capaian::where('id', $id)->first();
+    // dd($pck);
     $capaian = Capaian_kinerja::where('periode_pck_id', $pck->periode_pck_id)->get(); 
+    // dd($capaian);
     // dd($capaian);
     $perjanjian = Perjanjian_kinerja::whereHas('capaian_kinerja', function ($query) use ($pck) {
     $query->where('periode_pck_id', $pck->periode_pck_id);
