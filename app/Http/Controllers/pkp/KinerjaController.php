@@ -397,6 +397,16 @@ class KinerjaController extends Controller
       $redirectUrl = route('sasaran-kegiatan', ['id' => $penilaian]); // atau $penilaianId[0] jika itu array
       
     }
+
+    // Ambil ID baris yang akan dihapus dari request
+    $barisUntukDihapus = $request->input('barisDihapus', []);
+     // Hapus baris yang ditandai untuk dihapus
+    foreach ($barisUntukDihapus as $id) {
+        $baris = Capaian_kinerja::find($id);
+        if ($baris) {
+            $baris->delete();
+        }
+    }
     
     // Berikan response sukses
       return response()->json([

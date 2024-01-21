@@ -299,7 +299,8 @@ function kumpulkanDanKirimData(status) {
     type: 'POST',
     contentType: 'application/json',
     // data: JSON.stringify(semuaData),
-    data: JSON.stringify({ data: semuaData, penilaianId: penilaianId }),
+    data: JSON.stringify({ data: semuaData, penilaianId: penilaianId, // ID baris yang akan dihapus
+            barisDihapus: barisUntukDihapus, }),
     headers: {
       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     },
