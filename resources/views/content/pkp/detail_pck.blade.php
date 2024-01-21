@@ -190,8 +190,9 @@
                 </td>
                 <!-- Data target -->
                 <input type="hidden" class="form-control periode_pck_id" name="periode_pck_id[${tableId}][]" value="{{$pck->periode_pck_id}}">
-                <input type="hidden" class="form-control penilaian_kinerja_id" name="penilaian_kinerja_id[${tableId}][]" value="{{$pck->penilaian_kinerja_id}}">
+                <input type="hidden" class="form-control penilaian_kinerja_id" name="penilaian_kinerja_id[${tableId}][]" value="{{$data->id}}">
                 <td><input type="text" class="form-control target-kuant-input" name="target_output[${tableId}][]"></td>
+                <input type="hidden" name="perjanjian_kinerja_id[${tableId}][]" value="${tableId}">
                 <td><div class="hasil-input" name=""></div></td>
                 <td><input type="text" class="form-control target-kual-input" name="target_mutu[${tableId}][]" value="100"></td>
                 <!-- Data realisasi -->
@@ -206,6 +207,7 @@
             </tr>`;
 
         $("#" + tableId + " tbody tr.tambah-row").before(barisBaru);
+
     });
 
     // Fungsi untuk menghapus baris
@@ -217,10 +219,10 @@
     });
   $(document).ready(function() {
      $(document).on('change', '.butir-kegiatan-select', function() {
-      console.log('cekdulu')
+      // console.log('cekdulu')
         // Temukan satuan yang terkait dengan opsi yang dipilih
         var hasil = $(this).find('option:selected').data('hasil');
-        console.log(hasil)
+        // console.log(hasil)
 
         // Mengisi input 'hasil' yang sejajar dengan dropdown ini
         $(this).closest('tr').find('.hasil-input').text(hasil);
@@ -235,10 +237,25 @@ $(document).on('input', '.realisasi-kuant-input, .target-kuant-input', function(
     var kualMutu = (targetKuantOutput !== 0) ? (realisasiKuantOutput / targetKuantOutput) * 100 : 0;
 
     // Set nilai kualitas/mutu ke dalam input realisasi-kual-input
-    console.log(targetKuantOutput)
+    // console.log(targetKuantOutput)
     $row.find('.realisasi-kual-input').val(kualMutu.toFixed(2));
 
     $row.find('.nilai-capaian').text(kualMutu.toFixed(2));
+});
+
+var barisUntukDihapus = [];
+
+$(document).on('click', '.hapusBaris', function() {
+    if (!confirm('Baris ini akan dihapus saat Anda menyimpan. Lanjutkan?')) {
+        return false;
+    }
+
+    var row = $(this).closest('tr');
+    var id = row.find('.id').val();
+
+    // Tandai baris untuk dihapus
+    row.addClass('baris-dihapus');
+    barisUntukDihapus.push(id);
 });
 
 function kumpulkanDanKirimData(status) {
@@ -265,8 +282,10 @@ function kumpulkanDanKirimData(status) {
         perjanjian_kinerja_id: $(this).find('[name^="perjanjian_kinerja_id"]').val(),
         indikator_pck_id: $(this).find('[name^="indikator_pck_id"]').val(),
         id: $(this).find('[name^="id"]').val(),
+        perjanjianId: idTabel,
         status_pck: status,
       };
+      console.log('Data untuk baris baru:', dataBaris);
       dataPerTabel.capaian.push(dataBaris);
     });
 
@@ -307,6 +326,7 @@ $('#tombolSimpan').click(function() {
 $('#tombolAjukan').click(function() {
     kumpulkanDanKirimData(1); // Untuk "Ajukan" statusnya 1
 });
+
 
 </script>
 @endsection

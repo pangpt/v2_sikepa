@@ -16,6 +16,7 @@ use App\Models\Penilaian_kinerja;
 use App\Models\Perjanjian_kinerja;
 use App\Models\Periode_pck;
 use App\Models\Penilaian_capaian;
+use Illuminate\Support\Facades\Log;
 use DB;
 use Auth;
 class KinerjaController extends Controller
@@ -327,37 +328,82 @@ class KinerjaController extends Controller
 
   }
 
+  // public function simpan_detail(Request $request)
+  // {
+  //   $semuaData = $request->input('data');
+  //   // dd($semuaData);
+  //   $penilaian = $request->input('penilaianId');
+  //   // dd($penilaian);
+  //   foreach ($semuaData as $dataPerTabel){
+  //     $tableId = $dataPerTabel['id'];
+  //     foreach ($dataPerTabel['capaian'] as $dataBaris) {
+  //         $statusPck = $dataBaris['status_pck'];
+  //           unset($dataBaris['status_pck']); // Hapus 'status_pck' dari array sebelum menyimpan
+            
+  //       if (isset($dataBaris['id']) && !empty($dataBaris['id'])) {
+  //         $capaian = Capaian_kinerja::find($dataBaris['id']);
+  //         if ($capaian) {
+  //           $capaian->update(array_merge($dataBaris, ['status_pck' => $statusPck]));
+  //         }
+  //       } else {
+  //         Capaian_kinerja::create(array_merge($dataBaris, [
+  //           'status_pck' => $statusPck, 'perjanjian_kinerja_id' => $tableId,
+  //           'penilaian_kinerja_id' => $dataBaris['penilaian_kinerja_id']
+  //         ]));
+  //       }
+  //     }
+
+  //     // dd($capaian);
+
+  //     // dd($penilaianId);
+  //     $redirectUrl = route('sasaran-kegiatan', ['id' => $penilaian]); // atau $penilaianId[0] jika itu array
+
+      
+  //   }
+  //   // Berikan response sukses
+  //     return response()->json([
+  //       'success' => 'PCK Bulanan berhasil disimpan',
+  //       'redirectUrl' => $redirectUrl
+  //   ]);
+
+  // }
   public function simpan_detail(Request $request)
-  {
+ {
     $semuaData = $request->input('data');
     $penilaian = $request->input('penilaianId');
-    // dd($penilaian);
+    
     foreach ($semuaData as $dataPerTabel){
-      $tableId = $dataPerTabel['id'];
       foreach ($dataPerTabel['capaian'] as $dataBaris) {
-        $statusPck = $dataBaris['status_pck'];
-            unset($dataBaris['status_pck']); // Hapus 'status_pck' dari array sebelum menyimpan
-            
-        if (isset($dataBaris['id']) && !empty($dataBaris['id'])) {
-          $capaian = Capaian_kinerja::find($dataBaris['id']);
-          if ($capaian) {
-            $capaian->update(array_merge($dataBaris, ['status_pck' => $statusPck]));
-          }
-        } else {
-          // Capaian_kinerja::create(array_merge($dataBaris, ['status_pck' => $statusPck]));
-        }
+          $statusPck = $dataBaris['status_pck'];
+          unset($dataBaris['status_pck']); // Hapus 'status_pck' dari array sebelum menyimpan
+
+          
+          if(empty($dataBaris['id'])){
+                // Log::info('Data untuk entri baru:', $dataBaris);
+            unset($dataBaris['id']);
+            if (empty($dataBaris['perjanjian_kinerja_id']) || empty($dataBaris['penilaian_kinerja_id'])) {
+                  Log::error('perjanjian_kinerja_id atau penilaian_kinerja_id tidak ada atau null untuk entri baru', $dataBaris);
+                  // Anda bisa memutuskan untuk melanjutkan atau menghentikan eksekusi di sini.
+              } else {
+                  Capaian_kinerja::create(array_merge($dataBaris, ['status_pck' => $statusPck]));
+              }
+          } else{
+            $capaian = Capaian_kinerja::find($dataBaris['id']);
+            if($capaian) {
+              $capaian->update(array_merge($dataBaris, ['status_pck' => $statusPck]));
+            }
+          }  
       }
-
-      // dd($penilaianId);
       $redirectUrl = route('sasaran-kegiatan', ['id' => $penilaian]); // atau $penilaianId[0] jika itu array
-
-      // Berikan response sukses
+      
+    }
+    
+    // Berikan response sukses
       return response()->json([
         'success' => 'PCK Bulanan berhasil disimpan',
         'redirectUrl' => $redirectUrl
     ]);
 
-    }
   }
 
   public function capaian_kinerja_new()
@@ -383,7 +429,7 @@ class KinerjaController extends Controller
   public function detail_capaian_kinerja($id)
   {
     $pck = Penilaian_capaian::where('id', $id)->first();
-    // dd($pck);
+    // dd($pck->penilaian_kinerja_id);
     $capaian = Capaian_kinerja::where('periode_pck_id', $pck->periode_pck_id)->get(); 
     // dd($capaian);
     // dd($capaian);
