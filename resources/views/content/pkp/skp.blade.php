@@ -146,7 +146,14 @@
               @endif
             </td>
             <td>
-              <a href="{{route('detail-capaian-kinerja',['id' => $pck->id])}}" type="button" class="btn btn-sm btn-primary"><span class="tf-icon bx bx-info-circle"></span> Detail</a>
+              <a
+              @if($pck->status == 0)
+              href="{{route('detail-capaian-kinerja',['id' => $pck->id])}}"
+              @endif
+              @if($pck->status == 1)
+              href="{{route('penilaian-capaian-kinerja',['id' => $pck->id])}}"
+              @endif
+              type="button" class="btn btn-sm btn-primary"><span class="tf-icon bx bx-info-circle"></span> Detail</a>
             </td>
           </tr>
           @endforeach

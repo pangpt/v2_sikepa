@@ -43,4 +43,11 @@ class Perjanjian_kinerja extends Model
     {
         return $this->hasMany(Capaian_kinerja::class);
     }
+
+    // Di dalam model Perjanjian_kinerja
+    public function getRataRataNilaiCapaianAttribute()
+    {
+      return $this->capaian_kinerja()->where('periode_pck_id', $this->periode_pck_id)->avg('nilai_capaian');
+    }
+
 }
