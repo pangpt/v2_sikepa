@@ -89,33 +89,6 @@
             </tr>
         </thead>
         <tbody>
-          {{-- @foreach($indikator->capaian_kinerja as $key)
-            <tr>
-                <td>{{$loop->iteration}}</td>
-                <td>
-                    <select class="form-select">
-                      @foreach($indikator_pck as $key)
-                        <option value=""></option>
-                        <option value="{{$key->id}}">{{$key->butir_kegiatan}}</option>
-                      @endforeach
-                    </select>
-                </td>
-                <!-- Data target -->
-                <td><input type="number" class="form-control" name="target_kuantitas"></td>
-                <td></td>
-                <td><input type="number" class="form-control" name="target_kualitas"></td>
-                <!-- Data realisasi -->
-                <td><input type="number" class="form-control" name="realisasi_kuantitas"></td>
-                <td></td>
-                <td><input type="number" class="form-control" name="realisasi_kualitas"></td>
-                <!-- Nilai capaian kinerja -->
-                <td></td>
-                <td>
-                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalEviden"><span class="tf-icon bx bx-link"></span></button>
-                    <button class="btn btn-danger btn-sm hapusBaris"><span class="tf-icon bx bx-trash"></i></button>
-                </td>
-            </tr>
-            @endforeach --}}
             <tr class="tambah-row">
               <td colspan="10">
                 <button class="btn btn-primary col-xl-12 tambah-baris"  type="button" data-table="{{ $indikator->id }}" >
@@ -135,6 +108,23 @@
         </table>
       </div>
       @endforeach
+
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="card mb-4">
+            <div class="card-body">
+              <table class="table table-total">
+                <thead>
+                  <tr>
+                      <th style="width:80%">Hasil Nilai Capaian Kinerja</th>
+                      <th id="hasil-nilai-capaian-kinerja">0.00</th>
+                  </tr>
+              </thead>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="card-footer justify-right">
         <button type="button" class="btn btn-sm btn-secondary"><span class="tf-icon bx bx-arrow-back"></span>Batal</button>
         <button type="button" class="btn btn-sm btn-info" id="tombolSimpan"><span class="tf-icon bx bx-save"></span>Simpan</button>
@@ -232,6 +222,40 @@ $(document).ready(function() {
     });
 });
 
+var globalTotalAverage = 0;
+
+function calculateAndDisplayAverages() {
+  var totalAverage = 0;
+  var tableCount = 0;
+  var overallTotal = 0;
+
+  $('.table-bordered').each(function() {
+    var tableTotal = 0;
+    var rowCount = 0;
+    $(this).find('.nilai-capaian').each(function() {
+      var value = parseFloat($(this).text()) || 0;
+      tableTotal += value;
+      rowCount++;
+    });
+
+    if (rowCount > 0) {
+      var tableAverage = tableTotal / rowCount;
+      $(this).closest('.card-body').find('.nilai-capaian-kinerja').text(tableAverage.toFixed(2));
+      overallTotal += tableAverage;
+      tableCount++;
+    }
+  });
+
+  if (tableCount > 0) {
+    totalAverage = overallTotal / tableCount;
+    $('#hasil-nilai-capaian-kinerja').text(totalAverage.toFixed(2));
+    globalTotalAverage = totalAverage;
+  }
+
+  return globalTotalAverage;
+}
+
+
 $(document).on('input', '.realisasi-kuant-input, .target-kuant-input', function() {
     var $row = $(this).closest('tr'); // Ambil baris terdekat dari input yang berubah
     var targetKuantOutput = parseFloat($row.find('.target-kuant-input').val()) || 0; // Ambil nilai target
@@ -245,10 +269,12 @@ $(document).on('input', '.realisasi-kuant-input, .target-kuant-input', function(
     $row.find('.realisasi-kual-input').val(kualMutu.toFixed(2));
 
     $row.find('.nilai-capaian').text(kualMutu.toFixed(2));
+
+    calculateAndDisplayAverages();
+
 });
 
-
-
+calculateAndDisplayAverages();
 
 function kumpulkanDanKirimData(status) {
   var semuaData = [];
@@ -258,16 +284,15 @@ function kumpulkanDanKirimData(status) {
   $('.table-bordered').each(function() {
     var idTabel = this.id;
     var dataPerTabel = { id: idTabel, capaian: [], status: status };
-    var totalNilaiCapaian = 0;
+    var rataRataTotal = calculateAndDisplayAverages();
     var jumlahBaris = 0;
+    // var rataRataTotal = calculateAndDisplayAverages(); 
 
 
     // Loop melalui setiap baris pada tabel ini kecuali baris tambahan
     $('#' + idTabel + ' tbody tr').not('.tambah-row, .nilai-capaian-kinerja').each(function() {
       // var barisId = $('#modalEviden').attr('baris-id');
-      var nilaiCapaian = parseFloat($(this).find('[name^="realisasi_kualitas"]').val()) || 0;
-      totalNilaiCapaian += nilaiCapaian;
-      jumlahBaris++;
+
 
       var dataBaris = {
         kegiatan: $(this).find('select').val(),
@@ -282,22 +307,12 @@ function kumpulkanDanKirimData(status) {
       dataPerTabel.capaian.push(dataBaris);
     });
 
-    if (jumlahBaris > 0) {
-      var rataRataTabel = totalNilaiCapaian / jumlahBaris;
-      dataPerTabel.rataRataNilaiCapaian = rataRataTabel.toFixed(2);
-      rataRataPerTabel.push(rataRataTabel);
-    }
-
     semuaData.push(dataPerTabel);
     console.log(semuaData);
   });
 
-  var rataRataTotal = rataRataPerTabel.length > 0 ?
-                      rataRataPerTabel.reduce((acc, cur) => acc + cur, 0) / rataRataPerTabel.length :
-                      0;
-
   rataRataTotal = rataRataTotal.toFixed(2);
-  console.log('Rata-rata total dari semua tabel:', rataRataTotal);
+  // console.log('Rata-rata total dari semua tabel:', rataRataTotal);
 
   // AJAX call untuk mengirim data ke server
   $.ajax({
@@ -324,6 +339,8 @@ function kumpulkanDanKirimData(status) {
     }
   });
 }
+
+
 
 $('#tombolSimpan').click(function() {
     kumpulkanDanKirimData(0); // Untuk "Simpan" statusnya 0
