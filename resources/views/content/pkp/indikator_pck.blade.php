@@ -34,7 +34,7 @@
           <tbody>
             @foreach($data as $key)
             <tr>
-              <td>1</td>
+              <td>{{$loop->iteration}}</td>
               <td>{{$key->butir_kegiatan}}
                 @if($key->status == 2)
                 <br><span style="color:red">Alasan ditolak: salah</span>

@@ -84,7 +84,7 @@
                     @foreach($sasaran_kegiatan as $key)
                         <option value="{{ $key->sasaran_kegiatan_text }}">{{ $key->sasaran_kegiatan_text }}</option>
                     @endforeach
-                <option value="lainnya">Lainnya</option>
+                {{-- <option value="lainnya">Lainnya</option> --}}
                 </select>
               </td>
             <td>

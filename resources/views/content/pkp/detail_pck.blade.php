@@ -261,15 +261,24 @@ $(document).on('click', '.hapusBaris', function() {
 function kumpulkanDanKirimData(status) {
   var semuaData = [];
   var penilaianId = $('#penilaian_kinerja_id').val();
+  var rataRataPerTabel = [];
+
+
 
   // Loop melalui setiap tabel indikator
   $('.table-bordered').each(function() {
     var idTabel = this.id;
     var dataPerTabel = { id: idTabel, capaian: [], status: status };
+    var totalNilaiCapaian = 0;
+    var jumlahBaris = 0;
 
 
     // Loop melalui setiap baris pada tabel ini kecuali baris tambahan
     $('#' + idTabel + ' tbody tr').not('.tambah-row, .nilai-capaian-kinerja').each(function() {
+      var nilaiCapaian = parseFloat($(this).find('[name^="realisasi_mutu"]').val()) || 0;
+      totalNilaiCapaian += nilaiCapaian;
+      jumlahBaris++;
+
       var dataBaris = {
         kegiatan: $(this).find('select').val(),
         target_output: $(this).find('[name^="target_output"]').val(),
@@ -289,9 +298,22 @@ function kumpulkanDanKirimData(status) {
       dataPerTabel.capaian.push(dataBaris);
     });
 
+    if (jumlahBaris > 0) {
+      var rataRataTabel = totalNilaiCapaian / jumlahBaris;
+      dataPerTabel.rataRataNilaiCapaian = rataRataTabel.toFixed(2);
+      rataRataPerTabel.push(rataRataTabel);
+    }
+
     semuaData.push(dataPerTabel);
     console.log(semuaData);
   });
+
+  var rataRataTotal = rataRataPerTabel.length > 0 ?
+                      rataRataPerTabel.reduce((acc, cur) => acc + cur, 0) / rataRataPerTabel.length :
+                      0;
+
+  rataRataTotal = rataRataTotal.toFixed(2);
+  console.log('Rata-rata total dari semua tabel:', rataRataTotal);
 
   // AJAX call untuk mengirim data ke server
   $.ajax({
@@ -300,7 +322,7 @@ function kumpulkanDanKirimData(status) {
     contentType: 'application/json',
     // data: JSON.stringify(semuaData),
     data: JSON.stringify({ data: semuaData, penilaianId: penilaianId, // ID baris yang akan dihapus
-            barisDihapus: barisUntukDihapus, }),
+            barisDihapus: barisUntukDihapus, rataRataTotal: rataRataTotal}),
     headers: {
       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     },

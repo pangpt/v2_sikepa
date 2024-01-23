@@ -57,45 +57,52 @@ class KinerjaController extends Controller
 
   public function tambahIndikatorPKP(Request $request)
   {
-        $request->validate([
-            // validasi untuk field lain...
-            'sasaran_kegiatan_text' => 'required', // Validasi ini hanya jika sasaran_kegiatan adalah 'lainnya'
-            'indikator' => 'required', // Asumsikan Anda memiliki field 'indikator' untuk input teks indikator
-        ]);
+      // Validasi input
+      $validationRules = [
+          'indikator' => 'required',
+          // validasi untuk field lain...
+      ];
 
-        DB::beginTransaction(); // Mulai transaksi database
+      if ($request->sasaran_kegiatan_id === 'lainnya') {
+          $validationRules['sasaran_kegiatan_text'] = 'required';
+      }
 
-        try {
-            $sasaranKegiatanId = null;
+      $request->validate($validationRules);
 
-            if ($request->sasaran_kegiatan_id === 'lainnya') {
-                // Membuat sasaran kegiatan baru
-                $sasaranKegiatan = Sasaran_kegiatan::create([
-                    'sasaran_kegiatan_text' => $request->sasaran_kegiatan_text,
-                ]);
+      DB::beginTransaction(); // Mulai transaksi database
 
-                $sasaranKegiatanId = $sasaranKegiatan->id; // Ambil ID yang baru dibuat
-            }
+      try {
+          $sasaranKegiatanId = $request->sasaran_kegiatan_id; // Gunakan ID ini jika bukan 'lainnya'
 
-            // Membuat indikator PKP dengan foreign key sasaran_kegiatan_id
-            $indikatorPKP = Indikator_pkp::create([
-                'sasaran_kegiatan_id' => $sasaranKegiatanId,
-                'employee_id' => Auth::user()->employee->id,
-                'indikator' => $request->indikator,
-                'status' => 0,
-                // Isi kolom lain yang diperlukan
-            ]);
+          if ($sasaranKegiatanId === 'lainnya') {
+              // Membuat sasaran kegiatan baru jika 'lainnya'
+              $sasaranKegiatan = Sasaran_kegiatan::create([
+                  'sasaran_kegiatan_text' => $request->sasaran_kegiatan_text,
+              ]);
 
-            DB::commit(); // Commit transaksi jika tidak ada masalah
+              $sasaranKegiatanId = $sasaranKegiatan->id; // Ambil ID yang baru dibuat
+          }
 
-            return redirect()->back()->with('success', 'Sasaran kegiatan dan indikator PKP berhasil ditambahkan.');
-        } catch (\Exception $e) {
-            DB::rollback(); // Rollback transaksi jika terjadi kesalahan
+          // Membuat indikator PKP dengan foreign key sasaran_kegiatan_id
+          $indikatorPKP = Indikator_pkp::create([
+              'sasaran_kegiatan_id' => $sasaranKegiatanId,
+              'employee_id' => Auth::user()->employee->id,
+              'indikator' => $request->indikator,
+              'status' => 0,
+              // Isi kolom lain yang diperlukan
+          ]);
 
-            // Log error atau tangani sesuai kebutuhan
-            return redirect()->back()->with('error', 'Terjadi kesalahan saat menyimpan data: ' . $e->getMessage());
-        }
-    }
+          DB::commit(); // Commit transaksi jika tidak ada masalah
+
+          return redirect()->back()->with('success', 'Sasaran kegiatan dan indikator PKP berhasil ditambahkan.');
+      } catch (\Exception $e) {
+          DB::rollback(); // Rollback transaksi jika terjadi kesalahan
+
+          // Log error atau tangani sesuai kebutuhan
+          return redirect()->back()->with('error', 'Terjadi kesalahan saat menyimpan data: ' . $e->getMessage());
+      }
+  }
+
 
 
   public function indexIndikatorPCK()
@@ -191,7 +198,7 @@ class KinerjaController extends Controller
       }
     });
 
-    return redirect()->back()->with('success', 'Data berhasil disimpan.');
+    return redirect()->route('layanan-pkp')->with('success', 'Data berhasil disimpan.');
   }
 
   public function sasaran_kegiatan($id)
@@ -238,7 +245,8 @@ class KinerjaController extends Controller
   {
         // Validasi request
        $validatedData = $request->input('data');
-      //  dd($validatedData);
+       $rataRataTotal = $request->input('rataRataTotal'); // Pastikan ini di-pass dari AJAX call
+       //  dd($validatedData);
 
        foreach ($validatedData as $tableData) {
         $tableId = $tableData['id']; // Ini adalah ID dari tabel PCK
@@ -286,7 +294,7 @@ class KinerjaController extends Controller
     $laporan_pck = new Penilaian_capaian;
     $laporan_pck->penilaian_kinerja_id = $penilaianId;
     $laporan_pck->periode_pck_id = $period;
-    $laporan_pck->total_capaian= $nilaiCapaian;
+    $laporan_pck->total_capaian= $rataRataTotal;
     $laporan_pck->status = $status;
     $laporan_pck->save();
 
@@ -334,6 +342,7 @@ class KinerjaController extends Controller
  {
     $semuaData = $request->input('data');
     $penilaian = $request->input('penilaianId');
+    $rataRataTotal = $request->input('rataRataTotal'); // Pastikan ini di-pass dari AJAX call
 
     foreach ($semuaData as $dataPerTabel){
       foreach ($dataPerTabel['capaian'] as $dataBaris) {
@@ -350,14 +359,14 @@ class KinerjaController extends Controller
               } else {
                   Capaian_kinerja::create(array_merge($dataBaris, ['status_pck' => $statusPck]));
                   $laporan_pck = Penilaian_capaian::where('penilaian_kinerja_id', $dataBaris['penilaian_kinerja_id'])->where('periode_pck_id', $dataBaris['periode_pck_id'])->first();
-                  $laporan_pck->update(array_merge($dataBaris, ['status' => $statusPck]));
+                  $laporan_pck->update(array_merge($dataBaris, ['status' => $statusPck, 'total_capaian' => $rataRataTotal]));
               }
           } else{
             $capaian = Capaian_kinerja::find($dataBaris['id']);
             $laporan_pck = Penilaian_capaian::where('penilaian_kinerja_id', $dataBaris['penilaian_kinerja_id'])->where('periode_pck_id', $dataBaris['periode_pck_id'])->first();
             if($capaian) {
               $capaian->update(array_merge($dataBaris, ['status_pck' => $statusPck]));
-              $laporan_pck->update(array_merge($dataBaris, ['status' => $statusPck]));
+              $laporan_pck->update(array_merge($dataBaris, ['status' => $statusPck, 'total_capaian' => $rataRataTotal]));
               // dd($capaian);
             }
           }
