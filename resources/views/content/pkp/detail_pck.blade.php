@@ -153,6 +153,22 @@
         </table>
       </div>
       @endforeach
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="card mb-4">
+            <div class="card-body">
+              <table class="table table-total">
+                <thead>
+                  <tr>
+                      <th style="width:80%">Hasil Nilai Capaian Kinerja</th>
+                      <th id="hasil-nilai-capaian-kinerja">{{$pck->total_capaian}}</th>
+                  </tr>
+              </thead>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="card-footer justify-right">
         <button type="button" class="btn btn-sm btn-secondary"><span class="tf-icon bx bx-arrow-back"></span>Batal</button>
         <button type="button" class="btn btn-sm btn-info" id="tombolSimpan"><span class="tf-icon bx bx-save"></span>Simpan</button>
@@ -228,6 +244,40 @@
         $(this).closest('tr').find('.hasil-input').text(hasil);
     });
 });
+
+var globalTotalAverage = 0;
+
+function calculateAndDisplayAverages() {
+  var totalAverage = 0;
+  var tableCount = 0;
+  var overallTotal = 0;
+
+  $('.table-bordered').each(function() {
+    var tableTotal = 0;
+    var rowCount = 0;
+    $(this).find('.nilai-capaian').each(function() {
+      var value = parseFloat($(this).text()) || 0;
+      tableTotal += value;
+      rowCount++;
+    });
+
+    if (rowCount > 0) {
+      var tableAverage = tableTotal / rowCount;
+      $(this).closest('.card-body').find('.nilai-capaian-kinerja').text(tableAverage.toFixed(2));
+      overallTotal += tableAverage;
+      tableCount++;
+    }
+  });
+
+  if (tableCount > 0) {
+    totalAverage = overallTotal / tableCount;
+    $('#hasil-nilai-capaian-kinerja').text(totalAverage.toFixed(2));
+    globalTotalAverage = totalAverage;
+  }
+
+  return globalTotalAverage;
+}
+
 $(document).on('input', '.realisasi-kuant-input, .target-kuant-input', function() {
     var $row = $(this).closest('tr'); // Ambil baris terdekat dari input yang berubah
     var targetKuantOutput = parseFloat($row.find('.target-kuant-input').val()) || 0; // Ambil nilai target
@@ -241,7 +291,11 @@ $(document).on('input', '.realisasi-kuant-input, .target-kuant-input', function(
     $row.find('.realisasi-kual-input').val(kualMutu.toFixed(2));
 
     $row.find('.nilai-capaian').text(kualMutu.toFixed(2));
+
+    calculateAndDisplayAverages();
 });
+
+calculateAndDisplayAverages();
 
 var barisUntukDihapus = [];
 
@@ -296,21 +350,18 @@ function kumpulkanDanKirimData(status) {
       };
       console.log('Data untuk baris baru:', dataBaris);
       dataPerTabel.capaian.push(dataBaris);
+      var rataRataTabel = calculateAndDisplayAverages();
+      rataRataPerTabel.push(rataRataTabel);
     });
 
-    if (jumlahBaris > 0) {
-      var rataRataTabel = totalNilaiCapaian / jumlahBaris;
-      dataPerTabel.rataRataNilaiCapaian = rataRataTabel.toFixed(2);
-      rataRataPerTabel.push(rataRataTabel);
-    }
 
     semuaData.push(dataPerTabel);
     console.log(semuaData);
   });
 
-  var rataRataTotal = rataRataPerTabel.length > 0 ?
-                      rataRataPerTabel.reduce((acc, cur) => acc + cur, 0) / rataRataPerTabel.length :
-                      0;
+  if (rataRataPerTabel.length > 0) {
+    rataRataTotal = rataRataPerTabel.reduce((acc, cur) => acc + cur, 0) / rataRataPerTabel.length;
+  }
 
   rataRataTotal = rataRataTotal.toFixed(2);
   console.log('Rata-rata total dari semua tabel:', rataRataTotal);

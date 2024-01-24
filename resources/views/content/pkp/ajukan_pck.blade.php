@@ -182,8 +182,8 @@
               <td colspan="2" class="text-center">
                 Hasil Capaian Kinerja Bulan
               </td>
-              <td id="nilai-rata-rata">
-                0.0
+              <td>
+                {{$pck->total_capaian}}
               </td>
             </tr>
         </tbody>

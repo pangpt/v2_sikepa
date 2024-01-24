@@ -279,6 +279,7 @@ calculateAndDisplayAverages();
 function kumpulkanDanKirimData(status) {
   var semuaData = [];
   var rataRataPerTabel = [];
+  var rataRataTotal = 0; // Deklarasi di sini
 
   // Loop melalui setiap tabel indikator
   $('.table-bordered').each(function() {
@@ -286,7 +287,7 @@ function kumpulkanDanKirimData(status) {
     var dataPerTabel = { id: idTabel, capaian: [], status: status };
     var rataRataTotal = calculateAndDisplayAverages();
     var jumlahBaris = 0;
-    // var rataRataTotal = calculateAndDisplayAverages(); 
+    // var rataRataTotal = calculateAndDisplayAverages();
 
 
     // Loop melalui setiap baris pada tabel ini kecuali baris tambahan
@@ -305,12 +306,20 @@ function kumpulkanDanKirimData(status) {
         penilaian_kinerja_id: $(this).find('[name^="penilaian_kinerja_id"]').val(),
       };
       dataPerTabel.capaian.push(dataBaris);
+      var rataRataTabel = calculateAndDisplayAverages();
+      rataRataPerTabel.push(rataRataTabel);
     });
 
     semuaData.push(dataPerTabel);
     console.log(semuaData);
   });
 
+  // Hitung rata-rata dari semua tabel
+  if (rataRataPerTabel.length > 0) {
+    rataRataTotal = rataRataPerTabel.reduce((acc, cur) => acc + cur, 0) / rataRataPerTabel.length;
+  }
+
+  // Konversi rata-rata total ke fixed dua desimal
   rataRataTotal = rataRataTotal.toFixed(2);
   // console.log('Rata-rata total dari semua tabel:', rataRataTotal);
 
