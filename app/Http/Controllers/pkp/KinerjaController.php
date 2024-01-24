@@ -20,6 +20,8 @@ use Illuminate\Support\Facades\Log;
 use DB;
 use Auth;
 use PDF;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+
 
 class KinerjaController extends Controller
 {
@@ -493,10 +495,20 @@ class KinerjaController extends Controller
   }])
   ->get();
 
+  foreach ($perjanjian as $indikator) {
+    $totalNilaiCapaian = $indikator->capaian_kinerja->sum('nilai_capaian');
+    $jumlahCapaian = $indikator->capaian_kinerja->count();
+    // dd($totalNilaiCapaian);
+    $indikator->rataRataNilaiCapaian = $totalNilaiCapaian / $jumlahCapaian;
+}
+
   foreach($perjanjian as $key){
     $datadiri = Penilaian_kinerja::where('id', $key->penilaian_kinerja_id)->first();
   }
   $atasan = Penilaian_kinerja::with('pejabatPenilai')->find($datadiri->id);
+
+  $signatureCode = $atasan->pejabatPenilai->nama;
+  $baseUrl = url('/');
 
   $data = [
     'penilaian_total' => $penilaian_total,
@@ -504,6 +516,8 @@ class KinerjaController extends Controller
     'atasan' => $atasan,
     'perjanjian' => $perjanjian,
     'pck' => $pck,
+    'signatureQR' => QRCode::size(100)->generate('youtube.com'),
+
   ];
             $namaBulan = [
               1 => 'Januari',

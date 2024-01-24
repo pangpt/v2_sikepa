@@ -153,6 +153,7 @@
                 Nilai Capaian Kinerja
               </td>
               <td>
+                {{ number_format($cektotal, 2) }}
               </td>
             </tr>
         </tbody>
@@ -199,13 +200,30 @@
           </tr>
       </tbody>
       </table>
+      <table border="1" style="width: 100%; border-collapse: collapse;">
+        <tr>
+          <th style="width: 50%; text-align: center;">Pejabat Penilai</th>
+          <th style="width: 50%; text-align: center;">PNS yang dinilai</th>
+        </tr>
+        <tr>
+          <td style="text-align: center;">
+            <p></p>
+            <img style="margin:0" src="data:image/png;base64,{{ base64_encode($signatureQR) }}" alt="QR Code">
+            <p>{{$atasan->pejabatPenilai->nama}}</p>
+          </td>
+          <td style="text-align: center;">
+            <p></p>
+            <img style="margin:0" src="data:image/png;base64,{{ base64_encode($signatureQR) }}" alt="QR Code">
+            <p>{{$datadiri->employee->nama}}</p>
+          </td>
+        </tr>
+      </table>
 
     <!-- Bagian Tanda Tangan -->
     <div class="signature">
-        <p>Jakarta, {{\Carbon\Carbon::now()}}</p>
-        <p>Pejabat Penilai Kinerja</p>
-        <!-- Spasi untuk tanda tangan -->
-        <p>(Nama Lengkap)</p>
+        <table>
+
+        </table>
     </div>
 </body>
 </html>
