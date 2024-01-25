@@ -6,11 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Leave;
 use App\Models\Employee;
-use App\Models\Department;
 use App\Models\Sasaran_kegiatan;
 use App\Models\Indikator_pkp;
 use App\Models\Indikator_pck;
-use App\Models\Atasan;
 use App\Models\Capaian_kinerja;
 use App\Models\Penilaian_kinerja;
 use App\Models\Perjanjian_kinerja;
@@ -31,7 +29,7 @@ class KinerjaController extends Controller
     ->where('departments.is_atasan', 1)
     ->get(['employees.*', 'departments.nama_jabatan as nama_jabatan']); // Tambahkan kolom apa pun yang Anda perlukan dari department
     // dd($employeesAtasan);
-    $datas = Penilaian_kinerja::where('employee_id', Auth::user()->employee->id)->get();
+    $datas = Penilaian_kinerja::where('employee_id', Auth::user()->employee->id)->orderBy('created_at','desc')->get();
 
     return view('content.pkp.index', [
       'atasan' => $employeesAtasan,
