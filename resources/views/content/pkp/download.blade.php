@@ -38,8 +38,8 @@
         .text-right {
             text-align: right;
         }
-        .signature {
-            margin-top: 50px;
+        .page-break {
+            page-break-after: always;
         }
     </style>
 </head>
@@ -131,6 +131,10 @@
             </tr>
         </thead>
         <tbody>
+          @php
+            $totalNilaiCapaian = 0;
+            $jumlahData = count($indikator->capaian_kinerja);
+          @endphp
           @foreach($indikator->capaian_kinerja as $key)
             <tr>
                 <td>{{$loop->iteration}}</td>
@@ -146,6 +150,9 @@
                 <td>{{$key->indikator_pck->hasil}}</td>
                 <td>{{$key->realisasi_mutu}}</td>
                 <td>{{$key->nilai_capaian}}</td>
+                @php
+                  $totalNilaiCapaian += $key->nilai_capaian;
+                @endphp
             </tr>
             @endforeach
             <tr>
@@ -153,7 +160,11 @@
                 Nilai Capaian Kinerja
               </td>
               <td>
-                {{ number_format($cektotal, 2) }}
+                @if($jumlahData > 0)
+                  {{ number_format($totalNilaiCapaian / $jumlahData, 2) }}
+                @else
+                  0.00
+                @endif
               </td>
             </tr>
         </tbody>
@@ -195,35 +206,47 @@
               Hasil Capaian Kinerja Bulan {{$namaBulan[$pck->periode_pck->periode_bulan]}} {{$pck->periode_pck->periode_tahun}}
             </td>
             <td id="nilai-rata-rata">
-              0.0
+              {{$pck->total_capaian}}
+              @if($pck->total_capaian >= 91)
+                <span class="text-success"><strong>(Sangat Baik)</strong></span>
+              @elseif($pck->total_capaian >= 75 && $pck->total_capaian <= 90.99)
+                <span class="text-primary"><strong>(Baik)</strong></span>
+              @elseif($pck->total_capaian >= 61 && $pck->total_capaian <= 74.99)
+                <span class="text-info"><strong>(Cukup)</strong></span>
+              @elseif($pck->total_capaian <= 60)
+                <span class="text-warning"><strong>(Sedang)</strong></span>
+              @elseif($pck->total_capaian <= 50)
+                <span class="text-danger"><strong>(Buruk)</strong></span>
+              @endif
             </td>
           </tr>
       </tbody>
       </table>
       <table border="1" style="width: 100%; border-collapse: collapse;">
         <tr>
-          <th style="width: 50%; text-align: center;">Pejabat Penilai</th>
-          <th style="width: 50%; text-align: center;">PNS yang dinilai</th>
+          <th style="width: 50%; text-align: center;" colspan="2">Pejabat Penilai</th>
+          <th style="width: 50%; text-align: center;" colspan="2">PNS yang dinilai</th>
         </tr>
         <tr>
           <td style="text-align: center;">
-            <p></p>
-            <img style="margin:0" src="data:image/png;base64,{{ base64_encode($signatureQR) }}" alt="QR Code">
-            <p>{{$atasan->pejabatPenilai->nama}}</p>
+              <img style="margin:0" src="data:image/png;base64,{{ base64_encode($signatureQR) }}" alt="QR Code">
+            {{-- <img style="margin:0" src="data:image/png;base64,{{ base64_encode($signatureQR) }}" alt="QR Code">
+            <p>{{$atasan->pejabatPenilai->nama}}</p> --}}
+          </td>
+          <td style="border-left: none;">
+              <p style="margin-top: 20px; font-weight: bold;">Disetujui secara elektronik oleh:</p>
+              <p style="font-weight: bold; margin-bottom: 0;">{{$atasan->pejabatPenilai->nama}}</p>
+              <p>NIP. {{$atasan->pejabatPenilai->nip}}</p>
           </td>
           <td style="text-align: center;">
-            <p></p>
             <img style="margin:0" src="data:image/png;base64,{{ base64_encode($signatureQR) }}" alt="QR Code">
-            <p>{{$datadiri->employee->nama}}</p>
+          </td>
+          <td style="border-left: none;">
+              <p style="margin-top: 20px; font-weight: bold;">Dibuat secara elektronik oleh:</p>
+              <p>{{$datadiri->employee->nama}}</p>
+              <p>NIP. {{$datadiri->employee->nip}}</p>
           </td>
         </tr>
       </table>
-
-    <!-- Bagian Tanda Tangan -->
-    <div class="signature">
-        <table>
-
-        </table>
-    </div>
 </body>
 </html>

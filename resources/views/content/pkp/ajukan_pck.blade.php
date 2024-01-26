@@ -108,6 +108,10 @@
             </tr>
         </thead>
         <tbody>
+           @php
+            $totalNilaiCapaian = 0;
+            $jumlahData = count($indikator->capaian_kinerja);
+          @endphp
           @foreach($indikator->capaian_kinerja as $key)
             <tr>
                 <td>{{$loop->iteration}}</td>
@@ -123,6 +127,9 @@
                 <td>{{$key->indikator_pck->hasil}}</td>
                 <td>{{$key->realisasi_mutu}}</td>
                 <td class="nilai-capaian">{{$key->nilai_capaian}}</td>
+                @php
+                  $totalNilaiCapaian += $key->nilai_capaian;
+                @endphp
             </tr>
             @endforeach
             <tr>
@@ -130,7 +137,11 @@
                 Nilai Capaian Kinerja
               </td>
               <td colspan="2">
-
+                @if($jumlahData > 0)
+                  {{ number_format($totalNilaiCapaian / $jumlahData, 2) }}
+                @else
+                  0.00
+                @endif
               </td>
             </tr>
         </tbody>
