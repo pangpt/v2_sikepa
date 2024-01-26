@@ -31,7 +31,7 @@ class KinerjaController extends Controller
     ->where('departments.is_atasan', 1)
     ->get(['employees.*', 'departments.nama_jabatan as nama_jabatan']); // Tambahkan kolom apa pun yang Anda perlukan dari department
     // dd($employeesAtasan);
-    $datas = Penilaian_kinerja::where('employee_id', Auth::user()->employee->id)->get();
+    $datas = Penilaian_kinerja::where('employee_id', Auth::user()->employee->id)->orderBy('created_at', 'desc')->get();
 
     return view('content.pkp.index', [
       'atasan' => $employeesAtasan,
