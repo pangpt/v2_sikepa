@@ -57,7 +57,7 @@
 <div class="row">
   <div class="col-xl-12">
     <div class="card mb-4">
-      <div class="card-header justify-content-between align-items-center m-0">
+      <div class="card-header d-flex justify-content-between align-items-center">
         <h5>DAFTAR INDIKATOR KINERJA</h5>
       </div>
       @foreach($perjanjian as $indikator)

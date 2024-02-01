@@ -2,10 +2,6 @@
 
 @section('title', 'Account settings - Account')
 
-@section('page-script')
-<script src="{{asset('assets/js/pages-account-settings-account.js')}}"></script>
-@endsection
-
 @section('content')
 <h4 class="fw-bold py-3 mb-4">
   <span class="text-muted fw-light">Sistem Administrasi Kepegawaian / Profil Hakim & Pegawai /</span> Detail
@@ -67,4 +63,48 @@
     </div> --}}
   </div>
 </div>
+
+<div class="row">
+  <div class="col-xl-12">
+    <div class="card mb-4">
+      <div class="card-body">
+        <h6 class="mb-4 text-muted">Klik Nama Lengkap untuk melihat data detail</h6>
+        <table id="activityTable" class="display">
+          <thead>
+            <tr>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach($activities as $activity)
+            <tr>
+              <td>
+                <div><span style="font-weight: bold; color:cadetblue; font-size:30px">{{ $loop->iteration }}</span>. <span style="font-weight: bold">{{ $activity->user->employee->nama }}</span>, ({{ $activity->user->employee->department->nama_jabatan }})</div>
+                <div><span class="badge bg-success">{{$activity->description}} </span><span style="color: red"> {{ \Carbon\Carbon::parse($activity->created_at)->locale('id')->isoFormat('dddd, D MMMM Y HH:mm:ss') }} WIB</span></div>
+              </td>
+            </tr>
+            @endforeach
+            <!-- Tambahkan baris data pegawai dan hakim lainnya di sini -->
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+</div>
+@endsection
+@section('page-script')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script>
+  $(document).ready(function() {
+      $('#activityTable').DataTable({
+        "ordering": false, // Menonaktifkan fitur pengurutan (sort)
+        "language": {
+          "searchPlaceholder": "Ketik di sini untuk mencari PKP berdasarkan Nama, Atasan Langsung, atau Periode." // Menambahkan placeholder pada input search
+        }
+      });
+    });
+
+</script>
 @endsection

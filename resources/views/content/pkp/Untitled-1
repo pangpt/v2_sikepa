@@ -67,9 +67,10 @@
           <thead>
             <tr>
                 <th class="text-nowrap">NO</th>
-                <th class="text-nowrap text-center">SASARAN KEGIATAN</th>
-                <th class="text-nowrap text-center">SATUAN</th>
                 <th class="text-nowrap text-center">INDIKATOR</th>
+                {{-- <th class="text-nowrap text-center">SASARAN KEGIATAN</th> --}}
+                <th class="text-nowrap text-center">SATUAN</th>
+                {{-- <th class="text-nowrap text-center">INDIKATOR</th> --}}
                 {{-- <th class="text-nowrap text-center">TARGET KUANTITAS</th> --}}
                 <th class="text-nowrap text-center"></th>
             </tr>
@@ -79,31 +80,39 @@
               <input class="form-control" type="hidden" name="penilaian_kinerja_id[]" value="{{$pkp->id}}" id="indikatorKegiatan"/>
               <td>1</td>
               <td>
+                <select class="form-select" id="sasaranKegiatan" name="indikator[]" aria-label="Default select example">
+                  <option value="{{old('indikator')}}">Pilih</option>
+                      @foreach($indikator as $key)
+                          <option value="{{ $key->indikator }}">{{ $key->indikator }}</option>
+                      @endforeach
+                </select>
+              </td>
+              {{-- <td>
                 <select class="form-select" id="sasaranKegiatan" name="sasaran_kegiatan[]" aria-label="Default select example">
                 <option value="{{old('sasaran_kegiatan')}}">Pilih</option>
                     @foreach($sasaran_kegiatan as $key)
                         <option value="{{ $key->sasaran_kegiatan_text }}">{{ $key->sasaran_kegiatan_text }}</option>
                     @endforeach
-                {{-- <option value="lainnya">Lainnya</option> --}}
+                <option value="lainnya">Lainnya</option>
                 </select>
-              </td>
+              </td> --}}
             <td>
               <select class="form-select" name="satuan[]" id="">
                 <option value="Dokumen">Dokumen</option>
                 <option value="Laporan">Laporan</option>
               </select>
             </td>
-            <td>
+            {{-- <td>
               <select class="form-select" id="sasaranKegiatan" name="indikator[]" aria-label="Default select example">
                 <option value="{{old('indikator')}}">Pilih</option>
                     @foreach($indikator as $key)
                         <option value="{{ $key->indikator }}">{{ $key->indikator }}</option>
                     @endforeach
               </select>
-            </td>
-            <td>
-              <input class="form-control" type="hidden" name="target_kuantitas[]" id="indikatorKegiatan" value="0"/>
-            </td>
+            </td> --}}
+            {{-- <td>
+              <input class="form-control" type="text" name="target_kuantitas[]" id="indikatorKegiatan"/>
+            </td> --}}
             <td>
               <button class="btn btn-danger hapusBaris"><i class="bx bx-trash"></i></button>
             </td>
@@ -156,6 +165,14 @@
                     </select>
                 </td>
                 <td>
+                    <select class="form-select" name="indikator[]">
+                        <option>Pilih</option>
+                        @foreach($indikator as $key)
+                            <option value="{{ $key->indikator }}">{{ $key->indikator }}</option>
+                        @endforeach
+                    </select>
+                </td>
+                <td>
                     <select class="form-select" name="satuan[]">
                         <option value="Dokumen">Dokumen</option>
                         <option value="Laporan">Laporan</option>
@@ -170,7 +187,7 @@
                     </select>
                 </td>
                 <td>
-                    <input class="form-control" type="hidden" name="target_kuantitas[]"value="0"/>
+                    <input class="form-control" type="text" name="target_kuantitas[]"/>
                 </td>
                 <td>
                     <button class="btn btn-danger hapusBaris"><i class="bx bx-trash"></i></button>

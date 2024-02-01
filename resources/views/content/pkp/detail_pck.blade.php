@@ -121,11 +121,11 @@
                 <input type="hidden" class="form-control perjanjian_kinerja_id" name="perjanjian_kinerja_id" value="{{$key->perjanjian_kinerja_id}}">
                 <input type="hidden" class="form-control periode_pck_id" name="periode_pck_id" value="{{$key->periode_pck_id}}">
                 <td><input type="text" class="form-control target-kuant-input" name="target_output" value="{{$key->target_output}}"></td>
-                <td class="hasil-input" value="">{{$key->indikator_pck->hasil}}</td>
+                <td class="hasil-input" value="">{{@$key->indikator_pck->hasil}}</td>
                 <td><input type="text" class="form-control target-kual-input" name="target_mutu" value="{{$key->target_mutu}}"></td>
                 <!-- Data realisasi -->
                 <td><input type="text" class="form-control realisasi-kuant-input" name="realisasi_output" value="{{$key->realisasi_output}}"></td>
-                <td class="hasil-input" value="">{{$key->indikator_pck->hasil}}</td>
+                <td class="hasil-input" value="">{{@$key->indikator_pck->hasil}}</td>
                 <td><input type="text" class="form-control realisasi-kual-input" name="realisasi_mutu" value="{{$key->realisasi_mutu}}"></td>
                 <td class="nilai-capaian">{{$key->nilai_capaian}}</td>
                 <!-- Nilai capaian kinerja -->

@@ -37,9 +37,9 @@ $navbarDetached = ($navbarDetached ?? '');
       <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <!-- Search -->
         <div class="navbar-nav align-items-center">
-          <div class="nav-item d-flex align-items-center">
+          <div class="nav-item d-flex align-items-center" style="color:steelblue; font-size:20px">
             {{-- <b>Waktu sekarang: {{ \Carbon\Carbon::now('Asia/Makassar')->locale('id')->format('D, d M Y, H:i:s') }}</b> --}}
-            <b>Waktu Sekarang : <span id="current-day"></span>, <span id="current-date"></span> - <span id="current-time"></span></b>
+            <b><span class="text-primary" style="font-size:20px">Waktu Sekarang : </span><span id="current-day"></span>, <span id="current-date"></span> - <span id="current-time"></span> WITA </b>
           </div>
         </div>
         <!-- /Search -->

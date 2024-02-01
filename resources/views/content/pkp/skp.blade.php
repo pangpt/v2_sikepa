@@ -69,10 +69,11 @@
           <thead>
             <tr>
                 <th class="text-nowrap">NO</th>
-                <th class="text-nowrap text-center">SASARAN KEGIATAN</th>
-                <th class="text-nowrap text-center">SATUAN</th>
                 <th class="text-nowrap text-center">INDIKATOR</th>
-                <th class="text-nowrap text-center">TARGET KUANTITAS</th>
+                {{-- <th class="text-nowrap text-center">SASARAN KEGIATAN</th> --}}
+                <th class="text-nowrap text-center">SATUAN</th>
+                {{-- <th class="text-nowrap text-center">INDIKATOR</th> --}}
+                {{-- <th class="text-nowrap text-center">TARGET KUANTITAS</th> --}}
             </tr>
         </thead>
         <tbody>
@@ -80,18 +81,20 @@
             <tr>
               <td>{{$loop->iteration}}</td>
               <td>
-                {{$key->sasaran_kegiatan}}
+                {{$key->indikator}}
               </td>
+              {{-- <td>
+                {{$key->sasaran_kegiatan}}
+              </td> --}}
               <td>
                 {{$key->satuan}}
               </td>
-              <td>
+              {{-- <td>
                 {{$key->indikator}}
-              </td>
-              <td>
+              </td> --}}
+              {{-- <td>
                 {{$key->target_kuantitas}}
-              </td>
-              </td>
+              </td> --}}
             </tr>
             @endforeach
         </tbody>

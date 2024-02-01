@@ -83,7 +83,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <div class="row">
+        {{-- <div class="row">
           <div class="col mb-3">
             <label for="nameBasic" class="form-label">Periode Mulai</label>
             <input class="form-control" type="date" id="html5-date-input" name="periode_mulai"/>
@@ -94,7 +94,7 @@
             <label for="nameBasic" class="form-label">Periode Selesai</label>
             <input class="form-control" type="date" id="html5-date-input" name="periode_selesai" />
           </div>
-        </div>
+        </div> --}}
         <div class="row">
           <div class="col mb-3">
             <label for="nameBasic" class="form-label">Pejabat Penilai Kinerja</label>

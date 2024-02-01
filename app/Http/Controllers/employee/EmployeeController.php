@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use App\Models\User;
 use App\Models\Atasan;
 use Auth;
+use App\Models\ActivityLog;
 
 class EmployeeController extends Controller
 {
@@ -30,7 +31,12 @@ class EmployeeController extends Controller
   {
     UserLogAccess();
 
-    return view('content.profile.profile');
+    $activities = ActivityLog::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
+    // dd($activities->user->employee->nama);
+
+    return view('content.profile.profile', [
+      'activities' => $activities,
+    ]);
   }
 
   public function detail($nip)

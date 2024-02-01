@@ -5,6 +5,7 @@ namespace App\Http\Controllers\authentications;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\ActivityLog;
 
 class LoginBasic extends Controller
 {
@@ -36,10 +37,15 @@ class LoginBasic extends Controller
             return redirect()->back()->withInput($request->except('password'))->with('error', 'Maaf, akun belum aktif.');
         }
 
+        ActivityLog::create([
+          'user_id' => $user->id,
+          'description' => 'User Logged In',
+        ]);
+
         $request->session()->regenerate();
         return redirect()->intended('/');
-    }
 
+    }
     // Redirect dengan pesan salah password.
     return back()->withInput($request->except('password'))
                  ->with('login_error', 'Maaf, NIP atau password anda salah, silahkan coba lagi.');
@@ -47,6 +53,19 @@ class LoginBasic extends Controller
     // return back()->withErrors([
     //   'login_error' => 'Maaf, NIP atau password Anda salah',
     // ])->onlyInput('login_error');
+  }
+
+  protected function sendLoginResponse(Request $request)
+  {
+      $request->session()->regenerate();
+
+      // Log the activity here
+      ActivityLog::create([
+          'user_id' => Auth::id(),
+          'description' => 'User Logged In',
+      ]);
+
+      // The rest of the method...
   }
 
   public function logout()
