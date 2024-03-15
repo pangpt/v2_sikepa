@@ -137,7 +137,7 @@ class KinerjaController extends Controller
   {
     $penilaian_kinerja = new Penilaian_kinerja;
     $penilaian_kinerja->periode_mulai = $request->periode_mulai;
-    $penilaian_kinerja->periode_selesai  = $request->periode_selesai ;
+    $penilaian_kinerja->periode_selesai  = $request->periode_selesai;
     $penilaian_kinerja->satuan = 0;
     $penilaian_kinerja->target_kuantitas = 0;
     $penilaian_kinerja->indikator_pkp_id = 0;
