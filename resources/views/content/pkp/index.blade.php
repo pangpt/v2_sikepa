@@ -16,9 +16,6 @@
         <a href="{{route('pengajuan-indikator-pkp')}}" type="button" class="btn btn-primary">
           <span class="tf-icons bx bx-plus"></span>&nbsp; Pengajuan Indikator PKP
         </a>
-        <a href="{{route('pengajuan-indikator-pck')}}" type="button" class="btn btn-primary">
-          <span class="tf-icons bx bx-plus"></span>&nbsp; Pengajuan Indikator PCK
-        </a>
         <small class="text-muted float-end">Total: 1 PKP</small>
       </div>
       <div class="card-body">
@@ -83,7 +80,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        {{-- <div class="row">
+        <div class="row">
           <div class="col mb-3">
             <label for="nameBasic" class="form-label">Periode Mulai</label>
             <input class="form-control" type="date" id="html5-date-input" name="periode_mulai"/>
@@ -94,7 +91,7 @@
             <label for="nameBasic" class="form-label">Periode Selesai</label>
             <input class="form-control" type="date" id="html5-date-input" name="periode_selesai" />
           </div>
-        </div> --}}
+        </div>
         <div class="row">
           <div class="col mb-3">
             <label for="nameBasic" class="form-label">Pejabat Penilai Kinerja</label>

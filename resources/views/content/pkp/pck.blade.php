@@ -1,9 +1,9 @@
 @extends('layouts/contentNavbarLayout')
 
-@section('title', ' Vertical Layouts - Forms')
+@section('title', ' PKP - Forms')
 
 @section('content')
-<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Forms/</span> Vertical Layouts</h4>
+<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Forms/</span> PKP</h4>
 
 <!-- Basic Layout -->
 <div class="row">
@@ -177,12 +177,8 @@
         var barisBaru = `<tr>
                 <td>${nomorBaru}</td>
                 <td>
-                    <select class="form-select butir-kegiatan-select" name="indikator_pck_id[${tableId}][]">
-                      <option value="">Pilih butir kegiatan</option>
-                      @foreach($indikator_pck as $key)
-                        <option value="{{$key->id}}" data-hasil="{{ $key->hasil }}">{{$key->butir_kegiatan}}</option>
-                      @endforeach
-                    </select>
+                    <input class="form-control" name="indikator_pck_id[${tableId}][]">
+                    </input>
                 </td>
                 <!-- Data target -->
                 <input type="hidden" class="form-control periode_pck_id" name="periode_pck_id[${tableId}][]" value="{{session('periodeId')}}">
