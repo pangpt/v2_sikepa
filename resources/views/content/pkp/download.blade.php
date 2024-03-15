@@ -224,26 +224,26 @@
       </table>
       <table border="1" style="width: 100%; border-collapse: collapse;">
         <tr>
-          <th style="width: 50%; text-align: center;" colspan="2">Pejabat Penilai</th>
-          <th style="width: 50%; text-align: center;" colspan="2">PNS yang dinilai</th>
+          <th style="width: 50%; text-align: center;">Pejabat Penilai</th>
+          <th style="width: 50%; text-align: center;">PNS yang dinilai</th>
         </tr>
         <tr>
-          <td style="text-align: center;">
-              <img style="margin:0" src="data:image/png;base64,{{ base64_encode($signatureQR) }}" alt="QR Code">
+          {{-- <td style="text-align: center;"> --}}
+              {{-- <img style="margin:0" src="data:image/png;base64,{{ base64_encode($signatureQR) }}" alt="QR Code"> --}}
             {{-- <img style="margin:0" src="data:image/png;base64,{{ base64_encode($signatureQR) }}" alt="QR Code">
             <p>{{$atasan->pejabatPenilai->nama}}</p> --}}
-          </td>
-          <td style="border-left: none;">
-              <p style="margin-top: 20px; font-weight: bold;">Disetujui secara elektronik oleh:</p>
-              <p style="font-weight: bold; margin-bottom: 0;">{{$atasan->pejabatPenilai->nama}}</p>
+          {{-- </td> --}}
+          <td style="text-align:center;">
+              {{-- <p style="margin-top: 20px; font-weight: bold;">Disetujui secara elektronik oleh:</p> --}}
+              <p style="font-weight: bold; margin-top: 80px;">{{$atasan->pejabatPenilai->nama}}</p>
               <p>NIP. {{$atasan->pejabatPenilai->nip}}</p>
           </td>
-          <td style="text-align: center;">
+          {{-- <td style="text-align: center;">
             <img style="margin:0" src="data:image/png;base64,{{ base64_encode($signatureQR) }}" alt="QR Code">
-          </td>
-          <td style="border-left: none;">
-              <p style="margin-top: 20px; font-weight: bold;">Dibuat secara elektronik oleh:</p>
-              <p>{{$datadiri->employee->nama}}</p>
+          </td> --}}
+          <td style="text-align: center;">
+              {{-- <p style="margin-top: 20px; font-weight: bold;">Dibuat secara elektronik oleh:</p> --}}
+              <p style="font-weight: bold; margin-top: 80px;">{{$datadiri->employee->nama}}</p>
               <p>NIP. {{$datadiri->employee->nip}}</p>
           </td>
         </tr>
