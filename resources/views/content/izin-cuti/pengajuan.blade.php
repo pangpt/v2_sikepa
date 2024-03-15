@@ -65,7 +65,7 @@
             <div class="card-body">
               <form action="{{route('izin-cuti-add')}}" id="formPengajuanCuti" method="POST">
                 @csrf
-                <input type="hidden" id="sisa_cuti" data-sisa-cuti="{{$leave_employee->first()->jumlah_cuti}}">
+                <input type="hidden" id="sisa_cuti" data-sisa-cuti="{{@$leave_employee->first()->jumlah_cuti}}">
                 <div class="row mb-3">
                   <label class="col-sm-2 col-form-label" for="basic-default-email">Jenis Cuti</label>
                   <div class="col-sm-10">

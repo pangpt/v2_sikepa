@@ -113,13 +113,13 @@ class CutiController extends Controller
 
   public function tambah()
   {
-    $pegawaidetail = Employee::where('user_id', auth()->user()->id)->first();
+    @$pegawaidetail = Employee::where('user_id', auth()->user()->id)->first();
     // dd($pegawaidetail->atasan->nama);
-    $leave_employee = Leave_employee::where('employee_id', $pegawaidetail->id)->get();
+    @$leave_employee = Leave_employee::where('employee_id', $pegawaidetail->id)->get();
     $pimpinan = Employee::join('departments', 'employees.department_id', '=', 'departments.id')
     ->where('departments.nama_jabatan', 'Ketua')
     ->first(['employees.*', 'departments.nama_jabatan as nama_jabatan']);
-    $parent = $pegawaidetail->department->parent_id;
+    @$parent = $pegawaidetail->department->parent_id;
     $atasan = Employee::where('department_id', $parent)->first();
 
     return view('content.izin-cuti.pengajuan', [
